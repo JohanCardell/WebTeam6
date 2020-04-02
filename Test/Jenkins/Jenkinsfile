@@ -1,20 +1,41 @@
 pipeline {
     agent any
-    stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/ahmadgbg/WebTeam6.git'
-            }
-        }
-        stage ('Build') {
-			bat 'nuget restore WebTeam6.sln'
-			bat "\"${tool 'MSBuild'}\" WebTeam6.sln /p:Configuration=Release /p:Platform=\"Any CPU\" /p:ProductVersion=1.0.0.${env.BUILD_NUMBER}"
+    options {
+    timeout(time: 60, unit: 'SECONDS') 
+    }
+	stages {
+		stage('Checkout') {
+			steps{
+				git 'https://github.com/ahmadgbg/WebTeam6.git'
+		
+			}
+		}
+		stage('Build') {
+			steps{
+				sh 'dotnet restore WebTeam6.sln'
+				sh '\'${tool "MSBuild"}\'  WebTeam6.sln /p:Configuration=Release /p:Platform=\"Any CPU\" /p:ProductVersion=1.0.0.${env.BUILD_NUMBER}'
+			}
+		}
+		stage('Run'){
+			parallel{
+				stage('Run Website'){
+					steps{
+						sh 'dotnet run'
+					}
+				}
+				stage('Test Website'){
+					steps{
+						sh 'dotnet vstest "Test/Test Cases/WebTeam6-tests.dll" --logger:"trx;LogFileName=Results.trx"'
+					}
+					post {
+                        always {
+                            step([$class: 'MSTestPublisher', testResultsFile:"**/*.trx", failOnError: true, keepLongStdio: true])
+                        }
+					}
+			
+				}
+			}
+                
 		}
 	}
-	
-    post {
-        always {
-                
-        }
-    }
 }
