@@ -23,16 +23,29 @@ pipeline {
 						sh 'dotnet run'
 					}
 				}
-				stage('Test Website'){
-					steps{
-						sh 'dotnet vstest "Test/Test Cases/WebTeam6-tests.dll" --logger:"trx;LogFileName=Results.trx"'
+				stage('Robot') {
+					steps {
+						sh 'robot -d results --variable BROWSER:headlesschrome "Test/Test Cases/web6test.robot"'
 					}
 					post {
-                        always {
-                            step([$class: 'MSTestPublisher', testResultsFile:"**/*.trx", failOnError: true, keepLongStdio: true])
-                        }
+						always {
+							script {
+								step(
+									 [
+									   $class              : 'RobotPublisher',
+									   outputPath          : 'results',
+									   outputFileName      : '**/output.xml',
+									   reportFileName      : '**/report.html',
+									   logFileName         : '**/log.html',
+									   disableArchiveOutput: false,
+									   passThreshold       : 50,
+									   unstableThreshold   : 40,
+									   otherFiles          : "**/*.png,**/*.jpg",
+									 ]
+								)	
+							}
+						}
 					}
-			
 				}
 			}
                 
