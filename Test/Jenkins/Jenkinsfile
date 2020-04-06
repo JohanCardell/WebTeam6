@@ -1,7 +1,7 @@
 pipeline {
     agent any
     options {
-    timeout(time: 60, unit: 'SECONDS') 
+    timeout(time: 40, unit: 'SECONDS') 
     }
 	stages {
 		stage('Checkout') {
@@ -44,6 +44,7 @@ pipeline {
 									 ]
 								)	
 							}
+							junit '**/*xml'
 						}
 					}
 				}
