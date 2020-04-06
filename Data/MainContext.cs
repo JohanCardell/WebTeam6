@@ -9,10 +9,13 @@ namespace WebTeam6.Data
 {
     public class MainContext : DbContext
     {
+
         public MainContext(DbContextOptions<MainContext> options) : base(options)
         {
 
         }
+
+        public DbSet<User> UserList { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder.UseCosmos(

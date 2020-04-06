@@ -1,26 +1,23 @@
 ﻿@page "/userregistration"
 
-@using Data;
+@using WebTeam6.Data;
+@inject IUserService service;
 
 <h3>Register Account</h3>
 
 
-<EditForm Model="_userInfo" OnValidSubmit="PostUser">
-    <InputText id="username" @bind-Value="_userInfo.Username" />
-    <InputText type="email" @bind-Value="_userInfo.Email" />
-    <InputText type="password" @bind-Value="_userInfo.Password"/>
+<EditForm Model="_userObject" OnValidSubmit="HandleValidSubmit">
+    <InputText type="text" @bind-Value="_userObject.Username" />
+    <InputText type="email" @bind-Value="_userObject.Email" />
+    <InputText type="password" @bind-Value="_userObject.Password"/>
     <button type="submit">Submit</button>
 </EditForm>
 
 @code {
-    private User _userInfo = new User();
+    private User _userObject { get; set; } = new User();
 
-    public void PostUser()
+    public void HandleValidSubmit()
     {
-        //TODO: Hasha lösenord och hitta ett sätt att skicka allt till DB
-
-        Console.WriteLine(_userInfo.Username);
-        Console.WriteLine(_userInfo.Email);
-        Console.WriteLine(_userInfo.Password);
+        service.Add(_userObject);
     }
 }
