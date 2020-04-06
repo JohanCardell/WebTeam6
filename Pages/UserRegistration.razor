@@ -1,14 +1,26 @@
 ﻿@page "/userregistration"
 
+@using Data;
+
 <h3>Register Account</h3>
 
 
-<div>
-    <p>Username: <input type="text" id="RegisterUsernameInput" /></p>
-    <p>Email: <input type="text" id="RegisterEmailInput" /></p>
-    <p>Password: <input type="password" id="RegisterPasswordInput" /></p>
-</div>
+<EditForm Model="_userInfo" OnValidSubmit="PostUser">
+    <InputText id="username" @bind-Value="_userInfo.Username" />
+    <InputText type="email" @bind-Value="_userInfo.Email" />
+    <InputText type="password" @bind-Value="_userInfo.Password"/>
+    <button type="submit">Submit</button>
+</EditForm>
 
 @code {
+    private User _userInfo = new User();
 
+    public void PostUser()
+    {
+        //TODO: Hasha lösenord och hitta ett sätt att skicka allt till DB
+
+        Console.WriteLine(_userInfo.Username);
+        Console.WriteLine(_userInfo.Email);
+        Console.WriteLine(_userInfo.Password);
+    }
 }
