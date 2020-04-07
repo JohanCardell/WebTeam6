@@ -6,10 +6,10 @@
 <h3>Register Account</h3>
 
 
-<EditForm Model="_userObject" OnValidSubmit="HandleValidSubmit">
-    <InputText type="text" @bind-Value="_userObject.Username" />
-    <InputText type="email" @bind-Value="_userObject.Email" />
-    <InputText type="password" @bind-Value="_userObject.Password"/>
+<EditForm id="registrationForm" Model="_userObject" OnValidSubmit="HandleValidSubmit">
+    <InputText class="inputField" id="usernameRegInput" type="text" @bind-Value="_userObject.Username" />
+    <InputText class="inputField" id="emailRegInput" type="email" @bind-Value="_userObject.Email" />
+    <InputText class="inputField" id="passwordRegInput" type="password" @bind-Value="_userObject.Password"/>
     <button type="submit">Submit</button>
 </EditForm>
 
