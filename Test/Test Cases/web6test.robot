@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation  This is a test suite that tests the car booking website for Infotiv.
+Documentation  This is a test suite that tests the Webteam6 website
 Library  SeleniumLibrary
 Test Setup  Begin Test
 Test Teardown  End Test

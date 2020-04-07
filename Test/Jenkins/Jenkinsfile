@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+        MSBUILD_HOME = tool name: "msbuild", type: "msbuild"
+    }
     options {
     timeout(time: 40, unit: 'SECONDS') 
     }
@@ -13,7 +16,7 @@ pipeline {
 		stage('Build') {
 			steps{
 				sh 'dotnet restore WebTeam6.sln'
-				sh '\'${tool "MSBuild"}\'  WebTeam6.sln /p:Configuration=Release /p:Platform=\"Any CPU\" /p:ProductVersion=1.0.0.${env.BUILD_NUMBER}'
+				sh('\"%MSBUILD_HOME%/msbuild.exe\" WebTeam6.sln')
 			}
 		}
 		stage('Run'){
@@ -25,6 +28,7 @@ pipeline {
 				}
 				stage('Robot') {
 					steps {
+					    sleep 10
 						sh 'robot -d results --variable BROWSER:headlesschrome "Test/Test Cases/web6test.robot"'
 					}
 					post {
@@ -44,7 +48,6 @@ pipeline {
 									 ]
 								)	
 							}
-							junit '**/*xml'
 						}
 					}
 				}
