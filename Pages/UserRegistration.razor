@@ -6,11 +6,26 @@
 <h3>Register Account</h3>
 
 
-<EditForm id="registrationForm" Model="_userObject" OnValidSubmit="HandleValidSubmit">
-    <InputText class="inputField" id="usernameRegInput" type="text" @bind-Value="_userObject.Username" />
-    <InputText class="inputField" id="emailRegInput" type="email" @bind-Value="_userObject.Email" />
-    <InputText class="inputField" id="passwordRegInput" type="password" @bind-Value="_userObject.Password"/>
-    <button class="submitButton" id="regUserButton" type="submit">Submit</button>
+<EditForm id="registrationForm" Model="_userObject" OnValidSubmit="HandleValidSubmit" >
+    <div class="inputFieldSpacer">
+        <p>
+            Username:
+            <InputText class="inputField" id="usernameRegInput" type="text" @bind-Value="_userObject.Username" />
+        </p>
+    </div>
+    <div class="inputFieldSpacer">
+        <p>
+            Email:
+            <InputText class="inputField" id="emailRegInput" type="email" @bind-Value="_userObject.Email" />
+        </p>
+    </div>
+    <div class="inputFieldSpacer">
+        <p>
+            Password:
+            <InputText class="inputField" id="passwordRegInput" type="password" @bind-Value="_userObject.Password" />
+        </p>
+    </div>
+    <button class="btn btn-primary" id="regUserButton" type="submit">Submit</button>
 </EditForm>
 
 @code {
