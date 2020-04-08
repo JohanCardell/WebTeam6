@@ -15,12 +15,21 @@ namespace WebTeam6.Data
 
         }
 
-        public DbSet<User> UserList { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseCosmos(
-                "https://localhost:8081",
-                "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==",
-                databaseName: "RemoteTool");
+        {
+            optionsBuilder.UseCosmos(
+                           "https://localhost:8081",
+                           "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==",
+                           databaseName: "RemoteTool");
+            optionsBuilder.EnableSensitiveDataLogging();
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.HasDefaultContainer("Tool");
+            modelBuilder.Entity<User>().ToContainer("Users");
+        }
     }
 }

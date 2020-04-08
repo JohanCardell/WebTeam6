@@ -27,8 +27,14 @@ namespace WebTeam6.Data
 
         public async Task<User> Add(User user)
         {
-            _context.UserList.Add(user);
+            await _context.Database.EnsureCreatedAsync();
+
+            user.Id = Guid.NewGuid();
+
+            await _context.Users.AddAsync(user);
+
             await _context.SaveChangesAsync();
+
             return user;
         }
 
