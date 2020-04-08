@@ -7,9 +7,18 @@
 
 
 <EditForm id="registrationForm" Model="_userObject" OnValidSubmit="HandleValidSubmit" >
-    <InputText class="inputField" id="usernameRegInput" type="text" @bind-Value="_userObject.Username" />
-    <InputText class="inputField" id="emailRegInput" type="email" @bind-Value="_userObject.Email" />
-    <InputText class="inputField" id="passwordRegInput" type="password" @bind-Value="_userObject.Password"/>
+    <div class="inputFieldSpacer">
+        <h5>Username:</h5>
+        <InputText class="inputField" id="usernameRegInput" type="text" @bind-Value="_userObject.Username" />
+    </div>
+    <div class="inputFieldSpacer">
+        <h5>Email:</h5>
+        <InputText class="inputField" id="emailRegInput" type="email" @bind-Value="_userObject.Email" />
+    </div>
+    <div class="inputFieldSpacer">
+        <h5>Password:</h5>
+        <InputText class="inputField" id="passwordRegInput" type="password" @bind-Value="_userObject.Password"/>
+    </div>
     <button class="btn btn-primary" id="regUserButton" type="submit">Submit</button>
 </EditForm>
 
