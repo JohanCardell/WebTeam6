@@ -12,6 +12,8 @@ namespace WebTeam6.Data
         public User()
         {
             this.Id = new Guid();
+            this.MemberGroups = new List<MemberGroup>();
+            this.OwnerGroups = new List<OwnerGroup>();
         }
 
         [Key]

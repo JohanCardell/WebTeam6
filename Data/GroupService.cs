@@ -9,7 +9,7 @@ namespace WebTeam6.Data
     {
         Task<List<Group>> Get();
         Task<Group> Get(string id);
-        Task<Group> Add(Group group);
+        Task<Group> Add(Group group, Guid OwnerId);
         Task<Group> Update(Group group);
         Task<Group> Delete(string id);
     }
@@ -22,11 +22,20 @@ namespace WebTeam6.Data
             _context = context;
         }
 
-        public async Task<Group> Add(Group group)
+        public async Task<Group> Add(Group group, Guid ownerId)
         {
-            await _context.Groups.AddAsync(group);
-            await _context.SaveChangesAsync();
-            return group;
+            var owner = await _context.Users.FindAsync(ownerId);
+            Console.WriteLine(owner);
+            if(owner != null)
+            {
+                Console.WriteLine("was not null");
+                await _context.Groups.AddAsync(group);
+                await _context.OwnerGroups.AddAsync(new OwnerGroup { Owner = owner, Group = group });
+                await _context.SaveChangesAsync();
+                return group;
+            }
+            Console.WriteLine("was null");
+            return null;
         }
 
         public Task<Group> Delete(string id)

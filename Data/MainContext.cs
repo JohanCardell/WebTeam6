@@ -18,6 +18,8 @@ namespace WebTeam6.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<Group> Groups { get; set; }
+        public DbSet<MemberGroup> MemberGroups { get; set; }
+        public DbSet<OwnerGroup> OwnerGroups { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

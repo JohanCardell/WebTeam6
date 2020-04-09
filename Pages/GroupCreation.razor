@@ -12,14 +12,21 @@
             <InputText class="inputField" id="groupRegInput" type="text" @bind-Value="_groupObject.Name" />
         </p>
     </div>
+    <div class="inputFieldSpacer">
+        <p>
+            Owner Id:
+            <InputText class="inputField" id="groupOwnerIdInput" type="text" @bind-Value="_ownerId" />
+        </p>
+    </div>
     <button class="btn btn-primary" id="regGroupButton" type="submit">Submit</button>
 </EditForm>
 
 @code {
     private Group _groupObject { get; set; } = new Group();
+    private string _ownerId { get; set; } = "";
 
-    public void HandleValidSubmit()
+    public async void HandleValidSubmit()
     {
-        service.Add(_groupObject);
+        await service.Add(_groupObject, new Guid(_ownerId));
     }
 }
