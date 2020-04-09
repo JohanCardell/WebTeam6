@@ -31,11 +31,20 @@ namespace WebTeam6.Data
 
             user.Id = Guid.NewGuid();
 
-            await _context.Users.AddAsync(user);
+            var exists = await _context.Users.Select(u => u.Email).Where(e => e == user.Email).FirstOrDefaultAsync();
 
-            await _context.SaveChangesAsync();
+            if (exists == default)
+            {
+                await _context.Users.AddAsync(user);
+                await _context.SaveChangesAsync();
 
-            return user;
+                return user;
+            }
+            else
+            {
+                return default;
+            }
+
         }
 
         public Task<User> Delete(int id)
@@ -43,9 +52,9 @@ namespace WebTeam6.Data
             throw new NotImplementedException();
         }
 
-        public Task<List<User>> Get()
+        public async Task<List<User>> Get()
         {
-            throw new NotImplementedException();
+            return await _context.Users.ToListAsync();
         }
 
         public Task<User> Get(int id)
