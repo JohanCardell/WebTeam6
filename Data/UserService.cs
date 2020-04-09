@@ -29,8 +29,6 @@ namespace WebTeam6.Data
         {
             await _context.Database.EnsureCreatedAsync();
 
-            user.Id = Guid.NewGuid();
-
             var exists = await _context.Users.Select(u => u.Email).Where(e => e == user.Email).FirstOrDefaultAsync();
 
             if(exists == default)

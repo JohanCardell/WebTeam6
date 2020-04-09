@@ -31,6 +31,7 @@ namespace WebTeam6
             services.AddSingleton<WeatherForecastService>();
             services.AddDbContext<MainContext>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IGroupService, GroupService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

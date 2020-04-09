@@ -9,6 +9,11 @@ namespace WebTeam6.Data
 {
     public class User
     {
+        public User()
+        {
+            this.Id = new Guid();
+        }
+
         [Key]
         public Guid Id { get; set; }
 
