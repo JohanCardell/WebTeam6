@@ -1,6 +1,5 @@
 ﻿@page "/users"
 
-@using WebTeam6.Data;
 @inject IUserService service;
 
 <h3>User Index</h3>
@@ -8,14 +7,14 @@
 
 @if (userList == null)
 {
-    <p><em>Loading...</em></p>
+    <text>Loading...</text>
 }
 else
 {
     <table class="table">
         <thead>
             <tr>
-                
+
                 <th>User name</th>
                 <th>E-mail</th>
                 <th></th>
@@ -28,8 +27,8 @@ else
                 <tr>
                     <td>@userItem.Username</td>
                     <td>@userItem.Email</td>
-                    <td><input type="button" class="btn btn-primary" value="Edit" /></td>
-                    <td><input type="button" class="btn btn-danger" value="Delete" /></td>
+                    <td><input id="user-edit" type="button" class="btn btn-primary" value="Edit" /></td>
+                    <td><input id="user-delete " type="button" class="btn btn-danger" value="Delete" @onclick="(() => DeleteUser(userItem))"/></td>
                 </tr>
             }
         </tbody>
@@ -40,8 +39,19 @@ else
 @code {
     List<User> userList;
 
+    public User taskObject = new User();
+
     protected override async Task OnInitializedAsync()
     {
         userList = await service.Get();
+    }
+
+   
+    private async Task DeleteUser(User user)
+    {
+        taskObject = user;
+        var task = await service.Delete(taskObject.Id);
+        userList = await service.Get();
+        taskObject = new User();
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebTeam6.Data;
 
@@ -10,18 +11,20 @@ namespace WebTeam6.Data
     public interface IUserService
     {
         Task<List<User>> Get();
-        Task<User> Get(int id);
+        Task<User> Get(Guid id);
         Task<User> Add(User user);
         Task<User> Update(User user);
-        Task<User> Delete(int id);
+        Task<User> Delete(Guid id);
     }
 
     public class UserService : IUserService
     {
+        // private readonly UserManager<User> _manager;
         private readonly MainContext _context;
         public UserService(MainContext context)
         {
             _context = context;
+            //TODO: Add UserManager with Dependency Injection to be able to Hash Password
         }
 
 
@@ -31,7 +34,9 @@ namespace WebTeam6.Data
 
             user.Id = Guid.NewGuid();
 
-            var exists = await _context.Users.Select(u => u.Email).Where(e => e == user.Email).FirstOrDefaultAsync();
+            // user.Password = _manager.PasswordHasher.HashPassword(user, user.Password);
+
+            var exists = await _context.Users.Select(u => u).Where(e => e.Email == user.Email || e.Username == user.Username).FirstOrDefaultAsync();
 
             if (exists == default)
             {
@@ -47,19 +52,22 @@ namespace WebTeam6.Data
 
         }
 
-        public Task<User> Delete(int id)
+        public async Task<User> Delete(Guid id)
         {
-            throw new NotImplementedException();
+            var user = await _context.Users.FindAsync(id);
+            _context.Remove(user);
+            await _context.SaveChangesAsync();
+            return user;
         }
-
+           
         public async Task<List<User>> Get()
         {
             return await _context.Users.ToListAsync();
         }
 
-        public Task<User> Get(int id)
+        public async Task<User> Get(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Users.FindAsync(id);
         }
 
         public Task<User> Update(User user)
