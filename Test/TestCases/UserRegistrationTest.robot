@@ -10,7 +10,7 @@ ${BROWSER}        chrome
 *** Keywords ***
 Begin Test
         Open Browser                about:blank  ${BROWSER}     options=add_argument("--ignore-certificate-errors")
-        Maximize Browser Window
+        Set Window Size             (1920, 1080)
         Load Page
         Verify Page Loaded
 
