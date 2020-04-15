@@ -37,7 +37,7 @@ Create, verify and delete user
     Textfield Value Should Be       id:emailRegInput   mohammedtikabo@outlook.com
     Input Text                      id:passwordRegInput      Mt091113
     Textfield Value Should Be       id:passwordRegInput      Mt091113
-    Click Element                   id:regUserButton
+    Click Button                   id:regUserButton
     Sleep                            5s
     Click Element                   xpath://html/body/app/div[1]/div[2]/ul/li[5]/a
     Sleep                            5s
