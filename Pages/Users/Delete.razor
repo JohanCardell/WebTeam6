@@ -1,0 +1,13 @@
+﻿@inject IUserService service;
+
+<h3>Delete</h3>
+
+@*@code {
+    private async Task DeleteUser()
+    {
+        var task = await service.Delete(taskObject.Id);
+        await jsRuntime.InvokeAsync<object>("CloseModal", "confirmDeleteModal");
+        toDoList = await service.Get();
+        taskObject = new ToDo();
+    }
+}*@

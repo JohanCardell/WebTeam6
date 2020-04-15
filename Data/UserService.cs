@@ -10,10 +10,10 @@ namespace WebTeam6.Data
     public interface IUserService
     {
         Task<List<User>> Get();
-        Task<User> Get(int id);
+        Task<User> Get(Guid id);
         Task<User> Add(User user);
         Task<User> Update(User user);
-        Task<User> Delete(int id);
+        Task<User> Delete(Guid id);
     }
 
     public class UserService : IUserService
@@ -47,17 +47,20 @@ namespace WebTeam6.Data
 
         }
 
-        public Task<User> Delete(int id)
+        public async Task<User> Delete(Guid id)
         {
-            throw new NotImplementedException();
+            var user = await _context.Users.FindAsync(id);
+            _context.Remove(user);
+            await _context.SaveChangesAsync();
+            return user;
         }
-
+           
         public async Task<List<User>> Get()
         {
             return await _context.Users.ToListAsync();
         }
 
-        public Task<User> Get(int id)
+        public Task<User> Get(Guid id)
         {
             throw new NotImplementedException();
         }
