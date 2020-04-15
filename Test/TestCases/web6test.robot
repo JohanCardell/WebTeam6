@@ -33,5 +33,6 @@ Navigate to Register page
     Wait Until Page Contains    Register Account
     Input Text                  id:usernameRegInput  User1
     Textfield Value Should Be     id:usernameRegInput   User1
-
+    Input Text                     id:emailRegInput   mohammedtikabo@outlook.com
+    Textfield Value Should Be       id:emailRegInput   mohammedtikabo@outlook.com
 
