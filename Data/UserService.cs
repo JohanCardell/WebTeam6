@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebTeam6.Data;
 
@@ -18,10 +19,12 @@ namespace WebTeam6.Data
 
     public class UserService : IUserService
     {
+        // private readonly UserManager<User> _manager;
         private readonly MainContext _context;
         public UserService(MainContext context)
         {
             _context = context;
+            //TODO: Add UserManager with Dependency Injection to be able to Hash Password
         }
 
 
@@ -31,7 +34,9 @@ namespace WebTeam6.Data
 
             user.Id = Guid.NewGuid();
 
-            var exists = await _context.Users.Select(u => u.Email).Where(e => e == user.Email).FirstOrDefaultAsync();
+            // user.Password = _manager.PasswordHasher.HashPassword(user, user.Password);
+
+            var exists = await _context.Users.Select(u => u).Where(e => e.Email == user.Email || e.Username == user.Username).FirstOrDefaultAsync();
 
             if (exists == default)
             {
@@ -60,9 +65,9 @@ namespace WebTeam6.Data
             return await _context.Users.ToListAsync();
         }
 
-        public Task<User> Get(Guid id)
+        public async Task<User> Get(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Users.FindAsync(id);
         }
 
         public Task<User> Update(User user)
