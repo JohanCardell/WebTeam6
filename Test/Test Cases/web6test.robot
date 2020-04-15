@@ -26,6 +26,7 @@ End Test
 Navigate to Counter page
     [Documentation]             Test for accessing register page
     [Tags]                      register_test
+    Set Selenium Implicit Wait      10 seconds
     Wait Until Element Is Visible  id:userRegPage
     Click Element               id:userRegPage
     Wait Until Page Contains    Register Account
