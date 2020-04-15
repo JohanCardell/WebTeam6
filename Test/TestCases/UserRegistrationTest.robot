@@ -40,7 +40,7 @@ Create, verify and delete user
     Click Button                   id:regUserButton
     Sleep                            5s
     Click Element                   xpath://html/body/app/div[1]/div[2]/ul/li[5]/a
-    Wait Until Page Contains        Edit
+    Wait Until Element Is Visible        xpath://html/body/app/div[2]/div[2]/table/tbody/tr/td[3]/input
     Element Text Should Be          xpath://html/body/app/div[2]/div[2]/table/tbody/tr/td[1]        User1
     Element Text Should Be          xpath://html/body/app/div[2]/div[2]/table/tbody/tr/td[2]        mohammedtikabo@outlook.com
     Click Element                   xpath://html/body/app/div[2]/div[2]/table/tbody/tr/td[4]/input
