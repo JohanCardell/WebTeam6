@@ -39,6 +39,7 @@ Create, verify and delete user
     Textfield Value Should Be       id:passwordRegInput      Mt091113
     Click Element                   id:regUserButton
     Click Element                   xpath://html/body/app/div[1]/div[2]/ul/li[5]/a
+    Sleep                            5s
     Wait Until Page Contains        User Index
     Element Text Should Be          xpath://html/body/app/div[2]/div[2]/table/tbody/tr/td[1]        User1
     Element Text Should Be          xpath://html/body/app/div[2]/div[2]/table/tbody/tr/td[2]        mohammedtikabo@outlook.com
