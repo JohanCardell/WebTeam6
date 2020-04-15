@@ -24,8 +24,8 @@ End Test
         Close Browser
 
 *** Test Cases ***
-Navigate to Register page
-    [Documentation]             Test for accessing register page
+Create, verify and delete user
+    [Documentation]             Test for create, verify and delete user account
     [Tags]                      register_test
     Set Selenium Implicit Wait      10 seconds
     Wait Until Element Is Visible  id:userRegPage
@@ -35,4 +35,11 @@ Navigate to Register page
     Textfield Value Should Be     id:usernameRegInput   User1
     Input Text                     id:emailRegInput   mohammedtikabo@outlook.com
     Textfield Value Should Be       id:emailRegInput   mohammedtikabo@outlook.com
-
+    Input Text                      id:passwordRegInput      Mt091113
+    Textfield Value Should Be       id:passwordRegInput      Mt091113
+    Click Element                   id:regUserButton
+    Click Element                   xpath://html/body/app/div[1]/div[2]/ul/li[5]/a
+    Wait Until Page Contains        User Index
+    Element Text Should Be          xpath://html/body/app/div[2]/div[2]/table/tbody/tr/td[1]        User1
+    Element Text Should Be          xpath://html/body/app/div[2]/div[2]/table/tbody/tr/td[2]        mohammedtikabo@outlook.com
+    Click Element                   xpath://html/body/app/div[2]/div[2]/table/tbody/tr/td[4]/input
