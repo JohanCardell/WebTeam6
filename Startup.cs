@@ -29,7 +29,7 @@ namespace WebTeam6
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
-            services.AddDbContext<MainContext>();
+            services.AddDbContext<MainContext>(ServiceLifetime.Transient);
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IGroupService, GroupService>();
         }

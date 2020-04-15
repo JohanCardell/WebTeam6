@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ namespace WebTeam6.Data
 {
     public interface IGroupService
     {
-        Task<List<Group>> Get();
+        Task<List<OwnerGroup>> Get();
         Task<Group> Get(string id);
         Task<Group> Add(Group group, Guid OwnerId);
         Task<Group> Update(Group group);
@@ -43,9 +44,9 @@ namespace WebTeam6.Data
             throw new NotImplementedException();
         }
 
-        public Task<List<Group>> Get()
+        public async Task<List<OwnerGroup>> Get()
         {
-            throw new NotImplementedException();
+            return await _context.OwnerGroups.ToListAsync();
         }
 
         public Task<Group> Get(string id)
