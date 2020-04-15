@@ -16,6 +16,7 @@ Begin Test
 
 Load Page
         Go To                       https://localhost:5001
+        Sleep                       5s
 Verify Page Loaded
         Wait Until Page Contains        Hello, world!
 
@@ -23,7 +24,7 @@ End Test
         Close Browser
 
 *** Test Cases ***
-Navigate to Counter page
+Navigate to Register page
     [Documentation]             Test for accessing register page
     [Tags]                      register_test
     Set Selenium Implicit Wait      10 seconds
