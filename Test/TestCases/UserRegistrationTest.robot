@@ -27,7 +27,7 @@ End Test
 Create, verify and delete user
     [Documentation]             Test for create, verify and delete user account
     [Tags]                      register_test
-    Set Selenium Implicit Wait      10 seconds
+    Set Selenium Implicit Wait      20 seconds
     Wait Until Element Is Visible  id:userRegPage
     Click Element               id:userRegPage
     Wait Until Page Contains    Register Account
@@ -40,7 +40,6 @@ Create, verify and delete user
     Click Button                   id:regUserButton
     Sleep                            5s
     Click Element                   xpath://html/body/app/div[1]/div[2]/ul/li[5]/a
-    Sleep                            5s
     Wait Until Page Contains        User Index
     Element Text Should Be          xpath://html/body/app/div[2]/div[2]/table/tbody/tr/td[1]        User1
     Element Text Should Be          xpath://html/body/app/div[2]/div[2]/table/tbody/tr/td[2]        mohammedtikabo@outlook.com
