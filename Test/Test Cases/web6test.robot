@@ -24,12 +24,12 @@ End Test
 
 *** Test Cases ***
 Navigate to Counter page
-    [Documentation]             Test for accessing counter page
-    [Tags]                      counter_test
-    Wait Until Element Is Visible  xpath://html/body/app/div[1]/div[2]/ul/li[2]/a
-    Click Element               xpath://html/body/app/div[1]/div[2]/ul/li[2]/a
-    Wait Until Page Contains    Counter
-    Click Element               xpath://html/body/app/div[2]/div[2]/button
-    Element Should Contain      xpath://html/body/app/div[2]/div[2]/p   Current count: 1
+    [Documentation]             Test for accessing register page
+    [Tags]                      register_test
+    Wait Until Element Is Visible  id:userRegPage
+    Click Element               id:userRegPage
+    Wait Until Page Contains    Register Account
+    Input Text                  id:usernameRegInput  User1
+    Textfield Value Should Be     id:usernameRegInput   User1
 
 
