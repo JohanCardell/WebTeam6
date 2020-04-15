@@ -38,8 +38,11 @@ Create, verify and delete user
     Input Text                      id:passwordRegInput      Mt091113
     Textfield Value Should Be       id:passwordRegInput      Mt091113
     Click Button                   id:regUserButton
+    Sleep                           20s
     Click Element                   xpath://*[@id="userRegPage"][2]
+    Sleep                           20s
     Wait Until Page Contains        User name
+    Sleep                           20s
     Element Text Should Be          xpath://html/body/app/div[2]/div[2]/table/tbody/tr/td[1]        User1
     Element Text Should Be          xpath://html/body/app/div[2]/div[2]/table/tbody/tr/td[2]        mohammedtikabo@outlook.com
     Click Element                   xpath://html/body/app/div[2]/div[2]/table/tbody/tr/td[4]/input
