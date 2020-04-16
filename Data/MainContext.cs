@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using WebTeam6.Data;
+using WebTeam6.Services;
 
 namespace WebTeam6.Data
 {

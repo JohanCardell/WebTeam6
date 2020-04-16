@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebTeam6.Data;
 
-namespace WebTeam6.Data
+namespace WebTeam6.Services
 {
     public interface IUserService
     {

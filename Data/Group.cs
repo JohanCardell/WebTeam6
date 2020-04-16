@@ -22,7 +22,6 @@ namespace WebTeam6.Data
 
         public virtual User Owner { get; set; }
 
-        [InverseProperty("Groups")]
-        public virtual ICollection<User> Members { get; set; }
+        public ICollection<User> Members { get; set; }
     }
 }

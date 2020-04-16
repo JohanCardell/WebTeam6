@@ -3,8 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebTeam6.Data;
 
-namespace WebTeam6.Data
+namespace WebTeam6.Services
 {
     public interface IGroupService
     {

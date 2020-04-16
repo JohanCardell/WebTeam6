@@ -1,11 +1,9 @@
-﻿@page "/users"
+﻿<h3>Index</h3>
 
-@inject IUserService service;
-
-<h3>User Index</h3>
+<p>All current groups in database</p>
 
 
-@if (userList == null)
+@*@if (userList == null)
 {
     <text>Loading...</text>
 }
@@ -28,30 +26,26 @@ else
                     <td>@userItem.Username</td>
                     <td>@userItem.Email</td>
                     <td><input id="user-edit" type="button" class="btn btn-primary" value="Edit" /></td>
-                    <td><input id="user-delete " type="button" class="btn btn-danger" value="Delete" @onclick="(() => DeleteUser(userItem))"/></td>
+                    <td><input id="user-delete " type="button" class="btn btn-danger" value="Delete" @onclick="(() => DeleteUser(userItem))" /></td>
                 </tr>
             }
         </tbody>
     </table>
 }
 
-
 @code {
-    List<User> userList;
-
-    public User taskObject = new User();
 
     protected override async Task OnInitializedAsync()
     {
-        userList = await service.Get();
+        groups = await service.Get();
     }
 
-   
-    private async Task DeleteUser(User user)
+    public async void LoadGroups()
     {
-        taskObject = user;
-        var task = await service.Delete(taskObject.Id);
-        userList = await service.Get();
-        taskObject = new User();
+        groups = await service.Get();
+        Console.WriteLine(String.Join(", ", groups.Select(g => g.Owner.Username).ToList()));
+        Console.WriteLine(String.Join(", ", groups.Select(g => g.Name).ToList()));
     }
 }
+
+}*@
