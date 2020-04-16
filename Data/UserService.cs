@@ -11,10 +11,10 @@ namespace WebTeam6.Data
     public interface IUserService
     {
         Task<List<User>> Get();
-        Task<User> Get(Guid id);
+        Task<User> Get(int id);
         Task<User> Add(User user);
         Task<User> Update(User user);
-        Task<User> Delete(Guid id);
+        Task<User> Delete(int id);
     }
 
     public class UserService : IUserService
@@ -31,8 +31,6 @@ namespace WebTeam6.Data
         public async Task<User> Add(User user)
         {
             await _context.Database.EnsureCreatedAsync();
-
-            user.Id = Guid.NewGuid();
 
             // user.Password = _manager.PasswordHasher.HashPassword(user, user.Password);
 
@@ -52,7 +50,7 @@ namespace WebTeam6.Data
 
         }
 
-        public async Task<User> Delete(Guid id)
+        public async Task<User> Delete(int id)
         {
             var user = await _context.Users.FindAsync(id);
             _context.Remove(user);
@@ -65,7 +63,7 @@ namespace WebTeam6.Data
             return await _context.Users.ToListAsync();
         }
 
-        public async Task<User> Get(Guid id)
+        public async Task<User> Get(int id)
         {
             return await _context.Users.FindAsync(id);
         }
