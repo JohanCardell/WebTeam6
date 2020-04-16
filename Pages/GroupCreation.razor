@@ -15,19 +15,40 @@
     <div class="inputFieldSpacer">
         <p>
             Owner Id:
-            <InputText class="inputField" id="groupOwnerIdInput" type="text" @bind-Value="_ownerId" />
+            <InputText class="inputField" id="groupOwnerIdInput" type="number" @bind-Value="_ownerId" />
         </p>
     </div>
     <button class="btn btn-primary" id="regGroupButton" type="submit">Submit</button>
 </EditForm>
 
+<button @onclick="LoadGroups">Load groups</button>
+<ul>
+    @foreach (var group in groups)
+    {
+        <li>@group.Name, @group.Owner.Username</li>
+    }
+</ul>
+
 @code {
     private Group _groupObject { get; set; } = new Group();
     private string _ownerId { get; set; } = "";
-    private List<OwnerGroup> groups = new List<OwnerGroup>();
+    public List<Group> groups = new List<Group>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        groups = await service.Get();
+    }
 
     public async void HandleValidSubmit()
     {
-        await service.Add(_groupObject, new Guid(_ownerId));
+        await service.Add(_groupObject, Int32.Parse(_ownerId));
+        groups = await service.Get();
+    }
+
+    public async void LoadGroups()
+    {
+        groups = await service.Get();
+        Console.WriteLine(String.Join(", ", groups.Select(g => g.Owner.Username).ToList()));
+        Console.WriteLine(String.Join(", ", groups.Select(g => g.Name).ToList()));
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,17 +11,18 @@ namespace WebTeam6.Data
     {
         public Group()
         {
-            this.Id = new Guid();
+            Members = new List<User>();
         }
 
         [Key]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string Name { get; set; }
 
-        public virtual ICollection<MemberGroup> MemberGroups { get; set; }
+        public virtual User Owner { get; set; }
 
-        public virtual ICollection<OwnerGroup> OwnerGroups { get; set; }
+        [InverseProperty("Groups")]
+        public virtual ICollection<User> Members { get; set; }
     }
 }

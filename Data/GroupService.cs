@@ -8,11 +8,11 @@ namespace WebTeam6.Data
 {
     public interface IGroupService
     {
-        Task<List<OwnerGroup>> Get();
-        Task<Group> Get(string id);
-        Task<Group> Add(Group group, Guid OwnerId);
+        Task<List<Group>> Get();
+        Task<Group> Get(int id);
+        Task<Group> Add(Group group, int OwnerId);
         Task<Group> Update(Group group);
-        Task<Group> Delete(string id);
+        Task<Group> Delete(int id);
     }
 
     public class GroupService: IGroupService
@@ -23,15 +23,16 @@ namespace WebTeam6.Data
             _context = context;
         }
 
-        public async Task<Group> Add(Group group, Guid ownerId)
+        public async Task<Group> Add(Group group, int ownerId)
         {
             var owner = await _context.Users.FindAsync(ownerId);
             Console.WriteLine(owner);
             if(owner != null)
             {
                 Console.WriteLine("was not null");
+                group.Owner = owner;
                 await _context.Groups.AddAsync(group);
-                await _context.OwnerGroups.AddAsync(new OwnerGroup { Owner = owner, Group = group });
+                owner.Groups.Add(group);
                 await _context.SaveChangesAsync();
                 return group;
             }
@@ -39,17 +40,17 @@ namespace WebTeam6.Data
             return null;
         }
 
-        public Task<Group> Delete(string id)
+        public Task<Group> Delete(int id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<List<OwnerGroup>> Get()
+        public async Task<List<Group>> Get()
         {
-            return await _context.OwnerGroups.ToListAsync();
+            return await _context.Groups.Include(g => g.Owner).ToListAsync();
         }
 
-        public Task<Group> Get(string id)
+        public Task<Group> Get(int id)
         {
             throw new NotImplementedException();
         }

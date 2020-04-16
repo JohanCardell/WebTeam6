@@ -11,13 +11,11 @@ namespace WebTeam6.Data
     {
         public User()
         {
-            this.Id = new Guid();
-            this.MemberGroups = new List<MemberGroup>();
-            this.OwnerGroups = new List<OwnerGroup>();
+            Groups = new List<Group>();
         }
 
         [Key]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string Username { get; set; }
@@ -28,8 +26,7 @@ namespace WebTeam6.Data
         [Required]
         public string Password { get; set; }
 
-        public virtual ICollection<MemberGroup> MemberGroups { get; set; }
-
-        public virtual ICollection<OwnerGroup> OwnerGroups { get; set; }
+        [InverseProperty("Members")]
+        public virtual ICollection<Group> Groups { get; set; }
     }
 }
