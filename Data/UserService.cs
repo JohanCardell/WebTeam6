@@ -53,6 +53,11 @@ namespace WebTeam6.Data
         public async Task<User> Delete(int id)
         {
             var user = await _context.Users.FindAsync(id);
+
+            user.Groups.ToList().ForEach(g => g.Members.Remove(user));
+
+            _context.Groups.Where(g => g.Owner == user).ToList().ForEach(g => g.Owner = null);
+            
             _context.Remove(user);
             await _context.SaveChangesAsync();
             return user;

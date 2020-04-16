@@ -30,7 +30,7 @@ namespace WebTeam6
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
-            services.AddDbContext<MainContext>(options => options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Blogging;Trusted_Connection=True;"), ServiceLifetime.Transient);
+            services.AddDbContext<MainContext>(options => options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=RemoteTool;Trusted_Connection=True;"), ServiceLifetime.Transient);
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IGroupService, GroupService>();
         }
