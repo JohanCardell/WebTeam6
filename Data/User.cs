@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace WebTeam6.Data
+
 {
     public class User
     {
@@ -17,16 +18,16 @@ namespace WebTeam6.Data
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Username is required")]
+        [StringLength(15, ErrorMessage = "Name is too long.")]
         public string Username { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Email address is required")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
 
-        [InverseProperty("Members")]
-        public virtual ICollection<Group> Groups { get; set; }
+        public ICollection<Group> Groups { get; set; }
     }
 }

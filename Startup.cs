@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebTeam6.Services;
 using WebTeam6.Data;
 
 namespace WebTeam6
@@ -29,8 +30,7 @@ namespace WebTeam6
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
-            services.AddDbContext<MainContext>(options => options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Blogging;Trusted_Connection=True;"), ServiceLifetime.Transient);
+            services.AddDbContext<MainContext>(options => options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=RemoteTool;Trusted_Connection=True;"), ServiceLifetime.Transient);
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IGroupService, GroupService>();
         }

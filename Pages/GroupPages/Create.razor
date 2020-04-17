@@ -1,11 +1,11 @@
-﻿@page "/groupcreation"
+﻿@page "/groups/create"
 
-@using WebTeam6.Data;
+
 @inject IGroupService service;
 
-<h3>GroupCreation</h3>
+<h3>Create group</h3>
 
-<EditForm id="groupCreationForm" Model="_groupObject" OnValidSubmit="HandleValidSubmit">
+@*<EditForm id="groupCreationForm" Model="_groupObject" OnValidSubmit="HandleValidSubmit">
     <div class="inputFieldSpacer">
         <p>
             Group name:
@@ -21,7 +21,7 @@
     <button class="btn btn-primary" id="regGroupButton" type="submit">Submit</button>
 </EditForm>
 
-<button @onclick="LoadGroups">Load groups</button>
+<button @onclick="@LoadGroups">Load groups</button>
 <ul>
     @foreach (var group in groups)
     {
@@ -30,25 +30,13 @@
 </ul>
 
 @code {
-    private Group _groupObject { get; set; } = new Group();
+    public Group _groupObject { get; set; } = new Group();
     private string _ownerId { get; set; } = "";
     public List<Group> groups = new List<Group>();
-
-    protected override async Task OnInitializedAsync()
-    {
-        groups = await service.Get();
-    }
 
     public async void HandleValidSubmit()
     {
         await service.Add(_groupObject, Int32.Parse(_ownerId));
-        groups = await service.Get();
     }
 
-    public async void LoadGroups()
-    {
-        groups = await service.Get();
-        Console.WriteLine(String.Join(", ", groups.Select(g => g.Owner.Username).ToList()));
-        Console.WriteLine(String.Join(", ", groups.Select(g => g.Name).ToList()));
-    }
-}
+}*@
