@@ -35,9 +35,11 @@ Create, verify and delete user
     Wait Until Page Contains    User details
     Input Text                  id:new-username-field  User1
     Click Element               id:new-email-field
+    Sleep                       1s
     Input Text                  id:new-email-field      mohammedtikabo@outlook.com
     Input Text                   id:new-password-field      Mt091113
     Click Button                   id:submit-btn
+    Wait Until Page Contains         Shows all users in database
     Element Text Should Be          xpath://html/body/app/div[2]/div[2]/table/tbody/tr/td[1]       User1
     Element Text Should Be          xpath://html/body/app/div[2]/div[2]/table/tbody/tr/td[2]       mohammedtikabo@outlook.com
     Click Element                   xpath://html/body/app/div[2]/div[2]/table/tbody/tr/td[4]/input
