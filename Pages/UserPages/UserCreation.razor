@@ -19,7 +19,7 @@
                     <div class="form-group">
                         <label for="username">Username</label>
                         <input type="hidden" @bind-value="@UserObject.Id" />
-                        <InputText id="new-username-field" type="text" class="form-control" @bind-Value="@UserObject.Username" />
+                        <InputText id="new-username-field" type="text" class="form-control" @bind-Value="@UserObject.UserName" />
                     </div>
                     <div class="form-group">
                         <label for="email">Email address</label>
@@ -28,8 +28,8 @@
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="hidden" @bind-value="@UserObject.Password" />
-                        <InputText id="new-password-field" type="password" class="form-control" @bind-Value="@UserObject.Password" />
+                        <input type="hidden" @bind-value="@UserObject.PasswordHash" />
+                        <InputText id="new-password-field" type="password" class="form-control" @bind-Value="@UserObject.PasswordHash" />
                     </div>
 
                     <button id="submit-btn" type="submit" class="btn btn-primary">Submit</button>

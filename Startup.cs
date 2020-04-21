@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebTeam6.Services;
 using WebTeam6.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebTeam6
 {
@@ -31,8 +32,21 @@ namespace WebTeam6
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddDbContext<MainContext>(options => options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=RemoteTool;Trusted_Connection=True;"), ServiceLifetime.Transient);
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<MainContext>()
+                .AddDefaultTokenProviders();
+
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IGroupService, GroupService>();
+
+
+            //Use this to add redirect depending on situation
+            /*services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Login";
+                options.LogoutPath = "/Logout";
+                options.AccessDeniedPath = "/AccessDenied";
+            });*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
