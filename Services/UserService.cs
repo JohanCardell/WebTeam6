@@ -19,7 +19,7 @@ namespace WebTeam6.Services
 
     public class UserService : IUserService
     {
-        // private readonly UserManager<User> _manager;
+        //private readonly UserManager<User> _manager;
         private readonly MainContext _context;
         public UserService(MainContext context)
         {

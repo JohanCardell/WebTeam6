@@ -32,7 +32,9 @@ namespace WebTeam6
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddDbContext<MainContext>(options => options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=RemoteTool;Trusted_Connection=True;"), ServiceLifetime.Transient);
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>(options => {
+                //Add Password and Username requirements here
+            })
                 .AddEntityFrameworkStores<MainContext>()
                 .AddDefaultTokenProviders();
 
