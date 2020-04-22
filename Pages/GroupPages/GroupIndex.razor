@@ -38,7 +38,7 @@ else
     <input id="add-group-btn" type="button" data-toggle="modal" data-target="#groupModal" class="btn btn-primary" value="Add group" @onclick="(() => InitializeGroupObject())" />
 </div>
 
-<Create GroupObject=groupObject DataChanged="@DataChanged"></Create>
+<GroupCreation GroupObject=groupObject DataChanged="@DataChanged"></GroupCreation>
 
 @code {
 
