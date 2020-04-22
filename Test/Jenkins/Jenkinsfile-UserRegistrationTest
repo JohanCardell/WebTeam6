@@ -20,7 +20,8 @@ pipeline {
         stage('Robot') {
             steps {
                     sleep 10
-                    bat 'robot -d results --variable BROWSER:headlesschrome "Test/TestCases/UserRegistrationTest.robot"'
+                    bat 'robot -d results/chrome --variable BROWSER:headlesschrome "Test/TestCases/UserRegistrationTest.robot"'
+                    bat 'robot -d results/firefox --variable BROWSER:headlessfirefox "Test/TestCases/UserRegistrationTest.robot"'
             }
             post {
                 always {

@@ -5,11 +5,11 @@ Test Setup  Begin Test
 Test Teardown  End Test
 
 *** Variables ***
-${BROWSER}        chrome
+${BROWSERS}           chrome
 
 *** Keywords ***
 Begin Test
-        Open Browser                about:blank  ${BROWSER}     options=add_argument("--ignore-certificate-errors")
+        Open Browser                about:blank  ${BROWSERS}    options=add_argument("--ignore-certificate-errors")
         Maximize Browser Window
         Load Page
         Verify Page Loaded
