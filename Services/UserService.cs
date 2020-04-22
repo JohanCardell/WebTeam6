@@ -19,12 +19,12 @@ namespace WebTeam6.Services
 
     public class UserService : IUserService
     {
-        //private readonly UserManager<User> _manager;
+        private readonly UserManager<User> _manager;
         private readonly MainContext _context;
-        public UserService(MainContext context)
+        public UserService(MainContext context, UserManager<User> manager)
         {
             _context = context;
-            //TODO: Add UserManager with Dependency Injection to be able to Hash Password
+            _manager = manager;
         }
 
 
@@ -32,7 +32,7 @@ namespace WebTeam6.Services
         {
             await _context.Database.EnsureCreatedAsync();
 
-            // user.Password = _manager.PasswordHasher.HashPassword(user, user.Password);
+            user.PasswordHash = _manager.PasswordHasher.HashPassword(user, user.PasswordHash);
 
             var exists = await _context.Users.Select(u => u).Where(e => e.Email == user.Email || e.UserName == user.UserName).FirstOrDefaultAsync();
 
