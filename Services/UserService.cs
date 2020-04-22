@@ -11,20 +11,20 @@ namespace WebTeam6.Services
     public interface IUserService
     {
         Task<List<User>> Get();
-        Task<User> Get(int id);
+        Task<User> Get(string id);
         Task<User> Add(User user);
         Task<User> Update(User user);
-        Task<User> Delete(int id);
+        Task<User> Delete(string id);
     }
 
     public class UserService : IUserService
     {
-        // private readonly UserManager<User> _manager;
+        private readonly UserManager<User> _manager;
         private readonly MainContext _context;
-        public UserService(MainContext context)
+        public UserService(MainContext context, UserManager<User> manager)
         {
             _context = context;
-            //TODO: Add UserManager with Dependency Injection to be able to Hash Password
+            _manager = manager;
         }
 
 
@@ -32,9 +32,9 @@ namespace WebTeam6.Services
         {
             await _context.Database.EnsureCreatedAsync();
 
-            // user.Password = _manager.PasswordHasher.HashPassword(user, user.Password);
+            user.PasswordHash = _manager.PasswordHasher.HashPassword(user, user.PasswordHash);
 
-            var exists = await _context.Users.Select(u => u).Where(e => e.Email == user.Email || e.Username == user.Username).FirstOrDefaultAsync();
+            var exists = await _context.Users.Select(u => u).Where(e => e.Email == user.Email || e.UserName == user.UserName).FirstOrDefaultAsync();
 
             if (exists == default)
             {
@@ -50,7 +50,7 @@ namespace WebTeam6.Services
 
         }
 
-        public async Task<User> Delete(int id)
+        public async Task<User> Delete(string id)
         {
             var user = await _context.Users.FindAsync(id);
 
@@ -68,7 +68,7 @@ namespace WebTeam6.Services
             return await _context.Users.ToListAsync();
         }
 
-        public async Task<User> Get(int id)
+        public async Task<User> Get(string id)
         {
             return await _context.Users.FindAsync(id);
         }

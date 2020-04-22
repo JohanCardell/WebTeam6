@@ -27,7 +27,7 @@ else
             @foreach (var userItem in userList)
             {
                 <tr>
-                    <td>@userItem.Username</td>
+                    <td>@userItem.UserName</td>
                     <td>@userItem.Email</td>
                     <td><input id="user-edit-btn" type="button" class="btn btn-primary" value="Edit" /></td>
                     <td><input id="user-delete-btn " type="button" class="btn btn-danger" value="Delete" @onclick="(() => DeleteUser(userItem))" /></td>
