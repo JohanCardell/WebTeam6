@@ -33,9 +33,9 @@ Create, verify and delete user
     Wait Until Page Contains    Shows all users in database
     Click Element               id:add-user-btn
     Wait Until Page Contains    User details
+    Sleep                       3s
     Input Text                  id:new-username-field  User1
     Click Element               id:new-email-field
-    Sleep                       1s
     Input Text                  id:new-email-field      mohammedtikabo@outlook.com
     Input Text                   id:new-password-field      Mt091113
     Click Button                   id:submit-btn
