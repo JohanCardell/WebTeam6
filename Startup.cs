@@ -31,7 +31,7 @@ namespace WebTeam6
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddDbContext<MainContext>(options => options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=RemoteTool;Trusted_Connection=True;"), ServiceLifetime.Transient);
+            services.AddDbContext<MainContext>(options => options.UseMySql($"Server={Configuration["MySql:Server"]};Database={Configuration["MySql:Database"]};User={Configuration["MySql:User"]};Password={Configuration["MySql:Password"]}"), ServiceLifetime.Transient);
             services.AddIdentity<User, IdentityRole>(options => {
                 //Add Password and Username requirements here
             })
