@@ -1,0 +1,73 @@
+﻿@page  "/groups"
+
+@inject IGroupService service
+
+<h3>Index</h3>
+<p>Shows all groups in database. You can add and delete users. Edit is not implemented. Crashes if Owner name has no match in database.</p>
+
+@if (groupList == null)
+{
+    <text>Loading...</text>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Owner</th>
+                <td></td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var groupItem in groupList)
+            {
+            <tr>
+                <td>@groupItem.Name</td>
+                <td>@groupItem.Owner?.UserName</td>
+                <td><input id="group-edit-btn" type="button" class="btn btn-primary" value="Edit" /></td>
+                <td><input id="group-delete-btn " type="button" class="btn btn-danger" value="Delete" @onclick="(() => DeleteGroup(groupItem))" /></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<div>
+    <input id="add-group-btn" type="button" data-toggle="modal" data-target="#groupModal" class="btn btn-primary" value="Add group" @onclick="(() => InitializeGroupObject())" />
+</div>
+
+<GroupCreation GroupObject=groupObject DataChanged="@DataChanged"></GroupCreation>
+
+@code {
+
+    List<Group> groupList = new List<Group>();
+
+    Group groupObject = new Group();
+
+    protected override async Task OnInitializedAsync()
+    {
+        groupList = await service.Get();
+    }
+
+
+    private void InitializeGroupObject()
+    {
+        groupObject = new Group();
+    }
+
+    private async void DataChanged()
+    {
+        groupList = await service.Get();
+        StateHasChanged();
+    }
+
+    private async Task DeleteGroup(Group group)
+    {
+        groupObject = group;
+        var task = await service.Delete(groupObject.Id);
+        groupList = await service.Get();
+        groupObject = new Group();
+    }
+}

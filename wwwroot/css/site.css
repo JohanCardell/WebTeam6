@@ -14,6 +14,15 @@ a, .btn-link {
     border-color: #1861ac;
 }
 
+.inputField {
+    margin: 3px 0.5px;
+    padding: 5px;
+}
+
+.inputFieldSpacer {
+    margin: 0em 0em 0.75em 0em;
+}
+
 app {
     position: relative;
     display: flex;
