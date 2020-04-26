@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.29709.97
+VisualStudioVersion = 16.0.29920.165
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebTeam6", "WebTeam6.csproj", "{0C21BD59-5A23-4E02-A020-4212358726AF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebTeam6", "WebTeam6.csproj", "{683FFD6A-0BF3-46D4-A902-8345B0674AF2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0C21BD59-5A23-4E02-A020-4212358726AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0C21BD59-5A23-4E02-A020-4212358726AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0C21BD59-5A23-4E02-A020-4212358726AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0C21BD59-5A23-4E02-A020-4212358726AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{683FFD6A-0BF3-46D4-A902-8345B0674AF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{683FFD6A-0BF3-46D4-A902-8345B0674AF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{683FFD6A-0BF3-46D4-A902-8345B0674AF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{683FFD6A-0BF3-46D4-A902-8345B0674AF2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {55E3C672-6BE0-4EDD-886E-74A605FD2B1E}
+		SolutionGuid = {A1B966D1-B7CC-4E0F-AE52-8F99AC2AE2B7}
 	EndGlobalSection
 EndGlobal
