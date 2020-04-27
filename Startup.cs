@@ -13,6 +13,9 @@ using Microsoft.Extensions.Hosting;
 using WebTeam6.Services;
 using WebTeam6.Data;
 using Microsoft.AspNetCore.Identity;
+using WebTeam6.Areas.Identity;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Identity.UI;
 
 namespace WebTeam6
 {
@@ -32,12 +35,17 @@ namespace WebTeam6
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddDbContext<MainContext>(options => options.UseMySql($"Server=remotemysql.com;Database=Kar4xdXASC;User=Kar4xdXASC;Password=HA1veNjEML"), ServiceLifetime.Transient);
-            services.AddIdentity<User, IdentityRole>(options => {
-                //Add Password and Username requirements here
-            })
-                .AddEntityFrameworkStores<MainContext>()
-                .AddDefaultTokenProviders();
+            services.AddDefaultIdentity<User>()
+                .AddEntityFrameworkStores<MainContext>();
+            
+            //The baddie:
+            //services.AddIdentity<User, IdentityRole>(options => {
+            //    //Add Password and Username requirements here
+            //})
+            //    .AddEntityFrameworkStores<MainContext>()
+            //    .AddDefaultTokenProviders();
 
+            services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<User>>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IGroupService, GroupService>();
 
@@ -57,6 +65,7 @@ namespace WebTeam6
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -70,8 +79,12 @@ namespace WebTeam6
 
             app.UseRouting();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
