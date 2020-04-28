@@ -7,14 +7,6 @@ using WebTeam6.Data;
 
 namespace WebTeam6.Services
 {
-    public interface IGroupService
-    {
-        Task<List<Group>> Get();
-        Task<Group> Get(int id);
-        Task<Group> Add(Group group, string ownerName);
-        Task<Group> Update(Group group);
-        Task<Group> Delete(int id);
-    }
 
     public class GroupService: IGroupService
     {
@@ -78,9 +70,9 @@ namespace WebTeam6.Services
             return await _context.Groups.Include(g => g.Owner).ToListAsync();
         }
 
-        public Task<Group> Get(int id)
+        public async Task<Group> GetGroupById(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Groups.FirstOrDefaultAsync(g => g.Id == id);
         }
 
         public Task<Group> Update(Group group)

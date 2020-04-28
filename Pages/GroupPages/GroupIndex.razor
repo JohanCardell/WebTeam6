@@ -18,6 +18,7 @@ else
                 <th>Owner</th>
                 <td></td>
                 <td></td>
+                <td></td>
             </tr>
         </thead>
         <tbody>
@@ -26,6 +27,7 @@ else
             <tr>
                 <td>@groupItem.Name</td>
                 <td>@groupItem.Owner?.UserName</td>
+                <td><input id="group-details-btn" a href="@($"groupdetails/{groupItem.Id}")" class="btn btn-info" value = "Details"/></td>
                 <td><input id="group-edit-btn" type="button" class="btn btn-primary" value="Edit" /></td>
                 <td><input id="group-delete-btn " type="button" class="btn btn-danger" value="Delete" @onclick="(() => DeleteGroup(groupItem))" /></td>
             </tr>
@@ -42,9 +44,9 @@ else
 
 @code {
 
-    List<Group> groupList = new List<Group>();
+    List<Group> groupList;
 
-    Group groupObject = new Group();
+    Group groupObject;
 
     protected override async Task OnInitializedAsync()
     {
