@@ -27,7 +27,7 @@ else
             <tr>
                 <td>@groupItem.Name</td>
                 <td>@groupItem.Owner?.UserName</td>
-                <td><input id="group-details-btn" a href="@($"groupdetails/{groupItem.Id}")" class="btn btn-info" value = "Details"/></td>
+                <td><a id="group-details-btn" type="button" href="@($"groupdetails/{groupItem.Id}")" role="button" class="btn btn-info">Details</a></td>
                 <td><input id="group-edit-btn" type="button" class="btn btn-primary" value="Edit" /></td>
                 <td><input id="group-delete-btn " type="button" class="btn btn-danger" value="Delete" @onclick="(() => DeleteGroup(groupItem))" /></td>
             </tr>
@@ -44,9 +44,9 @@ else
 
 @code {
 
-    List<Group> groupList;
+    List<Group> groupList = new List<Group>();
 
-    Group groupObject;
+    Group groupObject = new Group();
 
     protected override async Task OnInitializedAsync()
     {
