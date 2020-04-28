@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps{
-                git branch: 'develop', url: 'https://github.com/ahmadgbg/WebTeam6.git'
+                git branch: 'WEB6-57-GroupEvent-Test', url: 'https://github.com/ahmadgbg/WebTeam6.git'
 
             }
         }
@@ -20,8 +20,8 @@ pipeline {
         stage('Robot') {
             steps {
                     sleep 10
-                    bat 'robot -d results/chrome --variable BROWSER:headlesschrome "Test/TestCases/UserRegistrationTest.robot"'
-                    bat 'robot -d results/firefox --variable BROWSER:headlessfirefox "Test/TestCases/UserRegistrationTest.robot"'
+                    bat 'robot -d results/chrome --variable BROWSER:headlesschrome "Test/TestCases/GroupEvent.robot"'
+                    bat 'robot -d results/firefox --variable BROWSER:headlessfirefox "Test/TestCases/GroupEvent.robot"'
             }
             post {
                 always {
