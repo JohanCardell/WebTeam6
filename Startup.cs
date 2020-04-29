@@ -48,6 +48,7 @@ namespace WebTeam6
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<User>>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IGroupService, GroupService>();
+            services.AddTransient<IEventService, EventService>();
 
 
             //Use this to add redirect depending on situation

@@ -20,6 +20,7 @@ namespace WebTeam6.Data
 
         public new DbSet<User> Users { get; set; }
         public DbSet<Group> Groups { get; set; }
+        public DbSet<Event> Events { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -32,7 +33,11 @@ namespace WebTeam6.Data
             modelBuilder.Entity<User>().HasMany(u => u.Groups);
 
             modelBuilder.Entity<Group>().HasMany(g => g.Members);
+            modelBuilder.Entity<Group>().HasMany(g => g.Events);
             modelBuilder.Entity<Group>().HasOne(g => g.Owner);
+
+            modelBuilder.Entity<Event>().HasOne(e => e.Group);
+            modelBuilder.Entity<Event>().HasOne(e => e.Creator);
         }
     }
 }

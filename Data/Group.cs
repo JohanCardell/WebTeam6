@@ -23,5 +23,7 @@ namespace WebTeam6.Data
         public virtual User Owner { get; set; }
 
         public ICollection<User> Members { get; set; }
+
+        public ICollection<Event> Events { get; set; }
     }
 }
