@@ -7,8 +7,10 @@ Test Teardown  End Test
 *** Variables ***
 ${BROWSERS}                             chrome
 ${USERNAME}                             User1
-${EMAIL}                                mohammedtikabo@outlook.com
-${PASSWORD}                             Mt091113
+${FIRSTNAME}                            Johan
+${LASTNAME}                             Johansson
+${EMAIL}                                Johan.johansson@hotmail.com
+${PASSWORD}                             User123!
 
 *** Keywords ***
 Begin Test
@@ -21,27 +23,46 @@ Load Page
         Go To                           https://localhost:5001
         Sleep                           5s
 Verify Page Loaded
-        Wait Until Page Contains        Hello, world!
+        Wait Until Page Contains        Web6Team
 
 End Test
         Close Browser
 *** Test Cases ***
-Create, verify and delete user
-    [Documentation]                     Test for create, verify and delete user account
+Register, verify and delete user
+    [Documentation]                     Test for register, verify and delete user account
     [Tags]                              register_test
     Set Selenium Implicit Wait          10 seconds
-    Wait Until Element Is Visible       id:userIndexPage
-    Click Element                       id:userIndexPage
-    Wait Until Page Contains            Shows all users in database
-    Click Element                       id:add-user-btn
-    Wait Until Page Contains            User details
-    Sleep                               3s
+    Wait Until Element Is Visible       id:login/register
+    Click Element                       id:Login/register
+    Wait Until Page Contains            Register
     Input Text                          id:new-username-field  ${USERNAME}
     Input Text                          id:new-email-field      ${EMAIL}
+    Input Text                          id:fristname        ${FIRSTNAME}
+    Input Text                          id:lastname         ${LASTNAME}
     Input Text                          id:new-password-field     ${PASSWORD}
-    Click Element                       id:submit-btn
-    Wait Until Page Contains            ${USERNAME}
-    Table Should Contain                xpath://html/body/app/div[2]/div[2]/table   ${USERNAME}
-    Table Should Contain                xpath://html/body/app/div[2]/div[2]/table   ${EMAIL}
-    ${DELETEBUTTON}  Get Webelement     xpath://td[text()="${USERNAME}"]/parent::tr/child::td[4]/input
-    Click Element                       ${DELETEBUTTON}
+    Input Text                          id:comfirm password       ${PASSWORD}
+    Click Element                       id:register
+    Wait Until Page Contains            Welcome, ${FIRSTNAME}
+    Click Element                       id:account settings
+    Wait Until Page Contains            Account settings
+    Click Element                       delete account
+    Wait Until Page Contains            account is deleted
+
+
+*** Test Cases ***
+Register user with invalid email account
+    [Documentation]                     Test for rgister user with invalid email account
+    [Tags]                              register_InvalidEmailAccountTest
+    Set Selenium Implicit Wait          10 seconds
+    Wait Until Element Is Visible       id:login/register
+    Click Element                       id:Login/register
+    Wait Until Page Contains            Register
+    Input Text                          id:new-username-field  ${USERNAME}
+    Input Text                          id:new-email-field      Johan.johanssonhotmail.com
+    Input Text                          id:fristname        ${FIRSTNAME}
+    Input Text                          id:lastname         ${LASTNAME}
+    Input Text                          id:new-password-field     ${PASSWORD}
+    Input Text                          id:comfirm password       ${PASSWORD}
+    Click Element                       id:register
+    Wait Until Page Contains            error messege, enter the correct email accont
+
