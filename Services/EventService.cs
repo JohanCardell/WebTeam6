@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +11,9 @@ namespace WebTeam6.Services
     public interface IEventService
     {
         Task<Event> Get(int id);
-        Task<List<Event>> Get();
-        Task<List<Event>> GetForGroup(Group g);
+        Task<List<Event>> Get(Group g);
         Task<Event> Add(Event e);
-
         Task<Event> Update(Event e);
-
         Task<Event> Delete(int id);
     }
 
@@ -38,24 +36,28 @@ namespace WebTeam6.Services
             return res.Entity;
         }
 
-        public Task<Event> Delete(int id)
+        public async Task<Event> Delete(int id)
         {
-            throw new NotImplementedException();
+            var ev = await _context.Events.FirstOrDefaultAsync(e => e.Id == id);
+
+            if(ev != null)
+            {
+                _context.Events.Remove(ev);
+                await _context.SaveChangesAsync();
+            }
+
+            return ev;
         }
 
-        public Task<Event> Get(int id)
+        public async Task<Event> Get(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Events.FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public Task<List<Event>> Get()
+        public async Task<List<Event>> Get(Group g)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Event>> GetForGroup(Group g)
-        {
-            throw new NotImplementedException();
+            var group = await (_context.Groups.FirstOrDefaultAsync(gr => gr.Id == g.Id));
+            return group.Events.ToList();
         }
 
         public Task<Event> Update(Event e)
