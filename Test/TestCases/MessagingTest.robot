@@ -1,47 +1,43 @@
 *** Settings ***
-Documentation  This is a test suite that tests the Webteam6 website
+Documentation  This is a test suite that tests the event feature
 Library  SeleniumLibrary
 Test Setup  Begin Test
 Test Teardown  End Test
 
 *** Variables ***
-${BROWSERS}                             chrome
-${USERNAME}                             User1
-${EMAIL}                                mohammedtikabo@outlook.com
-${PASSWORD}                             Mt091113
-
+${BROWSER}        chrome
+${USERNAME}       User1
+${PASSWORD}       Password1
 *** Keywords ***
 Begin Test
-        Open Browser                    about:blank  ${BROWSERS}    options=add_argument("--ignore-certificate-errors")
+        Open Browser                about:blank  ${BROWSER}     options=add_argument("--ignore-certificate-errors")
         Maximize Browser Window
         Load Page
         Verify Page Loaded
 
 Load Page
-        Go To                           https://localhost:5001
-        Sleep                           5s
+        Go To                       https://localhost:5001
 Verify Page Loaded
         Wait Until Page Contains        Hello, world!
 
 End Test
         Close Browser
+
 *** Test Cases ***
-Create, verify and delete user
-    [Documentation]                     Test for create, verify and delete user account
-    [Tags]                              register_test
-    Set Selenium Implicit Wait          10 seconds
-    Wait Until Element Is Visible       id:userIndexPage
-    Click Element                       id:userIndexPage
-    Wait Until Page Contains            Shows all users in database
-    Click Element                       id:add-user-btn
-    Wait Until Page Contains            User details
-    Sleep                               3s
-    Input Text                          id:new-username-field  ${USERNAME}
-    Input Text                          id:new-email-field      ${EMAIL}
-    Input Text                          id:new-password-field     ${PASSWORD}
-    Click Element                       id:submit-btn
-    Wait Until Page Contains            ${USERNAME}
-    Table Should Contain                xpath://html/body/app/div[2]/div[2]/table   ${USERNAME}
-    Table Should Contain                xpath://html/body/app/div[2]/div[2]/table   ${EMAIL}
-    ${DELETEBUTTON}  Get Webelement     xpath://td[text()="${USERNAME}"]/parent::tr/child::td[4]/input
-    Click Element                       ${DELETEBUTTON}
+Create and view test event
+    [Documentation]             Test for accessing and testing events
+    [Tags]                      messaging_test
+    Wait Until Page Contains    Login/Register
+    Click Element               id:loginButton
+    Wait Until Page Contains    Login
+    Input Text                  id:loginUsername    ${USERNAME}
+    Input Password              id:loginPassword    ${PASSWORD}
+    Click Element               id:loginButton
+    Wait Until Page Contains    Welcome, User1
+    Wait Until Element Exists   xpath://li[@id="testGroup"]
+    Click Element               xpath://li[@id="groupCreatePage"]
+    Wait Until Page Contains    testGroup
+    Input Text                  id:messageBox   This is a test message.
+    Click Element               id:messageSend
+    Wait Until Page Contains    This is a test message.
+
