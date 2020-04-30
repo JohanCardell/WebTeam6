@@ -21,26 +21,27 @@ Load Page
         Go To                           https://localhost:5001
         Sleep                           5s
 Verify Page Loaded
-        Wait Until Page Contains        Hello, world!
+        Wait Until Page Contains        Web6Team
 
 user is in main page
          Wait Until Element Is Visible       id:userIndexPage
 
-user ckliks on element login/register
+user clicks on element login/register
         Click Element                       id:Login/Register
 
-page sould contains
+Check if login page is open
         Wait Until Page Contains            Login
 
-user filled in valid mail as
+user filled in valid mail
         Input Text                          id:username     ${USERNAME}
 
 user filled in invalid password
-       Input Text                          id:Password      MMK111!
+       Input Text                          id:password      MMK111!
+	   
 clicks on element submit
         Click Element                       id:login-submit
 
-page should contains
+Check if error message is displayed
        Wait Until Page Contains            enter the correct password
 
 End Test
@@ -57,6 +58,7 @@ Login with valid user information
     Input Text                          id:username     ${USERNAME}
     Input Text                          id:Password     ${PASSWORD}
     Click Element                       id:login-submit
+	Wait Until Page Contains			Welcome, ${USERNAME} 	
 
 
 *** Test Cases ***
@@ -65,12 +67,12 @@ Login with invalid password
     [Tags]                              Login_invalidPasswordTest
     Set Selenium Implicit Wait          10 seconds
     Given       user is in main page
-    When        user ckliks on element login/register
-    Then        page sould contains
-    And         user filled in valid mail as
+    When        user clicks on element login/register
+    Then        Check if login page is open
+    And         user filled in valid mail
     And         user filled in invalid password
     And         clicks on element submit
-    Then        page should contains
+    Then        Check if error message is displayed
 
 
 
@@ -83,6 +85,6 @@ Login with invalid user username
     Click Element                       id:Login/Register
     Wait Until Page Contains            Login
     Input Text                          id:username     RealTest
-    Input Text                          id:Password     ${PASSWORD}
+    Input Text                          id:password     ${PASSWORD}
     Click Element                       id:login-submit
     Wait Until Page Contains            enter the correct username
