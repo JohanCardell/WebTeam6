@@ -1,0 +1,18 @@
+﻿@inherits EventDetailsBase
+
+<div class="card">
+    <div class="card-body">
+        <p>Name: @Event.Name</p>
+        <p>Starts: @Event.StartTime</p>
+        <p>Ends: @Event.EndTime</p>
+        <p>Created by: @Event.Creator?.UserName</p>
+    </div>
+    <div class="card-footer">
+        <div class="btn btn-primary user-edit-event">
+            <input type="button" value="Edit"/>
+        </div>
+        <div class="btn btn-danger user-delete-event">
+            <input type="button" value="Delete"/>
+        </div>
+    </div>
+</div>

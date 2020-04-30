@@ -1,0 +1,25 @@
+﻿@page "/events"
+@inherits EventListBase
+
+
+<h3>EventList</h3>
+
+<div class="list-group">
+    @if (Events == null)
+    {
+        <div>Loading...</div>
+    }
+    else
+    {
+        @foreach (var e in Events)
+        {
+            <EventDetails Event="e" />
+        }
+    }
+    @*<EditForm id="group-creation-form" Model="@NewEvent" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <InputText id="new-group-name-field" type="text" class="form-control" @bind-Value="@NewEvent.Name" />
+        <InputText id="new-group-name-field" type="text" class="form-control" @bind-Value="@NewEvent." />
+    </EditForm>*@
+</div>

@@ -11,6 +11,7 @@ namespace WebTeam6.Services
     public interface IEventService
     {
         Task<Event> Get(int id);
+        Task<List<Event>> Get();
         Task<List<Event>> Get(Group g);
         Task<Event> Add(Event e);
         Task<Event> Update(Event e);
@@ -58,6 +59,11 @@ namespace WebTeam6.Services
         {
             var group = await (_context.Groups.FirstOrDefaultAsync(gr => gr.Id == g.Id));
             return group.Events.ToList();
+        }
+
+        public async Task<List<Event>> Get()
+        {
+            return await _context.Events.ToListAsync();
         }
 
         public Task<Event> Update(Event e)
