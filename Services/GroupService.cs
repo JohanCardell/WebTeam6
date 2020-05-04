@@ -72,7 +72,11 @@ namespace WebTeam6.Services
 
         public async Task<Group> GetGroupById(int id)
         {
-            return await _context.Groups.FirstOrDefaultAsync(g => g.Id == id);
+            return await _context.Groups
+                .Include(g => g.Owner)
+                .Include(g => g.Members)
+                .Where(g => g.Id == id)
+                .FirstOrDefaultAsync();
         }
 
         public Task<Group> Update(Group group)

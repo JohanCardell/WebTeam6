@@ -1,0 +1,61 @@
+﻿@*@using WebTeam6.Data;
+@using WebTeam6.Services
+@inject IUserService service
+@inject IJSRuntime jsRuntime
+
+<div class="modal fade" tabindex="-1" role="dialog" id="addMemberModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Select member(s) to add</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <EditForm id="user-creation-form" Model="@UserObject" OnValidSubmit="@HandleValidSubmit">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="hidden" @bind-value="@UserObject.Id" />
+                        <InputText id="new-username-field" type="text" class="form-control" @bind-Value="@UserObject.UserName" />
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email address</label>
+                        <input type="hidden" @bind-value="@UserObject.Email" />
+                        <InputText id="new-email-field" type="email" class="form-control" @bind-Value="@UserObject.Email" />
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="hidden" @bind-value="@UserObject.PasswordHash" />
+                        <InputText id="new-password-field" type="password" class="form-control" @bind-Value="@UserObject.PasswordHash" />
+                    </div>
+
+                    <button id="submit-btn" type="submit" class="btn btn-primary">Submit</button>
+                    <button id="cancel-btn" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public User UserObject { get; set; }
+
+    [Parameter]
+    public Action DataChanged { get; set; }
+
+    private async Task CloseUserModal()
+    {
+        await jsRuntime.InvokeAsync<object>("CloseModal", "userModal");
+    }
+
+    private async void HandleValidSubmit()
+    {
+        await service.Add(UserObject);
+        await CloseUserModal();
+        DataChanged?.Invoke();
+    }
+}*@
