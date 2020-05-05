@@ -1,7 +1,11 @@
-﻿@*@using WebTeam6.Data;
+﻿
+@using WebTeam6.Data
 @using WebTeam6.Services
-@inject IUserService service
+@inject IUserService UserService
+@inject IGroupService GroupService
 @inject IJSRuntime jsRuntime
+@inject MainContext dbContext
+
 
 <div class="modal fade" tabindex="-1" role="dialog" id="addMemberModal">
     <div class="modal-dialog" role="document">
@@ -13,28 +17,21 @@
                 </button>
             </div>
             <div class="modal-body">
-                <EditForm id="user-creation-form" Model="@UserObject" OnValidSubmit="@HandleValidSubmit">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input type="hidden" @bind-value="@UserObject.Id" />
-                        <InputText id="new-username-field" type="text" class="form-control" @bind-Value="@UserObject.UserName" />
+                @if (Users == null)
+                {
+                    <div class="loader"></div>
+                }
+                else
+                {
+                    <div>
+                        <RadzenListBox AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" @bind-Value="selectedUsers" Multiple="true" Data="@Users" TextProperty="UserName" ValueProperty="Id"
+                                       Style="margin-bottom: 20px; height:200px;" />
+                        
                     </div>
-                    <div class="form-group">
-                        <label for="email">Email address</label>
-                        <input type="hidden" @bind-value="@UserObject.Email" />
-                        <InputText id="new-email-field" type="email" class="form-control" @bind-Value="@UserObject.Email" />
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="hidden" @bind-value="@UserObject.PasswordHash" />
-                        <InputText id="new-password-field" type="password" class="form-control" @bind-Value="@UserObject.PasswordHash" />
-                    </div>
+                }
 
-                    <button id="submit-btn" type="submit" class="btn btn-primary">Submit</button>
-                    <button id="cancel-btn" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                </EditForm>
+                <button id="submit-btn" type="submit" class="btn btn-primary" @onclick="AddSelectedUsers">Confirm</button>
+                <button id="cancel-btn" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
@@ -42,20 +39,36 @@
 
 @code {
     [Parameter]
-    public User UserObject { get; set; }
-
+    public Group ModalGroup { get; set; }
     [Parameter]
     public Action DataChanged { get; set; }
+    [Parameter]
+    public List<User> Users { get; set; } = new List<User>();
 
-    private async Task CloseUserModal()
+    IEnumerable<string> selectedUsers = new string[] { "", "" };
+
+    private async Task CloseAddMemberModal()
     {
-        await jsRuntime.InvokeAsync<object>("CloseModal", "userModal");
+        await jsRuntime.InvokeAsync<object>("CloseModal", "addMemberModal");
     }
 
-    private async void HandleValidSubmit()
+    private async Task AddSelectedUsers()
     {
-        await service.Add(UserObject);
-        await CloseUserModal();
+        await GroupService.AddMembers(selectedUsers, ModalGroup);
+        await CloseAddMemberModal();
         DataChanged?.Invoke();
     }
-}*@
+
+    protected override async Task OnInitializedAsync()
+    {
+        Users = await UserService.Get();
+    }
+   
+    void Change(object value, string name)
+    {
+        var str = value is IEnumerable<object> ? string.Join(", ", (IEnumerable<object>)value) : value;
+        StateHasChanged();
+    }
+}
+
+

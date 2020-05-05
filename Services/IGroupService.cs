@@ -9,6 +9,7 @@ namespace WebTeam6.Services
         Task<List<Group>> Get();
         Task<Group> GetGroupById(int id);
         Task<Group> Add(Group group, string ownerName);
+        Task<IEnumerable<string>> AddMembers(IEnumerable<string> newMembers, Group group);
         Task<Group> Update(Group group);
         Task<Group> Delete(int id);
     }

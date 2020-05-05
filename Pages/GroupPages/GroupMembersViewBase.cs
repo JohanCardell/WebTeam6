@@ -4,34 +4,31 @@ using System.Threading.Tasks;
 using WebTeam6.Data;
 using WebTeam6.Services;
 
+
 namespace WebTeam6.Pages.GroupPages
 {
     public class GroupMembersViewBase: ComponentBase
     {
         [Parameter]
         public Group ChildGroup { get; set; }
-
-        //public IEnumerable<User> userList { get; set; } = new List<User>();
-        public IUserService UserService { get; set; }
+        public IEnumerable<User> userList { get; set; }
+        [Inject]
+        public IGroupService GroupService { get; set; }
 
         User userObject = new User();
 
-        //protected override async Task OnInitializedAsync()
-        //{
-        //    userList =  ChildGroup.Members;
+        protected override async Task OnInitializedAsync()
+        {
+            await GroupService.GetGroupById(ChildGroup.Id);
+            userList = ChildGroup.Members;
+        }
 
-        //}
-
-        //private void InitializeUserObject()
-        //{
-        //    userObject = new User();
-        //}
-
-        //private async void DataChanged()
-        //{
-        //    userList = await service.Get();
-        //    StateHasChanged();
-        //}
+        protected async void DataChanged()
+        {
+            await GroupService.GetGroupById(ChildGroup.Id);
+            userList = ChildGroup.Members;
+            StateHasChanged();
+        }
 
         protected void RemoveUserFromGroup(User user)
         {

@@ -1,39 +1,45 @@
 ﻿@inherits GroupMembersViewBase
 
-    <table class="table">
-        <thead>
-            <tr>
+<table class="table">
+    <thead>
+        <tr>
 
-                <th>User name</th>
-                <th></th>
-                <th></th>
+            <th>User name</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @if (@ChildGroup.Owner == null)
+        {
+            <div class="loader"></div>
+        }
+        else
+        {
+            <tr>
+                <td>@ChildGroup.Owner.UserName</td>
+                <td></td>
+                <td></td>
             </tr>
-        </thead>
-        <tbody>
-            @if (@ChildGroup.Owner == null)
-            {
-                <div class="loader"></div>
-            }
-            else
-            {
-                <tr>
-                    <td>@ChildGroup.Owner.UserName</td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            }
-            @foreach (var userItem in ChildGroup.Members)
-            {
-                <tr>
+        }
+        @foreach (var userItem in ChildGroup.Members)
+        {
+            if (userItem != ChildGroup.Owner)
+                {<tr>
                     <td>@userItem.UserName</td>
                     <td><input id="user-remove-btn " type="button" class="btn btn-danger" value="Remove" @onclick="(() => RemoveUserFromGroup(userItem))" /></td>
                     <td><input id="user-admin-btn" type="button" class="btn btn-primary" value="Make admin" /></td>
                 </tr>
             }
-        </tbody>
-    </table>
+        }
+    </tbody>
+</table>
 
-    <div>
-        <input id="add-member-btn" type="button" data-toggle="modal" data-target="#addMemberModal" class="btn btn-primary" value="Add Member" @*@onclick="(() => InitializeUserObject())"*@ />
-    </div>
+<div>
+    <input id="add-member-btn" type="button" data-toggle="modal" data-target="#addMemberModal" class="btn btn-primary" value="Add Member" />
+</div>
+
+<AddMemberModal ModalGroup="ChildGroup" DataChanged="@DataChanged"></AddMemberModal>
+
 

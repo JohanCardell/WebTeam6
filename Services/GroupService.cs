@@ -36,6 +36,28 @@ namespace WebTeam6.Services
             return null;
         }
 
+        public async Task<IEnumerable<string>> AddMembers(IEnumerable<string> newMembers, Group group)
+        {
+            if (newMembers != null)
+            {
+                foreach (var id in newMembers)
+                {
+                    var user = await _context.Users
+                        .Where(u => u.Id == id)
+                        .FirstOrDefaultAsync();
+                    if (group.Members.Contains(user) == false)
+                    {
+                        group.Members.Add(user);
+                        Console.WriteLine($"Added {user.UserName} to {group.Name}");
+                    }
+                }
+                await _context.SaveChangesAsync();
+                Console.WriteLine("context saved");
+                return newMembers;
+            }
+            return null;
+        }
+
         //public async Task<Group> Add(Group group, string name)
         //{
         //    var ownerId = await _context.Users.FirstAsync(n => n.UserName == name);
