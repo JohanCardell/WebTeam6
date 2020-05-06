@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,14 +8,6 @@ using WebTeam6.Data;
 
 namespace WebTeam6.Services
 {
-    public interface IGroupService
-    {
-        Task<List<Group>> Get();
-        Task<Group> Get(int id);
-        Task<Group> Add(Group group, string ownerName);
-        Task<Group> Update(Group group);
-        Task<Group> Delete(int id);
-    }
 
     public class GroupService: IGroupService
     {
@@ -41,6 +34,29 @@ namespace WebTeam6.Services
                 return group;
             }
             Console.WriteLine("was null");
+            return null;
+        }
+
+        public async Task<IEnumerable<string>> AddMembers(IEnumerable<string> newMembers, Group group)
+        {
+            if (newMembers != null)
+            {
+                var actualGroup = _context.Groups.FirstOrDefault(g => g.Id == group.Id);
+                foreach (var id in newMembers)
+                {
+                    var user = await _context.Users
+                        .Where(u => u.Id == id)
+                        .FirstOrDefaultAsync();
+                    if (actualGroup.Members.Contains(user) == false)
+                    {
+                        actualGroup.Members.Add(user);
+                        Console.WriteLine($"Added {user.UserName} to {actualGroup.Name}");
+                    }
+                }
+                await _context.SaveChangesAsync();
+                Console.WriteLine("context saved");
+                return newMembers;
+            }
             return null;
         }
 
@@ -78,9 +94,14 @@ namespace WebTeam6.Services
             return await _context.Groups.Include(g => g.Owner).ToListAsync();
         }
 
-        public Task<Group> Get(int id)
+        public async Task<Group> GetGroupById(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Groups
+                .Include(g => g.Owner)
+                .Include(g => g.Members)
+                .Include(g => g.Events)
+                .Where(g => g.Id == id)
+                .FirstOrDefaultAsync();
         }
 
         public Task<Group> Update(Group group)

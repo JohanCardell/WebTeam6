@@ -7,7 +7,7 @@
 
 @if (groupList == null)
 {
-    <text>Loading...</text>
+    <div class="loader"></div>
 }
 else
 {
@@ -18,6 +18,7 @@ else
                 <th>Owner</th>
                 <td></td>
                 <td></td>
+                <td></td>
             </tr>
         </thead>
         <tbody>
@@ -26,6 +27,7 @@ else
             <tr>
                 <td>@groupItem.Name</td>
                 <td>@groupItem.Owner?.UserName</td>
+                <td><a id="group-details-btn" type="button" href="@($"groupdetails/{groupItem.Id}")" role="button" class="btn btn-info">Details</a></td>
                 <td><input id="group-edit-btn" type="button" class="btn btn-primary" value="Edit" /></td>
                 <td><input id="group-delete-btn " type="button" class="btn btn-danger" value="Delete" @onclick="(() => DeleteGroup(groupItem))" /></td>
             </tr>

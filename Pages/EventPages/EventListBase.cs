@@ -12,13 +12,18 @@ namespace WebTeam6.Pages.EventPages
     {
         [Inject]
         private IEventService Service { get; set; }
-        public List<Event> Events { get; set; }
+
+        [Parameter]
+        public Group Group { get; set; }
+
+        [Parameter]
+        public IEnumerable<Event> Events { get; set; }
         public Event NewEvent { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            Events = (await Service.Get()).ToList();
+            Events = Group.Events;
         }
 
         public async Task<Event> Create(Event e)

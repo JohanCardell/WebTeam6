@@ -31,6 +31,8 @@ namespace WebTeam6.Services
 
         public async Task<Event> Add(Event e)
         {
+            var g = _context.Groups.FirstOrDefault(g => g.Id == e.Group.Id);
+            e.Group = g;
             var res = await _context.Events.AddAsync(e);
 
             await _context.SaveChangesAsync();

@@ -77,5 +77,11 @@ namespace WebTeam6.Services
         {
             throw new NotImplementedException();
         }
+        //public async Task<User> UpdateUserGroups (User user, Group group)
+        //{
+        //     _context.Update(user);
+        //     await _context.SaveChangesAsync();
+        //     return user;
+        //}
     }
 }

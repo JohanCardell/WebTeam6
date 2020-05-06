@@ -1,0 +1,21 @@
+﻿@page "/groupdetails/{id}"
+@inherits GroupDetailsBase
+
+<h3>@ParentGroup.Name</h3>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-2">
+            <p>Message board</p>
+            <!-- Content -->
+        </div>
+        <div class="col-lg-5">
+            <p>Events</p>
+            <WebTeam6.Pages.EventPages.EventList Group="ParentGroup" Events="ParentGroup.Events"/>
+            <!-- Content -->
+        </div>
+        <div class="col-lg-5">
+            <GroupMembersView ChildGroup="ParentGroup"></GroupMembersView>
+        </div>
+    </div>
+</div>
+

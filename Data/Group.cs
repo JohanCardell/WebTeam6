@@ -20,8 +20,8 @@ namespace WebTeam6.Data
         [Required]
         public string Name { get; set; }
 
-        public virtual User Owner { get; set; }
-
+        public User Owner { get; set; }
+        
         public ICollection<User> Members { get; set; }
 
         public ICollection<Event> Events { get; set; }
