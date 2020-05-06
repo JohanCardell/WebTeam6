@@ -25,7 +25,7 @@ namespace WebTeam6.Pages.GroupPages
 
         protected async void DataChanged()
         {
-            await GroupService.GetGroupById(ChildGroup.Id);
+            ChildGroup = await GroupService.GetGroupById(ChildGroup.Id);
             userList = ChildGroup.Members;
             StateHasChanged();
         }
