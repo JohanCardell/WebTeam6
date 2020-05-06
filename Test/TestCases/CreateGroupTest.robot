@@ -29,11 +29,78 @@ Verify Page Loaded
 End Test
         Close Browser
 *** Test Cases ***
-Register, verify and delete user
-    [Documentation]                     Test for register, verify and delete user account
-    [Tags]                              register_test
+Create group and rename it
+    [Documentation]                     Test for creating a group and rename it
+    [Tags]                              createGroup_test
     Set Selenium Implicit Wait          10 seconds
     Wait Until Element Is Visible       id:login/register
     Click Element                       id:Login/register
+    Wait Until Page Contains            Login
+    Input Text                          id:username     ${USERNAME}
+    Input Text                          id:Password     ${PASSWORD}
+    Click Element                       id:login-submit
+    Wait Until Page Contains			Welcome, ${USERNAME}
+    Click Element                       id:create group
+    Wait Until Page Contains            Group Name
+    Click Element                       id:group name
+    Input Text                          id:nameforgroup    A-Team
+    Wait Until Page Contains            A-Team
+    Click Element                       id:group name
+    Input Text                          id:nameforgroup    B-Team
+    Wait Until Page Contains            B-Team
+    Click Element                       id:group settings
+    Wait Until Page Contains            Group settings
+    Input Text                          id:name_group       C-Team
+    Click Element                       id:confirm
+    Wait Until Page Contains            C-Team
+
+
+*** Test Cases ***
+
+Add user to agroup
+    [Documentation]                     Test for adding user
+    [Tags]                              addUser_test
+    Set Selenium Implicit Wait          10 seconds
+    Wait Until Element Is Visible       id:login/register
+    Click Element                       id:Login/register
+    Wait Until Page Contains            Login
+    Input Text                          id:username     ${USERNAME}
+    Input Text                          id:Password     ${PASSWORD}
+    Click Element                       id:login-submit
+    Wait Until Page Contains			Welcome, ${USERNAME}
+    Click Element                       id:C-Team
+    Wait Until Page Contains            C-Team
+    Click Element                       id:add user
+    Wait Until Page Contains            Add User
+    Input Text                          id:add username      Erik85
+    Click Element                       id:confirm add user
+    Wait Until Page Contains            C-Team
+    Page Should Contain Element         Erik85
+
+
+*** Test Cases ***
+
+Delete Group
+    [Documentation]                     Test for delete group
+    [Tags]                              deleteGroup_test
+    Set Selenium Implicit Wait          10 seconds
+    Wait Until Element Is Visible       id:login/register
+    Click Element                       id:Login/register
+    Wait Until Page Contains            Login
+    Input Text                          id:username     ${USERNAME}
+    Input Text                          id:Password     ${PASSWORD}
+    Click Element                       id:login-submit
+    Wait Until Page Contains			Welcome, ${USERNAME}
+    Click Element                       id:C-Team
+    Wait Until Page Contains            C-Team
+    Click Element                       id:group settings
+    Wait Until Page Contains            Group settings
+    Click Element                       id:remove group
+    Wait Until Page Contains            remove group
+    Click Element                       id:remove confirm
+    Wait Until Page Contains            Welcome, ${USERNAME}
+    Page Should Not Contain Element     id:C-Team
+
+
 
   
