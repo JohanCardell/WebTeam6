@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,15 +41,16 @@ namespace WebTeam6.Services
         {
             if (newMembers != null)
             {
+                var actualGroup = _context.Groups.FirstOrDefault(g => g.Id == group.Id);
                 foreach (var id in newMembers)
                 {
                     var user = await _context.Users
                         .Where(u => u.Id == id)
                         .FirstOrDefaultAsync();
-                    if (group.Members.Contains(user) == false)
+                    if (actualGroup.Members.Contains(user) == false)
                     {
-                        group.Members.Add(user);
-                        Console.WriteLine($"Added {user.UserName} to {group.Name}");
+                        actualGroup.Members.Add(user);
+                        Console.WriteLine($"Added {user.UserName} to {actualGroup.Name}");
                     }
                 }
                 await _context.SaveChangesAsync();
