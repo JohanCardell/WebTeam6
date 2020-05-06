@@ -11,5 +11,6 @@ namespace WebTeam6.Pages.EventPages
     {
         [Parameter]
         public Event Event { get; set; }
+        public bool Editing { get; set; }
     }
 }

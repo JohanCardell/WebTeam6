@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace WebTeam6.Services
         Task<List<Event>> Get();
         Task<List<Event>> Get(Group g);
         Task<Event> Add(Event e);
-        Task<Event> Update(Event e);
+        Task<bool> Update(Event e);
         Task<Event> Delete(int id);
     }
 
@@ -66,9 +67,11 @@ namespace WebTeam6.Services
             return await _context.Events.ToListAsync();
         }
 
-        public Task<Event> Update(Event e)
+        public async Task<bool> Update(Event ev)
         {
-            throw new NotImplementedException();
+            var res = await _context.Events.FirstOrDefaultAsync(e => e.Id == ev.Id);
+            _context.Entry(res).CurrentValues.SetValues(ev);
+            return (await _context.SaveChangesAsync()) > 0;
         }
     }
 }
