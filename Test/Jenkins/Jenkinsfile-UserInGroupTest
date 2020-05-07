@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps{
-                git branch: 'develop', url: 'https://github.com/ahmadgbg/WebTeam6.git'
+                git branch: 'WEB6-52&54-UserInGroup-Test', url: 'https://github.com/ahmadgbg/WebTeam6.git'
 
             }
         }
