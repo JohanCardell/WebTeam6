@@ -1,16 +1,32 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="sidebar">
-    <NavMenu />
-</div>
 
-<div class="main">
-    <div class="top-row px-4 auth">
-        <LoginDisplay />
-        <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-    </div>
-
-    <div class="content px-4">
-        @Body
-    </div>
-</div>
+<AuthorizeView>
+    <Authorized>
+        <div class="sidebar">
+            <NavMenu />
+        </div>
+        
+        <div class="main">
+            <div class="top-row px-4 auth">
+                <LoginDisplay />
+                <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            </div>
+        
+            <div class="content px-4">
+                @Body
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <body id="landing-page-body">
+            <div id="landing-page">
+                <h1>Din text här</h1>
+                Welcome to our app!
+                <a href="Identity/Account/Login">
+                    <input type="button" value="Log in/Register" />
+                </a>
+            </div>
+        </body>
+    </NotAuthorized>
+</AuthorizeView>
