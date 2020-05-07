@@ -21,11 +21,20 @@
     <NotAuthorized>
         <body id="landing-page-body">
             <div id="landing-page">
-                <h1>Din text här</h1>
-                Welcome to our app!
-                <a href="Identity/Account/Login">
-                    <input type="button" value="Log in/Register" />
-                </a>
+                <div id="landing-page-content">
+                    <h1>Din text här</h1>
+                    <p>
+                        Welcome to our app!
+                    </p>
+                    <span id="landing-page-buttons">
+                        <a href="Identity/Account/Login">
+                            <input class="btn btn-primary landing-page-button" type="button" value="Log in" />
+                        </a>
+                        <a href="Identity/Account/Register">
+                            <input class="btn btn-primary landing-page-button" type="button" value="Sign up" />
+                        </a>
+                    </span>
+                </div>
             </div>
         </body>
     </NotAuthorized>
