@@ -69,11 +69,12 @@ namespace WebTeam6.Services
 
         public async Task<User> GetAuthorizedUser(Task<AuthenticationState> authenticationStateTask)
         {
-            var loggedInUser = (await authenticationStateTask).User;
-            var user = await _context.Users.FirstAsync(u => u.UserName == loggedInUser.Identity.Name);
+            var authorizedUser = (await authenticationStateTask).User;
+            var user = await _context.Users.FirstAsync(u => u.UserName == authorizedUser.Identity.Name);
             return user;
         }
 
+       
         public Task<User> Update(User user)
         {
             throw new NotImplementedException();

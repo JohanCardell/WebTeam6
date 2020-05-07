@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
@@ -104,7 +105,15 @@ namespace WebTeam6.Services
                 .Where(g => g.Id == id)
                 .FirstOrDefaultAsync();
         }
-
+        public async Task<List<Group>> GetGetAuthorizedUserGroups(Task<AuthenticationState> authenticationStateTask)
+        {
+            var authorizedUser = (await authenticationStateTask).User;
+            var result = await _context.Groups
+                .Include(g => g.Owner)
+                .Where(g => g.Owner.UserName == authorizedUser.Identity.Name)
+                .ToListAsync();
+            return result;
+        }
         public Task<Group> Update(Group group)
         {
             throw new NotImplementedException();

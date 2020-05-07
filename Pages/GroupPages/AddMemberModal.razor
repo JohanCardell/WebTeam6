@@ -6,7 +6,9 @@
 @inject IJSRuntime jsRuntime
 @inject MainContext dbContext
 
-
+<head>
+    <link rel="stylesheet" href="_content/Radzen.Blazor/css/default-base.css">
+</head>
 <div class="modal fade" tabindex="-1" role="dialog" id="addMemberModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -17,6 +19,7 @@
                 </button>
             </div>
             <div class="modal-body">
+                <link rel="stylesheet" href="_content/Radzen.Blazor/css/default-base.css">
                 @if (Users == null)
                 {
                     <div class="loader"></div>
@@ -26,7 +29,7 @@
                     <div>
                         <RadzenListBox AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" @bind-Value="selectedUsers" Multiple="true" Data="@Users" TextProperty="UserName" ValueProperty="Id"
                                        Style="margin-bottom: 20px; height:200px;" />
-                        
+
                     </div>
                 }
 
