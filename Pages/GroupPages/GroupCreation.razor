@@ -51,25 +51,25 @@
 
     private async void HandleValidSubmit()
     {
-        GroupObject.Owner = await userService.GetAuthorizedUser(await GetUserName());
+        GroupObject.Owner = await userService.GetAuthorizedUser(authenticationStateTask);
         await groupService.Add(GroupObject);
         await CloseGroupModal();
         DataChanged?.Invoke();
     }
 
-    private async Task<string> GetUserName()
-    {
-        var authState = await authenticationStateTask;
-        var user = authState.User;
-        if (user.Identity.IsAuthenticated)
-        {
-            Console.WriteLine($"Hello, {user.Identity.Name}");
-            return user.Identity.Name;
-        }
-        else
-        {
-            Console.WriteLine("Not authorized");
-            return null;
-        }
-    }
+    //private async Task<string> GetUserName()
+    //{
+    //    var authState = await authenticationStateTask;
+    //    var user = authState.User;
+    //    if (user.Identity.IsAuthenticated)
+    //    {
+    //        Console.WriteLine($"Hello, {user.Identity.Name}");
+    //        return user.Identity.Name;
+    //    }
+    //    else
+    //    {
+    //        Console.WriteLine("Not authorized");
+    //        return null;
+    //    }
+    //}
 }

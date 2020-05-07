@@ -67,9 +67,10 @@ namespace WebTeam6.Services
             return await _context.Users.FindAsync(id);
         }
 
-        public async Task<User> GetAuthorizedUser(string name)
+        public async Task<User> GetAuthorizedUser(Task<AuthenticationState> authenticationStateTask)
         {
-            var user = await _context.Users.FirstAsync(u => u.UserName == name);
+            var loggedInUser = (await authenticationStateTask).User;
+            var user = await _context.Users.FirstAsync(u => u.UserName == loggedInUser.Identity.Name);
             return user;
         }
 
@@ -77,6 +78,7 @@ namespace WebTeam6.Services
         {
             throw new NotImplementedException();
         }
+
         //public async Task<User> UpdateUserGroups (User user, Group group)
         //{
         //     _context.Update(user);

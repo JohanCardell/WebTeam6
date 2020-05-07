@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Components.Authorization;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebTeam6.Data;
 
@@ -11,6 +12,6 @@ namespace WebTeam6.Services
         Task<User> Add(User user);
         Task<User> Update(User user);
         Task<User> Delete(string id);
-        Task<User> GetAuthorizedUser(string name);
+        Task<User> GetAuthorizedUser(Task<AuthenticationState> authenticationStateTask);
     }
 }
