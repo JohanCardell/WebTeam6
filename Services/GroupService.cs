@@ -18,11 +18,12 @@ namespace WebTeam6.Services
         }
 
 
-        public async Task<Group> Add(Group group, string name)
+        public async Task<Group> Add(Group group)
         {
             await _context.Database.EnsureCreatedAsync();
-            var ownerName = await _context.Users.FirstAsync(n => n.UserName == name);
-            var owner = await _context.Users.FindAsync(ownerName.Id);
+            var owner = await _context.Users.FirstAsync(o => o.UserName == group.Owner.UserName);
+            //var ownerName = await _context.Users.FirstAsync(n => n.UserName == name);
+            //var owner = await _context.Users.FindAsync(ownerName.Id);
             Console.WriteLine(owner);
             if (owner != null)
             {

@@ -1,0 +1,16 @@
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using WebTeam6.Data;
+
+namespace WebTeam6.Services
+{
+    public interface IUserService
+    {
+        Task<List<User>> Get();
+        Task<User> Get(string id);
+        Task<User> Add(User user);
+        Task<User> Update(User user);
+        Task<User> Delete(string id);
+        Task<User> GetAuthorizedUser(string name);
+    }
+}

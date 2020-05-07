@@ -2,20 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebTeam6.Data;
 
 namespace WebTeam6.Services
 {
-    public interface IUserService
-    {
-        Task<List<User>> Get();
-        Task<User> Get(string id);
-        Task<User> Add(User user);
-        Task<User> Update(User user);
-        Task<User> Delete(string id);
-    }
 
     public class UserService : IUserService
     {
@@ -71,6 +65,12 @@ namespace WebTeam6.Services
         public async Task<User> Get(string id)
         {
             return await _context.Users.FindAsync(id);
+        }
+
+        public async Task<User> GetAuthorizedUser(string name)
+        {
+            var user = await _context.Users.FirstAsync(u => u.UserName == name);
+            return user;
         }
 
         public Task<User> Update(User user)
