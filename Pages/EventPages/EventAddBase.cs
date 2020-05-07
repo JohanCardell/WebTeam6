@@ -18,7 +18,7 @@ namespace WebTeam6.Pages.EventPages
         [Parameter]
         public Group Group { get; set; }
 
-        public Event Event { get; set; } = new Event();
+        public Event Event { get; set; } = new Event { StartTime = DateTime.Now, EndTime = DateTime.Now.AddDays(1) };
 
         [Parameter]
         public EventCallback<Event> EventChanged { get; set; }
