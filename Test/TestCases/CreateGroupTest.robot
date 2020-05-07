@@ -54,30 +54,6 @@ Create group and rename it
     Click Element                       id:confirm
     Wait Until Page Contains            C-Team
 
-
-*** Test Cases ***
-
-Add user to agroup
-    [Documentation]                     Test for adding user
-    [Tags]                              addUser_test
-    Set Selenium Implicit Wait          10 seconds
-    Wait Until Element Is Visible       id:login/register
-    Click Element                       id:Login/register
-    Wait Until Page Contains            Login
-    Input Text                          id:username     ${USERNAME}
-    Input Text                          id:Password     ${PASSWORD}
-    Click Element                       id:login-submit
-    Wait Until Page Contains			Welcome, ${USERNAME}
-    Click Element                       id:C-Team
-    Wait Until Page Contains            C-Team
-    Click Element                       id:add user
-    Wait Until Page Contains            Add User
-    Input Text                          id:add username      Erik85
-    Click Element                       id:confirm add user
-    Wait Until Page Contains            C-Team
-    Page Should Contain Element         Erik85
-
-
 *** Test Cases ***
 
 Delete Group
@@ -103,4 +79,3 @@ Delete Group
 
 
 
-  
