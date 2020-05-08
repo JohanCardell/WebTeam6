@@ -8,7 +8,7 @@
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <ul class="nav flex-column">
         <li id="homePage" class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+            <NavLink id="homePage" class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="oi oi-home" aria-hidden="true"></span> Home
             </NavLink>
         </li>
@@ -23,8 +23,8 @@
             </NavLink>
         </li>
         <li id="manageAccountPage" class="nav-item px-3">
-            <a class="nav-link" href="/Identity/Account/Manage">
-                <span id="manage" class="oi oi-cog"></span> Manage account
+            <a id="accountSettings" class="nav-link" href="/Identity/Account/Manage">
+                <span class="oi oi-cog"></span> Manage account
             </a>
         </li>
         <li id="logout-link" class="nav-item px-3">
