@@ -13,7 +13,7 @@ namespace WebTeam6.Pages.GroupPages
         protected Group GroupObject = new Group();
         [Inject]
         public IGroupService GroupService { get; set; }
-        public IEnumerable<User> userList { get; set; } = new List<User>();
+        public IEnumerable<User> UserList { get; set; } = new List<User>();
         protected User userObject = new User();
 
         [Parameter]
@@ -24,6 +24,11 @@ namespace WebTeam6.Pages.GroupPages
             Id = Id ?? "1";
             GroupObject = await GroupService.GetGroupById(int.Parse(Id));
         }
-
+        protected async void DataChanged()
+        {
+            await GroupService.GetGroupById(GroupObject.Id);
+            UserList = GroupObject.Members;
+            StateHasChanged();
+        }
     }
 }

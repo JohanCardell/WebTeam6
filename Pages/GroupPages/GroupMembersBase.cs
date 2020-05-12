@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebTeam6.Data;
@@ -15,11 +16,14 @@ namespace WebTeam6.Pages.GroupPages
         [Parameter]
         public Group GroupObject { get; set; } = new Group();
         public User CurrentUser { get; set; } = new User();
+        [Parameter]
         public IEnumerable<User> UserList { get; set; }
         [Inject]
         public IGroupService GroupService { get; set; }
         [Inject]
         public IUserService UserService { get; set; }
+        [Parameter]
+        public Action DataChanged { get; set; }
 
         protected User userObject = new User();
 
@@ -30,12 +34,12 @@ namespace WebTeam6.Pages.GroupPages
             UserList = GroupObject.Members;
         }
 
-        protected async void DataChanged()
-        {
-            await GroupService.GetGroupById(GroupObject.Id);
-            UserList = GroupObject.Members;
-            StateHasChanged();
-        }
+        //protected async void DataChanged()
+        //{
+        //    await GroupService.GetGroupById(GroupObject.Id);
+        //    UserList = GroupObject.Members;
+        //    StateHasChanged();
+        //}
 
         protected void RemoveUserFromGroup(User user)
         {
