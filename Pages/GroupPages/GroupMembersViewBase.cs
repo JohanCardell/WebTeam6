@@ -19,13 +19,13 @@ namespace WebTeam6.Pages.GroupPages
 
         protected override async Task OnInitializedAsync()
         {
-            await GroupService.GetGroupById(ChildGroup.Id);
+            ChildGroup = await GroupService.GetGroupById(ChildGroup.Id);
             userList = ChildGroup.Members;
         }
 
         protected async void DataChanged()
         {
-            await GroupService.GetGroupById(ChildGroup.Id);
+            ChildGroup = await GroupService.GetGroupById(ChildGroup.Id);
             userList = ChildGroup.Members;
             StateHasChanged();
         }

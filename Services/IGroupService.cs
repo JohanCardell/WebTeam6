@@ -12,7 +12,7 @@ namespace WebTeam6.Services
         Task<List<Group>> GetGetAuthorizedUserGroups(Task<AuthenticationState> authenticationStateTask);
         Task<Group> Add(Group group);
         Task<IEnumerable<string>> AddMembers(IEnumerable<string> newMembers, Group group);
-        Task<Group> Update(Group group);
+        Task<bool> Update(Group group);
         Task<Group> Delete(int id);
     }
 }

@@ -23,9 +23,9 @@
                 <td></td>
             </tr>
         }
-        @foreach (var userItem in ChildGroup.Members)
+        @foreach (var userItem in @ChildGroup.Members)
         {
-            if (userItem != ChildGroup.Owner)
+            if (userItem != @ChildGroup.Owner)
                 {<tr>
                     <td>@userItem.UserName</td>
                     <td><input id="user-remove-btn " type="button" class="btn btn-danger" value="Remove" @onclick="(() => RemoveUserFromGroup(userItem))" /></td>

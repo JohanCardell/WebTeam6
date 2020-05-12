@@ -20,19 +20,11 @@
             </div>
             <div class="modal-body">
                 <link rel="stylesheet" href="_content/Radzen.Blazor/css/default-base.css">
-                @if (Users == null)
-                {
-                    <div class="loader"></div>
-                }
-                else
-                {
                     <div>
                         <RadzenListBox AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" @bind-Value="selectedUsers" Multiple="true" Data="@Users" TextProperty="UserName" ValueProperty="Id"
                                        Style="margin-bottom: 20px; height:200px;" />
 
                     </div>
-                }
-
                 <button id="submit-btn" type="submit" class="btn btn-primary" @onclick="AddSelectedUsers">Confirm</button>
                 <button id="cancel-btn" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
@@ -57,6 +49,12 @@
 
     private async Task AddSelectedUsers()
     {
+        //foreach (var id in selectedUsers)
+        //{
+        //    var res = Users.FirstOrDefault(u => u.Id == id);
+        //    ModalGroup.Members.Add(res);
+        //}
+        //await GroupService.Update(ModalGroup);
         await GroupService.AddMembers(selectedUsers, ModalGroup);
         await CloseAddMemberModal();
         DataChanged?.Invoke();
@@ -66,7 +64,7 @@
     {
         Users = await UserService.Get();
     }
-   
+
     void Change(object value, string name)
     {
         var str = value is IEnumerable<object> ? string.Join(", ", (IEnumerable<object>)value) : value;

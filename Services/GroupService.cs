@@ -41,17 +41,17 @@ namespace WebTeam6.Services
 
         public async Task<IEnumerable<string>> AddMembers(IEnumerable<string> newMembers, Group group)
         {
+            
             if (newMembers != null)
             {
                 var actualGroup = _context.Groups.FirstOrDefault(g => g.Id == group.Id);
-                foreach (var id in newMembers)
+                foreach (var name in newMembers)
                 {
-                    var user = await _context.Users
-                        .Where(u => u.Id == id)
-                        .FirstOrDefaultAsync();
-                    if (actualGroup.Members.Contains(user) == false)
+                    var user = await _context.Users.FirstAsync(u => u.Id == name);
+                    if (user != null)
                     {
                         actualGroup.Members.Add(user);
+                        user.Groups.Add(actualGroup);
                         Console.WriteLine($"Added {user.UserName} to {actualGroup.Name}");
                     }
                 }
@@ -108,15 +108,15 @@ namespace WebTeam6.Services
         public async Task<List<Group>> GetGetAuthorizedUserGroups(Task<AuthenticationState> authenticationStateTask)
         {
             var authorizedUser = (await authenticationStateTask).User;
-            var result = await _context.Groups
-                .Include(g => g.Owner)
-                .Where(g => g.Owner.UserName == authorizedUser.Identity.Name)
-                .ToListAsync();
-            return result;
+            var user = await _context.Users.Include(u => u.Groups).FirstAsync(u => u.UserName == authorizedUser.Identity.Name);
+                          
+            return user.Groups.ToList();
         }
-        public Task<Group> Update(Group group)
+        public async Task<bool> Update(Group group)
         {
-            throw new NotImplementedException();
+            var res = await _context.Groups.FirstOrDefaultAsync(g => g.Id == group.Id);
+            _context.Entry(res).CurrentValues.SetValues(group);
+            return (await _context.SaveChangesAsync()) > 0;
         }
     }
 }
