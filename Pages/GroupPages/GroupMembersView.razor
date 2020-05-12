@@ -1,45 +1,69 @@
-﻿@inherits GroupMembersViewBase
+﻿@inherits GroupMembersBase
 
-<table class="table">
-    <thead>
-        <tr>
+@if (@GroupObject.Owner == null)
+{
+    <div class="loader"></div>
+}
+else
+{
+    <table class="table container">
 
-            <th>User name</th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-
-    <tbody>
-        @if (@ChildGroup.Owner == null)
-        {
-            <div class="loader"></div>
-        }
-        else
-        {
+        <thead>
             <tr>
-                <td>@ChildGroup.Owner.UserName</td>
-                <td></td>
+                <th>Members</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><i class="fas fa-gavel"></i> @GroupObject.Owner.UserName</td>
+                @if (GroupObject.Owner.Id == CurrentUser.Id)
+                {
+                    <td>
+                        <button type="button" class="btn btn-default" @onclick="(() => RemoveUserFromGroup(GroupObject.Owner))">
+                            <i class="fas fa-door-open"></i>
+                        </button>
+                    </td>
+                }
                 <td></td>
             </tr>
-        }
-        @foreach (var userItem in @ChildGroup.Members)
-        {
-            if (userItem != @ChildGroup.Owner)
-                {<tr>
-                    <td>@userItem.UserName</td>
-                    <td><input id="user-remove-btn " type="button" class="btn btn-danger" value="Remove" @onclick="(() => RemoveUserFromGroup(userItem))" /></td>
-                    <td><input id="user-admin-btn" type="button" class="btn btn-primary" value="Make admin" /></td>
-                </tr>
+            @foreach (var userItem in @GroupObject.Members)
+            {
+                if (userItem.Id != @GroupObject.Owner.Id)
+                {
+                    <tr>
+                        <td><i class="fas fa-user"></i> @userItem.UserName</td>
+                        @if (GroupObject.Owner.Id == CurrentUser.Id)
+                        {
+                            <td>
+                                <button type="button" class="btn btn-default" @onclick="(() => RemoveUserFromGroup(userItem))">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                            @*<td><input id="user-remove-btn " type="button" class="btn btn-danger" value="Remove" @onclick="(() => RemoveUserFromGroup(userItem))" /></td>*@
+                        }
+                        else if (userItem.Id == CurrentUser.Id)
+                        {
+                            <td>
+                                <button type="button" class="btn btn-default" @onclick="(() => RemoveUserFromGroup(userItem))">
+                                    <i class="fas fa-door-open"></i>
+                                </button>
+                            </td>
+                            @*<td><input id="user-remove-btn " type="button" class="btn btn-danger" value="Leave" @onclick="(() => RemoveUserFromGroup(userItem))" <span class="glyphicon glyphicon-print"></span>></td>*@
+                        }
+                    </tr>
+                }
             }
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
 
-<div>
-    <input id="add-member-btn" type="button" data-toggle="modal" data-target="#addMemberModal" class="btn btn-primary" value="Add Member" />
-</div>
-
-<AddMemberModal ModalGroup="ChildGroup" DataChanged="@DataChanged"></AddMemberModal>
-
+    @if (GroupObject.Owner.Id == CurrentUser.Id)
+    {
+        <div>
+            <input id="add-member-btn" type="button" data-toggle="modal" data-target="#addMemberModal" class="btn btn-primary" value="Add Member" />
+        </div>
+    }
+        <AddMemberModal GroupObject="GroupObject" DataChanged="@DataChanged"></AddMemberModal>
+}
 

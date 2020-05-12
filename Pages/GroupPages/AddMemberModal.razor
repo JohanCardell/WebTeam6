@@ -34,7 +34,7 @@
 
 @code {
     [Parameter]
-    public Group ModalGroup { get; set; }
+    public Group GroupObject { get; set; }
     [Parameter]
     public Action DataChanged { get; set; }
     [Parameter]
@@ -49,13 +49,7 @@
 
     private async Task AddSelectedUsers()
     {
-        //foreach (var id in selectedUsers)
-        //{
-        //    var res = Users.FirstOrDefault(u => u.Id == id);
-        //    ModalGroup.Members.Add(res);
-        //}
-        //await GroupService.Update(ModalGroup);
-        await GroupService.AddMembers(selectedUsers, ModalGroup);
+        await GroupService.AddMembers(selectedUsers, GroupObject);
         await CloseAddMemberModal();
         DataChanged?.Invoke();
     }

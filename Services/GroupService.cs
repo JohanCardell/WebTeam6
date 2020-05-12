@@ -23,8 +23,6 @@ namespace WebTeam6.Services
         {
             await _context.Database.EnsureCreatedAsync();
             var owner = await _context.Users.FirstAsync(o => o.UserName == group.Owner.UserName);
-            //var ownerName = await _context.Users.FirstAsync(n => n.UserName == name);
-            //var owner = await _context.Users.FindAsync(ownerName.Id);
             Console.WriteLine(owner);
             if (owner != null)
             {
@@ -62,24 +60,6 @@ namespace WebTeam6.Services
             return null;
         }
 
-        //public async Task<Group> Add(Group group, string name)
-        //{
-        //    var ownerId = await _context.Users.FirstAsync(n => n.UserName == name);
-        //    var owner = await _context.Users.FindAsync(ownerId);
-        //    Console.WriteLine(owner);
-        //    if(owner != null)
-        //    {
-        //        Console.WriteLine("was not null");
-        //        group.Owner = owner;
-        //        await _context.Groups.AddAsync(group);
-        //        owner.Groups.Add(group);
-        //        await _context.SaveChangesAsync();
-        //        return group;
-        //    }
-        //    Console.WriteLine("was null");
-        //    return null;
-        //}
-
         public async Task<Group> Delete(int id)
         {
             var group = await _context.Groups.FindAsync(id);
@@ -92,7 +72,6 @@ namespace WebTeam6.Services
 
         public async Task<List<Group>> Get()
         {
-            //return await _context.Groups.ToListAsync();
             return await _context.Groups.Include(g => g.Owner).ToListAsync();
         }
 
@@ -108,7 +87,10 @@ namespace WebTeam6.Services
         public async Task<List<Group>> GetGetAuthorizedUserGroups(Task<AuthenticationState> authenticationStateTask)
         {
             var authorizedUser = (await authenticationStateTask).User;
-            var user = await _context.Users.Include(u => u.Groups).FirstAsync(u => u.UserName == authorizedUser.Identity.Name);
+            var user = await _context.Users
+                .Include(u => u.Groups)
+                .ThenInclude(g => g.Members)
+                .FirstAsync(u => u.UserName == authorizedUser.Identity.Name);
                           
             return user.Groups.ToList();
         }

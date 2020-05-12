@@ -10,28 +10,28 @@ else
 {
     @foreach (var groupItem in UserGroupList)
     {
-        <li id="@($"group-#{counter}-btn")" class="nav-item px-3">
+        <li id="@($"group-#{groupItem.Id}-btn")" class="nav-item px-3">
             <NavLink class="nav-link" href="@($"groupdetails/{groupItem.Id}")">
                 <span class="oi oi-people" aria-hidden="true"></span> @groupItem.Name
             </NavLink>
         </li>
         @*<a id="group-details-btn" type="button" href="@($"groupdetails/{groupItem.Id}")" role="button" class="btn btn-info">@groupItem.Name</a>*@
-        counter++;
+        //counter++;
     }
 }
 
-    @code {
-        [CascadingParameter]
-        Task<AuthenticationState> authenticationStateTask { get; set; }
+@code {
+    [CascadingParameter]
+    Task<AuthenticationState> authenticationStateTask { get; set; }
 
-        private Group GroupObject { get; set; }
-        private List<Group> UserGroupList { get; set; }
-        private int counter;
+    private Group GroupObject { get; set; }
+    private List<Group> UserGroupList { get; set; }
+    //private int counter;
 
-        protected override async Task OnInitializedAsync()
-        {
-            UserGroupList = await groupService.GetGetAuthorizedUserGroups(authenticationStateTask);
-            counter = UserGroupList.Count();
-        }
-
+    protected override async Task OnInitializedAsync()
+    {
+        UserGroupList = await groupService.GetGetAuthorizedUserGroups(authenticationStateTask);
+        //counter = UserGroupList.Count();
     }
+
+}

@@ -10,7 +10,7 @@ namespace WebTeam6.Pages.GroupPages
 {
     public class GroupDetailsBase : ComponentBase
     {
-        protected Group ParentGroup = new Group();
+        protected Group GroupObject = new Group();
         [Inject]
         public IGroupService GroupService { get; set; }
         public IEnumerable<User> userList { get; set; } = new List<User>();
@@ -22,15 +22,8 @@ namespace WebTeam6.Pages.GroupPages
         protected async override Task OnInitializedAsync()
         {
             Id = Id ?? "1";
-            ParentGroup = await GroupService.GetGroupById(int.Parse(Id));
+            GroupObject = await GroupService.GetGroupById(int.Parse(Id));
         }
-        protected void RemoveUserFromGroup(User user)
-        {
-            userObject = user;
-            ParentGroup.Members.Remove(userObject);
-            userList = ParentGroup.Members;
-            userObject = new User();
-            StateHasChanged();
-        }
+
     }
 }
