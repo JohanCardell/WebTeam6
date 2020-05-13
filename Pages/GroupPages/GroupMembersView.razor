@@ -33,7 +33,7 @@ else
                 if (userItem.Id != @GroupObject.Owner.Id)
                 {
                     <tr>
-                        <td class="memberName"><i class="fas fa-user"></i> @userItem.UserName</td>
+                        <td class="memberName"><i class="fas fa-user" id="memberIcon"></i> @userItem.UserName</td>
                         @if (GroupObject.Owner.Id == CurrentUser.Id)
                         {
                             <td>

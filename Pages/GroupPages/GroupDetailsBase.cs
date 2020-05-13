@@ -21,7 +21,6 @@ namespace WebTeam6.Pages.GroupPages
 
         protected async override Task OnInitializedAsync()
         {
-            Id = Id ?? "1";
             GroupObject = await GroupService.GetGroupById(int.Parse(Id));
         }
         protected async void DataChanged()
@@ -29,6 +28,11 @@ namespace WebTeam6.Pages.GroupPages
             await GroupService.GetGroupById(GroupObject.Id);
             UserList = GroupObject.Members;
             StateHasChanged();
+        }
+        protected override async Task OnParametersSetAsync()
+        {
+            Id = Id ?? "1";
+            GroupObject = await GroupService.GetGroupById(int.Parse(Id));
         }
     }
 }

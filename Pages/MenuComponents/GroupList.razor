@@ -11,7 +11,7 @@ else
     @foreach (var groupItem in UserGroupList)
     {
         <li id="@($"group-#{groupItem.Id}-btn")" class="nav-item px-3">
-            <NavLink class="nav-link" href="@($"groupdetails/{groupItem.Id}")">
+            <NavLink class="nav-link" href="@($"groupdetails/{groupItem.Id}")" @onclick="(() => Refresh())">
                 <span class="oi oi-people" aria-hidden="true"></span> @groupItem.Name
             </NavLink>
         </li>
@@ -32,6 +32,12 @@ else
     {
         UserGroupList = await groupService.GetGetAuthorizedUserGroups(authenticationStateTask);
         //counter = UserGroupList.Count();
+    }
+
+    protected async void Refresh()
+    {
+        UserGroupList = await groupService.GetGetAuthorizedUserGroups(authenticationStateTask);
+        StateHasChanged();
     }
 
 }
