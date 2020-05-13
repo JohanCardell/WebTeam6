@@ -6,10 +6,9 @@ Test Teardown  End Test
 
 *** Variables ***
 ${BROWSERS}                             chrome
-${USERNAME}                             User1
 ${FIRSTNAME}                            Johan
 ${LASTNAME}                             Johansson
-${EMAIL}                                Johan.johansson@hotmail.com
+${EMAIL}                                johan.johansson@hotmail.com
 ${PASSWORD}                             User123!
 
 *** Keywords ***
@@ -23,46 +22,127 @@ Load Page
         Go To                           https://localhost:5001
         Sleep                           5s
 Verify Page Loaded
-        Wait Until Page Contains        Web6Team
+        Wait Until Page Contains        RemoteTool
 
 End Test
         Close Browser
-*** Test Cases ***
-Register, verify and delete user
-    [Documentation]                     Test for register, verify and delete user account
-    [Tags]                              register_test
-    Set Selenium Implicit Wait          10 seconds
-    Wait Until Element Is Visible       id:login/register
-    Click Element                       id:Login/register
-    Wait Until Page Contains            Register
-    Input Text                          id:new-username-field  ${USERNAME}
-    Input Text                          id:new-email-field      ${EMAIL}
-    Input Text                          id:fristname        ${FIRSTNAME}
-    Input Text                          id:lastname         ${LASTNAME}
-    Input Text                          id:new-password-field     ${PASSWORD}
-    Input Text                          id:comfirm password       ${PASSWORD}
-    Click Element                       id:register
-    Wait Until Page Contains            Welcome, ${FIRSTNAME}
-    Click Element                       id:account settings
-    Wait Until Page Contains            Account settings
-    Click Element                       delete account
-    Wait Until Page Contains            account is deleted
-
 
 *** Test Cases ***
 Register user with invalid email account
     [Documentation]                     Test for rgister user with invalid email account
-    [Tags]                              register_InvalidEmailAccountTest
+    [Tags]                              Register user with invalid email account_Test
     Set Selenium Implicit Wait          10 seconds
-    Wait Until Element Is Visible       id:login/register
-    Click Element                       id:Login/register
+    Wait Until Element Is Visible       id:landingRegisterButton
+    Click Element                       id:landingRegisterButton
     Wait Until Page Contains            Register
-    Input Text                          id:new-username-field  ${USERNAME}
-    Input Text                          id:new-email-field      Johan.johanssonhotmail.com
-    Input Text                          id:fristname        ${FIRSTNAME}
-    Input Text                          id:lastname         ${LASTNAME}
-    Input Text                          id:new-password-field     ${PASSWORD}
-    Input Text                          id:comfirm password       ${PASSWORD}
-    Click Element                       id:register
+    Input Text                         id:registerEmail    johan.johanssonhotmail.com
+    Input Text                          id:registerFirstname    ${FIRSTNAME}
+    Input Text                          id:registerLastname         ${LASTNAME}
+    Input Text                          id:registerPassword    ${PASSWORD}
+    Input Text                          id:registercomPassword       ${PASSWORD}
+    Click Element                       id:registerSubmit
     Wait Until Page Contains            error messege, enter the correct email accont
+
+*** Test Cases ***
+Register user with invalid first name
+    [Documentation]                     Test for register user with invalid first name
+    [Tags]                              Register user with invalid first name_test
+    Set Selenium Implicit Wait          10 seconds
+    Wait Until Element Is Visible       id:landingRegisterButton
+    Click Element                       id:landingRegisterButton
+    Wait Until Page Contains            Register
+    Input Text                         id:registerEmail     ${EMAIL}
+    Input Text                          id:registerFirstname
+    Input Text                          id:registerLastname         ${LASTNAME}
+    Input Text                          id:registerPassword    ${PASSWORD}
+    Input Text                          id:registercomPassword       ${PASSWORD}
+    Click Element                       id:registerSubmit
+    Wait Until Page Contains            error messege, fill in all fields
+
+Register user with invalid last name
+    [Documentation]                     Test for register user with invalid last name
+    [Tags]                              Register user with invalid last name_test
+    Set Selenium Implicit Wait          10 seconds
+    Wait Until Element Is Visible       id:landingRegisterButton
+    Click Element                       id:landingRegisterButton
+    Wait Until Page Contains            Register
+    Input Text                         id:registerEmail    ${EMAIL}
+    Input Text                          id:registerFirstname    ${FIRSTNAME}
+    Input Text                          id:registerLastname
+    Input Text                          id:registerPassword    ${PASSWORD}
+    Input Text                          id:registercomPassword       ${PASSWORD}
+    Click Element                       id:registerSubmit
+    Wait Until Page Contains            error messege, fill in all fields
+
+*** Test Cases ***
+Register user with invalid password
+    [Documentation]                     Test for register user with invalid password
+    [Tags]                              Register user with invalid password_test
+    Set Selenium Implicit Wait          10 seconds
+    Wait Until Element Is Visible       id:landingRegisterButton
+    Click Element                       id:landingRegisterButton
+    Wait Until Page Contains            Register
+     Input Text                         id:registerEmail     ${EMAIL}
+    Input Text                          id:registerFirstname    ${FIRSTNAME}
+    Input Text                          id:registerLastname         ${LASTNAME}
+    Input Text                          id:registerPassword
+    Input Text                          id:registercomPassword       ${PASSWORD}
+    Click Element                       id:registerSubmit
+    Wait Until Page Contains            error messege, fill in all fields
+
+*** Test Cases ***
+Register user with invalid comfirm password
+    [Documentation]                     Test for register user with invalid comfirm password
+    [Tags]                              Register user with invalid first name_test
+    Set Selenium Implicit Wait          10 seconds
+    Wait Until Element Is Visible       id:landingRegisterButton
+    Click Element                       id:landingRegisterButton
+    Wait Until Page Contains            Register
+     Input Text                         id:registerEmail     ${EMAIL}
+    Input Text                          id:registerFirstname       ${FIRSTNAME}
+    Input Text                          id:registerLastname         ${LASTNAME}
+    Input Text                          id:registerPassword    ${PASSWORD}
+    Input Text                          id:registercomPassword       User123
+    Click Element                       id:registerSubmit
+    Wait Until Page Contains            error messege, enter the correct password
+
+*** Test Cases ***
+Register and verify user
+    [Documentation]                     Test for register and verify user account
+    [Tags]                              register and verify user_test
+    Set Selenium Implicit Wait          10 seconds
+    Wait Until Element Is Visible       id:landingRegisterButton
+    Click Element                       id:landingRegisterButton
+    Wait Until Page Contains            Register
+    Input Text                          id:registerEmail    ${EMAIL}
+    Input Text                          id:registerFirstname    ${FIRSTNAME}
+    Input Text                          id:registerLastname         ${LASTNAME}
+    Input Text                          id:registerPassword    ${PASSWORD}
+    Input Text                          id:registercomPassword       ${PASSWORD}
+    Click Element                       id:registerSubmit
+    Wait Until Page Contains            Welcome, ${FIRSTNAME}
+
+*** Test Cases ***
+Delete user
+    [Documentation]                     Test for register, verify and delete user account
+    [Tags]                              deleteUser_test
+    Set Selenium Implicit Wait          10 seconds
+    Wait Until Element Is Visible       id:landingRegisterButton
+    Click Element                       id:landingRegisterButton
+    Wait Until Page Contains            Register
+    Input Text                          id:registerEmail    erik.eriksson@hotmail.com
+    Input Text                          id:registerFirstname    Erik
+    Input Text                          id:registerLastname         Eriksson
+    Input Text                          id:registerPassword    Erik123!
+    Input Text                          id:registercomPassword       Erik123!
+    Click Element                       id:registerSubmit
+    Wait Until Page Contains            Welcome, Erik
+    Click Element                       id:accountSettings
+    Wait Until Page Contains            Account settings
+    Click Element                       id:deleteAccount
+    Wait Until Page Contains            account is deleted
+
+
+
+
 
