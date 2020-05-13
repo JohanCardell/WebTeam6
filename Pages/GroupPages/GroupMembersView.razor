@@ -6,7 +6,7 @@
 }
 else
 {
-    <table class="table container">
+    <table class="table container" id="userTable">
 
         <thead>
             <tr>
@@ -17,7 +17,7 @@ else
         </thead>
         <tbody>
             <tr>
-                <td><i class="fas fa-gavel"></i> @GroupObject.Owner.UserName</td>
+                <td><i class="fas fa-gavel" id="ownerIcon"></i> @GroupObject.Owner.UserName</td>
                 @if (GroupObject.Owner.Id == CurrentUser.Id)
                 {
                     <td>
@@ -33,12 +33,12 @@ else
                 if (userItem.Id != @GroupObject.Owner.Id)
                 {
                     <tr>
-                        <td><i class="fas fa-user"></i> @userItem.UserName</td>
+                        <td class="memberName"><i class="fas fa-user"></i> @userItem.UserName</td>
                         @if (GroupObject.Owner.Id == CurrentUser.Id)
                         {
                             <td>
-                                <button type="button" class="btn btn-default" @onclick="(() => RemoveUserFromGroup(userItem))">
-                                    <i class="fas fa-trash-alt"></i>
+                                <button type="button" class="btn btn-default deleteMember" @onclick="(() => RemoveUserFromGroup(userItem))">
+                                    <i class="fas fa-trash-alt" ></i>
                                 </button>
                             </td>
                             @*<td><input id="user-remove-btn " type="button" class="btn btn-danger" value="Remove" @onclick="(() => RemoveUserFromGroup(userItem))" /></td>*@
@@ -46,7 +46,7 @@ else
                         else if (userItem.Id == CurrentUser.Id)
                         {
                             <td>
-                                <button type="button" class="btn btn-default" @onclick="(() => RemoveUserFromGroup(userItem))">
+                                <button id="leaveGroup" type="button" class="btn btn-default" @onclick="(() => RemoveUserFromGroup(userItem))">
                                     <i class="fas fa-door-open"></i>
                                 </button>
                             </td>
@@ -61,7 +61,7 @@ else
     @if (GroupObject.Owner.Id == CurrentUser.Id)
     {
         <div>
-            <input id="add-member-btn" type="button" data-toggle="modal" data-target="#addMemberModal" class="btn btn-primary" value="Add Member" />
+            <input id="addMember" type="button" data-toggle="modal" data-target="#addMemberModal" class="btn btn-primary" value="Add Member" />
         </div>
     }
         <AddMemberModal GroupObject="GroupObject" DataChanged="@DataChanged"></AddMemberModal>
