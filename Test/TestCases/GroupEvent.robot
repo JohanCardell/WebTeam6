@@ -6,8 +6,10 @@ Test Teardown  End Test
 
 *** Variables ***
 ${BROWSER}        chrome
-${USERNAME}       User1
-${PASSWORD}       Password1
+${EMAIL}            johan.johansson@hotmail.com
+${PASSWORD}         User123!
+${FIRSTNAME}        Johan
+${LASTNAME}         Johansson
 *** Keywords ***
 Begin Test
         Open Browser                about:blank  ${BROWSER}     options=add_argument("--ignore-certificate-errors")
@@ -18,7 +20,7 @@ Begin Test
 Load Page
         Go To                       https://localhost:5001
 Verify Page Loaded
-        Wait Until Page Contains        Hello, world!
+        Wait Until Page Contains        RemoteTool
 
 End Test
         Close Browser
@@ -27,20 +29,20 @@ End Test
 Create and view test event
     [Documentation]             Test for accessing and testing events
     [Tags]                      event_test
-    Wait Until Page Contains    Login/Register
-    Click Element               id:loginButton
+    Click Element               id:ladingLoginButton
     Wait Until Page Contains    Login
-    Input Text                  id:loginUsername    ${USERNAME}
+    Input Text                  id:loginUsername    ${EMAIL}
     Input Password              id:loginPassword    ${PASSWORD}
     Click Element               id:loginButton
-    Wait Until Page Contains    Welcome, User1
-    Wait Until Element Exists   xpath://li[@id="testGroup"]
-    Click Element               xpath://li[@id="groupCreatePage"]
+    Wait Until Page Contains    Welcome, ${FIRSTNAME}
+    Wait Until Element Exists   xpath://li[text()="testGroup"]
+    Click Element               xpath://li[text()="testGroup"]
     Wait Until Page Contains    testGroup
-    Input Text                  id:addEventName  testEvent
-    Input Text                  id:addEventDate  2021-04-28
-    Input Text                  id:addEventDesc  This is a test desciption.
-    Click Element               id:addEventButton
+    Input Text                  id:eventNameField  testEvent
+    Input Text                  id:eventStartField  2021-04-28
+    Input Text                  id:eventEndField  2021-04-28
+    Input Text                  id:eventDescField  This is a test desciption.
+    Click Element               id:eventAdd
     Wait Until Page Contains    testEvent
     Table Should Contain        id:eventTable    testEvent
     Table Should Contain        id:eventTable    2021-04-28
@@ -50,15 +52,14 @@ Create and view test event
 Modify and remove test event
     [Documentation]             Test for accessing and testing events
     [Tags]                      event_test
-    Wait Until Page Contains    Login/Register
-    Click Element               id:loginButton
+    Click Element               id:ladingLoginButton
     Wait Until Page Contains    Login
-    Input Text                  id:loginUsername    ${USERNAME}
+    Input Text                  id:loginUsername    ${EMAIL}
     Input Password              id:loginPassword    ${PASSWORD}
     Click Element               id:loginButton
-    Wait Until Page Contains    Welcome, User1
-    Wait Until Element Exists   xpath://li[@id="testGroup"]
-    Click Element               xpath://li[@id="groupCreatePage"]
+    Wait Until Page Contains    Welcome, ${FIRSTNAME}
+    Wait Until Element Exists   xpath://li[text()="testGroup"]
+    Click Element               xpath://li[text()="testGroup"]
     Wait Until Page Contains    testGroup
     Wait Until Page Contains    testEvent
     Table Should Contain        id:eventTable    testEvent
@@ -68,14 +69,15 @@ Modify and remove test event
     Click Element                ${EDITBUTTON}
     Wait until Page Contains     Edit testEvent
     Input Text                   id:editEventName   new textEvent
-    Input Text                  id:editEventDate  2021-03-25
+    Input Text                  id:editEventStartDate  2021-03-25
+    Input Text                  id:editEventEndDate  2021-03-25
     Input Text                  id:editEventDesc  This is a new test desciption.
-    Click Element                id:editButton
+    Click Element               id:editButton
     Wait Until Page Contains    new textEvent
     Table Should Contain        id:eventTable    new textEvent
     Table Should Contain        id:eventTable    2021-03-25
     Table Should Contain        id:eventTable    This is a new test desciption.
-    ${DELETEBUTTON}  Get Webelement     xpath://td[text()="new textEvent"]/parent::tr/child::td[3]/input
+    ${DELETEBUTTON}  Get Webelement     xpath://td[text()="new textEvent"]/parent::tr/child::td[4]/input
     Click Element               ${DELETEBUTTON}
     Page Should Not Contain     new textEvent
 
