@@ -6,9 +6,10 @@ Test Teardown  End Test
 
 *** Variables ***
 ${BROWSERS}                             chrome
-${USERNAME}                             TestUser
-${EMAIL}                                testuser@hotmail.com
-${PASSWORD}                             Test123!
+${FIRSTNAME}                            Johan
+${LASTNAME}                             Johansson
+${EMAIL}                                johan.johansson@hotmail.com
+${PASSWORD}                             User123!
 
 *** Keywords ***
 Begin Test
@@ -21,25 +22,25 @@ Load Page
         Go To                           https://localhost:5001
         Sleep                           5s
 Verify Page Loaded
-        Wait Until Page Contains        Web6Team
+        Wait Until Page Contains        RemoteTool
 
 user is in main page
-         Wait Until Element Is Visible       id:userIndexPage
+         Wait Until Element Is Visible       Welcome to RemoteTool
 
 user clicks on element login/register
-        Click Element                       id:Login/Register
+        Click Element                       id:landingLoginButton
 
 Check if login page is open
         Wait Until Page Contains            Login
 
 user filled in valid mail
-        Input Text                          id:username     ${USERNAME}
+        Input Text                          id:loginEmail     ${EMAIL}
 
 user filled in invalid password
        Input Text                          id:password      MMK111!
 	   
 clicks on element submit
-        Click Element                       id:login-submit
+        Click Element                       id:loginSubmit
 
 Check if error message is displayed
        Wait Until Page Contains            enter the correct password
@@ -48,23 +49,35 @@ End Test
         Close Browser
 
 *** Test Cases ***
-Login with valid user information
-    [Documentation]                     Test for user login with valid username and password
-    [Tags]                              Login_ValidTest
+Login with invalid user information
+    [Documentation]                     Test for user login with invalid information
+    [Tags]                              Login with invalid user information_test
     Set Selenium Implicit Wait          10 seconds
-    Wait Until Element Is Visible       id:userIndexPage
-    Click Element                       id:Login/Register
+    Wait Until Element Is Visible       Welcome to RemoteTool
+    Click Element                       id:landingLoginButton
     Wait Until Page Contains            Login
-    Input Text                          id:username     ${USERNAME}
-    Input Text                          id:Password     ${PASSWORD}
-    Click Element                       id:login-submit
-	Wait Until Page Contains			Welcome, ${USERNAME} 	
+    Input Text                          id:loginEmail     johan.johanssonhotmail.com
+    Input Text                          id:loginPassword     MMK111!
+    Click Element                       id:loginSubmit
+    Wait Until Page Contains            enter the correct information
 
+*** Test Cases ***
+Login with invalid user email
+    [Documentation]                     Test for user login with invalid email
+    [Tags]                              Login with invalid user email_test
+    Set Selenium Implicit Wait          10 seconds
+    Wait Until Element Is Visible       Welcome to RemoteTool
+    Click Element                       id:landingLoginButton
+    Wait Until Page Contains            Login
+    Input Text                          id:loginEmail     johan.johanssonhotmail.com
+    Input Text                          id:loginPassword     ${PASSWORD}
+    Click Element                       id:loginSubmit
+    Wait Until Page Contains            enter the correct email
 
 *** Test Cases ***
 Login with invalid password
     [Documentation]                     Test for user login with invalid password
-    [Tags]                              Login_invalidPasswordTest
+    [Tags]                              Login with invalid password_test
     Set Selenium Implicit Wait          10 seconds
     Given       user is in main page
     When        user clicks on element login/register
@@ -74,17 +87,15 @@ Login with invalid password
     And         clicks on element submit
     Then        Check if error message is displayed
 
-
-
 *** Test Cases ***
-Login with invalid user username
-    [Documentation]                     Test for user login with invalid username
-    [Tags]                              Login_invalidUsernameTest
+Login with valid user information
+    [Documentation]                     Test for user login with valid username and password
+    [Tags]                              Login valid user information_test
     Set Selenium Implicit Wait          10 seconds
-    Wait Until Element Is Visible       id:userIndexPage
-    Click Element                       id:Login/Register
+    Wait Until Element Is Visible       Welcome to RemoteTool
+    Click Element                       id:landingLoginButton
     Wait Until Page Contains            Login
-    Input Text                          id:username     RealTest
-    Input Text                          id:password     ${PASSWORD}
-    Click Element                       id:login-submit
-    Wait Until Page Contains            enter the correct username
+    Input Text                          id:loginEmail     ${EMAIL}
+    Input Text                          id:loginPassword     ${PASSWORD}
+    Click Element                       id:loginSubmit
+	Wait Until Page Contains			Welcome, ${FIRSTNAME}
