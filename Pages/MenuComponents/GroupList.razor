@@ -15,8 +15,6 @@ else
                 <span class="oi oi-people" aria-hidden="true"></span> @groupItem.Name
             </NavLink>
         </li>
-        @*<a id="group-details-btn" type="button" href="@($"groupdetails/{groupItem.Id}")" role="button" class="btn btn-info">@groupItem.Name</a>*@
-        //counter++;
     }
 }
 
@@ -26,12 +24,10 @@ else
 
     private Group GroupObject { get; set; }
     private List<Group> UserGroupList { get; set; }
-    //private int counter;
 
     protected override async Task OnInitializedAsync()
     {
         UserGroupList = await groupService.GetGetAuthorizedUserGroups(authenticationStateTask);
-        //counter = UserGroupList.Count();
     }
 
     protected async void Refresh()

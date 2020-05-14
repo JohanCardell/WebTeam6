@@ -46,12 +46,12 @@ namespace WebTeam6.Services
 
         public async Task<User> Delete(string id)
         {
-            var user = await _context.Users.FindAsync(id);
-
-            user.Groups.ToList().ForEach(g => g.Members.Remove(user));
-
-            _context.Groups.Where(g => g.Owner == user).ToList().ForEach(g => g.Owner = null);
-            
+            var user = await _context.Users
+                .Include(u => u.Groups)
+                .FirstAsync(u => u.Id == id);
+          
+            foreach (Group g in user.Groups) g.Members.Remove(user);
+            foreach (Event e in _context.Events) if (e.Creator == user) e.Creator = null;
             _context.Remove(user);
             await _context.SaveChangesAsync();
             return user;

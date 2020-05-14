@@ -31,7 +31,6 @@ namespace WebTeam6.Pages.GroupPages
         }
         protected override async Task OnParametersSetAsync()
         {
-            Id = Id ?? "1";
             GroupObject = await GroupService.GetGroupById(int.Parse(Id));
         }
     }
