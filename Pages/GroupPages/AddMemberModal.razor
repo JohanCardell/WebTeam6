@@ -1,10 +1,5 @@
 ﻿
-@using WebTeam6.Data
-@using WebTeam6.Services
-@inject IUserService UserService
-@inject IGroupService GroupService
-@inject IJSRuntime jsRuntime
-@inject MainContext dbContext
+@inherits GroupPageModalBase
 
 <head>
     <link rel="stylesheet" href="_content/Radzen.Blazor/css/default-base.css">
@@ -31,39 +26,4 @@
         </div>
     </div>
 </div>
-
-@code {
-    [Parameter]
-    public Group GroupObject { get; set; }
-    [Parameter]
-    public Action DataChanged { get; set; }
-    [Parameter]
-    public List<User> Users { get; set; } = new List<User>();
-
-    IEnumerable<string> selectedUsers = new string[] { "", "" };
-
-    private async Task CloseAddMemberModal()
-    {
-        await jsRuntime.InvokeAsync<object>("CloseModal", "addMemberModal");
-    }
-
-    private async Task AddSelectedUsers()
-    {
-        await GroupService.AddMembers(selectedUsers, GroupObject);
-        await CloseAddMemberModal();
-        DataChanged?.Invoke();
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        Users = await UserService.Get();
-    }
-
-    void Change(object value, string name)
-    {
-        var str = value is IEnumerable<object> ? string.Join(", ", (IEnumerable<object>)value) : value;
-        StateHasChanged();
-    }
-}
-
 
