@@ -18,17 +18,30 @@ namespace WebTeam6.Pages.EventPages
 
         [Parameter]
         public IEnumerable<Event> Events { get; set; }
-        public Event NewEvent { get; set; }
+        public Event Event { get; set; } = new Event { StartTime = DateTime.Now, EndTime = DateTime.Now.AddDays(1) };
+
+        protected async void DataChanged()
+        {
+            var res = await Service.Get(Group);
+            if(res != null) Events = res;
+            StateHasChanged();
+        }
 
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
             Events = Group.Events;
         }
-
-        public async Task<Event> Create(Event e)
+        public async void Add()
         {
-            return await Service.Add(e);
+            Event.Group = Group;
+            var res = await Service.Add(Event);
+            if(res != null)
+            {
+                Event = new Event { StartTime = DateTime.Now, EndTime = DateTime.Now.AddDays(1) };
+                DataChanged();
+                base.StateHasChanged();
+            }
         }
     }
 }

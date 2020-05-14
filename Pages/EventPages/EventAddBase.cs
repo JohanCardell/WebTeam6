@@ -21,7 +21,8 @@ namespace WebTeam6.Pages.EventPages
         public Event Event { get; set; } = new Event { StartTime = DateTime.Now, EndTime = DateTime.Now.AddDays(1) };
 
         [Parameter]
-        public EventCallback<Event> EventChanged { get; set; }
+        public Action DataChanged { get; set; }
+
         public bool Saved { get; set; } = false;
 
         public bool Editing { get; set; }
@@ -31,12 +32,9 @@ namespace WebTeam6.Pages.EventPages
             Event.Group = Group;
             var res = await Service.Add(Event);
             if (res != null) Saved = true;
+            Event = new Event { StartTime = DateTime.Now, EndTime = DateTime.Now.AddDays(1) };
+            DataChanged?.Invoke();
             base.StateHasChanged();
-        }
-
-        public Task OnEventChanged(ChangeEventArgs e)
-        {
-            return EventChanged.InvokeAsync(Event);
         }
     }
 }
