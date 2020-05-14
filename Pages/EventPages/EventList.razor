@@ -23,7 +23,7 @@
         <EditForm id="edit-event" OnValidSubmit="Add" Model="Event">
             <div class="form-group row">
                 <div class="input-group">
-                    <InputText id="eventNameField" placeholder="Title" class="form-control" @bind-Value="Event.Name"></InputText>
+                    <InputText required id="eventNameField" placeholder="Title" class="form-control" @bind-Value="Event.Name"></InputText>
                 </div>
 
                 <div class="input-group">
