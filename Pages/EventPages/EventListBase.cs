@@ -43,5 +43,14 @@ namespace WebTeam6.Pages.EventPages
                 base.StateHasChanged();
             }
         }
+        protected async void Delete(Event Event)
+        {
+            if (Event != null)
+            {
+                await Service.Delete(Event.Id);
+                DataChanged();
+                base.StateHasChanged();
+            }
+        }
     }
 }

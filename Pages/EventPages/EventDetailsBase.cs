@@ -18,7 +18,7 @@ namespace WebTeam6.Pages.EventPages
         public bool Editing { get; set; }
 
         [Parameter]
-        public Action DataChanged { get; set; }
+        public Action Delete { get; set; }
 
         public async void Update()
         {
@@ -28,23 +28,6 @@ namespace WebTeam6.Pages.EventPages
                 if (saved) Editing = false;
             }
             base.StateHasChanged();
-            DataChanged?.Invoke();
-        }
-
-        public async void Delete()
-        {
-            if (Event != null)
-            {
-                await Service.Delete(Event.Id);
-            }
-            base.StateHasChanged();
-            DataChanged?.Invoke();
-        }
-
-        protected void EventChanged()
-        {
-            Editing = false;
-            DataChanged?.Invoke();
         }
     }
 }

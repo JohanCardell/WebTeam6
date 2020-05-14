@@ -10,25 +10,37 @@
     }
     else
     {
+    <div id="event-list" class="overflow-auto" style="max-height: 50vh;">
         @foreach (var e in Events)
         {
-        <div class="list-group-item">
-            <EventDetails Event="e" DataChanged="DataChanged" />
-        </div>
+            <div class="list-group-item">
+                <EventDetails Event="e" Delete="@(() => Delete(e))" />
+            </div>
         }
+    </div>
     }
     <div class="list-group-item">
         <EditForm id="edit-event" OnValidSubmit="Add" Model="Event">
-            <div class="row">
-                <InputText id="eventNameField" placeholder="Title" class="form-control" @bind-Value="Event.Name"></InputText>
-                <InputDate id="eventStartDateField" class="form-control" @bind-Value="Event.StartTime"></InputDate>
-                <label><span class="oi oi-calendar" /></label>
-                <InputDate id="eventEndDateField" class="form-control" @bind-Value="Event.EndTime"></InputDate>
-                <label><span class="oi oi-calendar" /></label>
+            <div class="form-group row">
+                <div class="input-group">
+                    <InputText id="eventNameField" placeholder="Title" class="form-control" @bind-Value="Event.Name"></InputText>
+                </div>
+
+                <div class="input-group">
+                    <InputDate id="eventStartDateField" class="form-control" @bind-Value="Event.StartTime"></InputDate>
+                    <div class="input-group-append"><span class="input-group-text oi oi-calendar"></span></div>
+                </div>
+
+                <div class="input-group">
+                    <InputDate id="eventEndDateField" class="form-control" @bind-Value="Event.EndTime"></InputDate>
+                    <div class="input-group-append"><span class="input-group-text oi oi-calendar"></span></div>
+                </div>
             </div>
-            <div class="row">
-                <InputTextArea id="eventDescField" placeholder="Description" class="form-control" @bind-Value="Event.Description"></InputTextArea>
-                <input id="eventAdd" type="submit" class="btn btn-primary" value="Add Event" />
+            <div class="form-group row">
+                <div class="input-group">
+                    <InputTextArea id="eventDescField" placeholder="Description" class="form-control" @bind-Value="Event.Description"></InputTextArea>
+                    <input id="eventAdd" type="submit" class="btn btn-primary" value="Add Event" />
+                </div>
             </div>
         </EditForm>
     </div>
