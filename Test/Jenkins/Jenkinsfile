@@ -20,35 +20,35 @@ pipeline {
 		stage('User Registration Test') {
 			steps {
 				sleep 10
-				sh 'robot -d results/UserRegistrationTest --variable BROWSER:headlesschrome "Test/TestCases/UserRegistrationTest.robot"'
+				bat 'robot -d results/UserRegistrationTest --variable BROWSER:headlesschrome "Test/TestCases/UserRegistrationTest.robot"'
 			}
 		}
 		stage('Login Test') {
 			steps {
-				sh 'robot -d results/LoginTest --variable BROWSER:headlesschrome "Test/TestCases/LoginTest.robot"'
+				bat 'robot -d results/LoginTest --variable BROWSER:headlesschrome "Test/TestCases/LoginTest.robot"'
 			}
 		}
 		stage('Create Group Test') {
 			steps {
-				sh 'robot -d results/CreateGroupTest --variable BROWSER:headlesschrome "Test/TestCases/CreateGroupTest.robot"'
+				bat 'robot -d results/CreateGroupTest --variable BROWSER:headlesschrome "Test/TestCases/CreateGroupTest.robot"'
 			}
 		}
 		stage('UserInGroup Test') {
 			steps {
-				sh 'robot -d results/UserInGroupTest --variable BROWSER:headlesschrome "Test/TestCases/UserInGroupTest.robot"'
+				bat 'robot -d results/UserInGroupTest --variable BROWSER:headlesschrome "Test/TestCases/UserInGroupTest.robot"'
 			}
 		}
 		stage('Group Event Test') {
 			steps {
-				sh 'robot -d results/GroupEventTest --variable BROWSER:headlesschrome "Test/TestCases/GroupEvent.robot"'
+				bat 'robot -d results/GroupEventTest --variable BROWSER:headlesschrome "Test/TestCases/GroupEvent.robot"'
 			}
 		}
 		stage('Group Messaging Test') {
 			steps {
-				sh 'robot -d results/messageTest --variable BROWSER:headlesschrome "Test/TestCases/MessagingTest.robot"'
+				bat 'robot -d results/messageTest --variable BROWSER:headlesschrome "Test/TestCases/MessagingTest.robot"'
 			}
 		}
-		stage('Publish Robot Framework Tests') {
+		stage('Publibat Robot Framework Tests') {
 			steps {
 				script {
 					step(
