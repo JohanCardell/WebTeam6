@@ -79,5 +79,6 @@ Modify and remove test event
     Table Should Contain        id:eventTable    This is a new test desciption.
     ${DELETEBUTTON}  Get Webelement     xpath://td[text()="new textEvent"]/parent::tr/child::td[4]/input
     Click Element               ${DELETEBUTTON}
+    Wait Until Page Contains    testGroup
     Page Should Not Contain     new textEvent
 
