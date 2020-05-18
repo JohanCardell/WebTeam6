@@ -24,29 +24,32 @@ Load Page
         Go To                           https://localhost:5001
         Sleep                           5s
 Verify Page Loaded
-        Wait Until Page Contains        Web6Team
+        Wait Until Page Contains        RemoteTool
 
 End Test
         Close Browser
 
 *** Test Cases ***
-Add, displaying, delete user in group
-    [Documentation]                     Test for adding, displaying and delete user in group
-    [Tags]                              UserInGroup_test
+Add, displaying, delete member in group
+    [Documentation]                     Test for adding, displaying and delete member in group
+    [Tags]                              MemberInGroup_test
     Set Selenium Implicit Wait          10 seconds
-    Wait Until Element Is Visible       id:login/register
-    Click Element                       id:Login/register
+    Wait Until Page Contains            Welcome to RemoteTool
+    Click Element                       id:landingLoginButton
     Wait Until Page Contains            Login
-    Input Text                          id:username     ${USERNAME}
-    Input Text                          id:Password     ${PASSWORD}
-    Click Element                       id:login-submit
-    Wait Until Page Contains			Welcome, ${USERNAME}
-    Click Element                       id:C-Team
-    Wait Until Page Contains            C-Team
-    Click Element                       id:add user
-    Wait Until Page Contains            Add User
-    Input Text                          id:add username      Erik85
-    Click Element                       id:confirm add user
-    Wait Until Page Contains            C-Team
-    Page Should Contain Element         Erik85
-
+    Input Text                          id:loginEmail     ${EMAIL}
+    Input Text                          id:loginPassword     ${PASSWORD}
+    Click Element                       id:loginSubmit
+    Wait Until Page Contains			Welcome, ${FIRSTNAME}
+    Click Element                       xpath://td[text()="B-Team"]
+    Wait Until Page Contains            B-Team
+    Click Element                       id:addMember
+    Wait Until Page Contains            Add Members
+    Input Text                          id:searchMembers      Erik85
+    Click Element                       xpath://td[text()="Erik85"]
+    Click Element                       id:comfirmAddMembers
+    Wait Until Page Contains            B-Team
+    Table Should Contain                id:userTable    Erik85
+    Click Element                       xpath://td[text()="Erik85"]/parent::tr/child::td[2]/input
+    Wait Until Page Contains            B-Team
+    Page Should Not Contain             Erik85
