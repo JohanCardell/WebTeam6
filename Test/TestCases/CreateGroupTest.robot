@@ -24,7 +24,7 @@ Load Page
         Go To                           https://localhost:5001
         Sleep                           5s
 Verify Page Loaded
-        Wait Until Page Contains        Web6Team
+        Wait Until Page Contains        RmoteTool
 
 End Test
         Close Browser
@@ -33,26 +33,24 @@ Create group and rename it
     [Documentation]                     Test for creating a group and rename it
     [Tags]                              createGroup_test
     Set Selenium Implicit Wait          10 seconds
-    Wait Until Element Is Visible       id:login/register
-    Click Element                       id:Login/register
+    Wait Until Page Contains            Welcome to RemoteTool
+    Click Element                       id:landingLoginButton
     Wait Until Page Contains            Login
-    Input Text                          id:username     ${USERNAME}
-    Input Text                          id:Password     ${PASSWORD}
-    Click Element                       id:login-submit
-    Wait Until Page Contains			Welcome, ${USERNAME}
-    Click Element                       id:create group
+    Input Text                          id:loginEmail     ${EMAIL}}
+    Input Text                          id:loginPassword     ${PASSWORD}
+    Click Element                       id:loginSubmit
+    Wait Until Page Contains			Welcome, ${FIRSTNAME}}
+    Click Element                       id:createGroup
     Wait Until Page Contains            Group Name
-    Click Element                       id:group name
+    Click Element                       id:groupName
     Input Text                          id:nameforgroup    A-Team
     Wait Until Page Contains            A-Team
-    Click Element                       id:group name
-    Input Text                          id:nameforgroup    B-Team
+    Click Element                       id:changeGroupName
+    Wait Until Page Contains            Change Group Name
+    Input Text                          id:groupNameField    B-Team
+    Click Element                       id:confirmChangeName
     Wait Until Page Contains            B-Team
-    Click Element                       id:group settings
-    Wait Until Page Contains            Group settings
-    Input Text                          id:name_group       C-Team
-    Click Element                       id:confirm
-    Wait Until Page Contains            C-Team
+
 
 *** Test Cases ***
 
@@ -60,22 +58,20 @@ Delete Group
     [Documentation]                     Test for delete group
     [Tags]                              deleteGroup_test
     Set Selenium Implicit Wait          10 seconds
-    Wait Until Element Is Visible       id:login/register
-    Click Element                       id:Login/register
+    Wait Until Page Contains            Welcome to RemoteTool
+    Click Element                       id:landingLoginButton
     Wait Until Page Contains            Login
-    Input Text                          id:username     ${USERNAME}
-    Input Text                          id:Password     ${PASSWORD}
-    Click Element                       id:login-submit
-    Wait Until Page Contains			Welcome, ${USERNAME}
-    Click Element                       id:C-Team
-    Wait Until Page Contains            C-Team
-    Click Element                       id:group settings
-    Wait Until Page Contains            Group settings
-    Click Element                       id:remove group
-    Wait Until Page Contains            remove group
-    Click Element                       id:remove confirm
-    Wait Until Page Contains            Welcome, ${USERNAME}
-    Page Should Not Contain Element     id:C-Team
+    Input Text                          id:loginEmail     ${EMAIL}
+    Input Text                          id:loginPassword     ${PASSWORD}
+    Click Element                       id:loginSubmit
+    Wait Until Page Contains			Welcome, ${FIRSTNAME}
+    Click Element                       id:groupName B-Team
+    Wait Until Page Contains            B-Team
+    Click Element                       id:deleteGroup
+    Wait Until Page Contains            Delete B-Team Group
+    Click Element                       id:comfirmDeleteGroup
+    Wait Until Page Contains            Welcome, ${FIRSTNAME}
+    Page Should Not Contain Element     id:groupName B-Team
 
 
 
