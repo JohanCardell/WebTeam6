@@ -1,6 +1,6 @@
 ﻿
-@inject IUserService userService
-@inject IGroupService groupService
+@*@inject IUserService userService
+@inject IGroupService groupService*@
 
 @if (UserGroupList == null)
 {
@@ -11,7 +11,7 @@ else
     @foreach (var groupItem in UserGroupList)
     {
         <li id="@($"group-#{groupItem.Id}-btn")" class="nav-item px-3">
-            <NavLink class="nav-link" href="@($"groupdetails/{groupItem.Id}")" @onclick="(() => Refresh())">
+            <NavLink class="nav-link" href="@($"groupdetails/{groupItem.Id}")" >
                 <span class="oi oi-people" aria-hidden="true"></span> @groupItem.Name
             </NavLink>
         </li>
@@ -19,21 +19,19 @@ else
 }
 
 @code {
-    [CascadingParameter]
-    Task<AuthenticationState> authenticationStateTask { get; set; }
+    //[CascadingParameter]
+    //Task<AuthenticationState> authenticationStateTask { get; set; }
+    [Parameter]
+    public List<Group> UserGroupList { get; set; }
 
-    private Group GroupObject { get; set; }
-    private List<Group> UserGroupList { get; set; }
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    UserGroupList = await groupService.GetGetAuthorizedUserGroups(authenticationStateTask);
+    //}
 
-    protected override async Task OnInitializedAsync()
-    {
-        UserGroupList = await groupService.GetGetAuthorizedUserGroups(authenticationStateTask);
-    }
-
-    protected async void Refresh()
-    {
-        UserGroupList = await groupService.GetGetAuthorizedUserGroups(authenticationStateTask);
-        StateHasChanged();
-    }
+    //protected override async Task OnParametersSetAsync()
+    //{
+    //    UserGroupList = await groupService.GetGetAuthorizedUserGroups(authenticationStateTask);
+    //}
 
 }

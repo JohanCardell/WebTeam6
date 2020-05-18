@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using WebTeam6.Data;
 using WebTeam6.Services;
@@ -17,7 +18,9 @@ namespace WebTeam6.Pages.GroupPages
         public Group GroupObject { get; set; } = new Group();
         public User CurrentUser { get; set; } = new User();
         [Parameter]
-        public IEnumerable<User> UserList { get; set; }
+        public List<User> GroupMembers { get; set; } = new List<User>();
+        [Parameter]
+        public List<User> FilteredUsers { get; set; } = new List<User>();
         [Inject]
         public IGroupService GroupService { get; set; }
         [Inject]
@@ -25,13 +28,9 @@ namespace WebTeam6.Pages.GroupPages
         [Parameter]
         public Action DataChanged { get; set; }
 
-        protected User userObject = new User();
-
         protected override async Task OnInitializedAsync()
         {
-            await GroupService.GetGroupById(GroupObject.Id);
             CurrentUser = await UserService.GetAuthorizedUser(authenticationStateTask);
-            UserList = GroupObject.Members;
         }
 
         //protected async void DataChanged()
@@ -41,12 +40,14 @@ namespace WebTeam6.Pages.GroupPages
         //    StateHasChanged();
         //}
 
-        protected void RemoveUserFromGroup(User user)
+        protected async Task RemoveUserFromGroup(User user)
         {
-            userObject = user;
-            GroupObject.Members.Remove(userObject);
-            userObject = new User();
-            StateHasChanged();
+            user.Groups.Remove(GroupObject);
+            await UserService.Update(user);
+            GroupObject.Members.Remove(user);
+            await GroupService.Update(GroupObject);
+            user = new User();
+            DataChanged?.Invoke();
         }
     }
 }

@@ -41,7 +41,6 @@ namespace WebTeam6.Services
             {
                 return default;
             }
-
         }
 
         public async Task<User> Delete(string id)
@@ -49,14 +48,14 @@ namespace WebTeam6.Services
             var user = await _context.Users
                 .Include(u => u.Groups)
                 .FirstAsync(u => u.Id == id);
-          
+
             foreach (Group g in user.Groups) g.Members.Remove(user);
             foreach (Event e in _context.Events) if (e.Creator == user) e.Creator = null;
             _context.Remove(user);
             await _context.SaveChangesAsync();
             return user;
         }
-           
+
         public async Task<List<User>> Get()
         {
             return await _context.Users.ToListAsync();
@@ -64,7 +63,7 @@ namespace WebTeam6.Services
 
         public async Task<User> Get(string id)
         {
-            return await _context.Users.FindAsync(id);
+            return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<User> GetAuthorizedUser(Task<AuthenticationState> authenticationStateTask)
@@ -74,17 +73,11 @@ namespace WebTeam6.Services
             return user;
         }
 
-       
-        public Task<User> Update(User user)
+        public async Task<bool> Update(User user)
         {
-            throw new NotImplementedException();
+            var targetUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
+            _context.Entry(targetUser).CurrentValues.SetValues(user);
+            return (await _context.SaveChangesAsync()) > 0;
         }
-
-        //public async Task<User> UpdateUserGroups (User user, Group group)
-        //{
-        //     _context.Update(user);
-        //     await _context.SaveChangesAsync();
-        //     return user;
-        //}
     }
 }

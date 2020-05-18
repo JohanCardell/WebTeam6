@@ -28,7 +28,7 @@ else
                 }
                 <td></td>
             </tr>
-            @foreach (var userItem in @GroupObject.Members)
+            @foreach (var userItem in @GroupMembers)
             {
                 if (userItem.Id != @GroupObject.Owner.Id)
                 {
@@ -61,10 +61,12 @@ else
     @if (GroupObject.Owner.Id == CurrentUser.Id)
     {
         <div>
-            <input id="addMember" type="button" data-toggle="modal" data-target="#addMemberModal" class="btn btn-primary" value="Add Member" />
+            <input id="addMember" type="button" data-toggle="modal" data-target="#addMemberModal" class="btn btn-primary" value="Add member" />
+            <input id="assignOwner" type="button" data-toggle="modal" data-target="#assignOwnerModal" class="btn btn-primary" value="Assign new owner" />
         </div>
     }
-        <AddMemberModal GroupObject="GroupObject" DataChanged="@DataChanged"></AddMemberModal>
+        <AddMemberModal GroupObject="GroupObject" FilteredUsers="FilteredUsers" DataChanged="DataChanged"></AddMemberModal>
+        <AssignOwnerModal GroupObject="GroupObject" GroupMembers = "GroupMembers" DataChanged="DataChanged"></AssignOwnerModal>
 
 
 }

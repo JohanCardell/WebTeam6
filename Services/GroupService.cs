@@ -44,15 +44,15 @@ namespace WebTeam6.Services
             
             if (newMembers != null)
             {
-                var targetGroup = await _context.Groups.Include(g => g.Members).FirstOrDefaultAsync(g => g.Id == group.Id);
+                var groupEntity = await _context.Groups.Include(g => g.Members).FirstOrDefaultAsync(g => g.Id == group.Id);
                 foreach (var id in newMembers)
                 {
-                    var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
-                    if (targetGroup.Members.Contains(user) == false)
+                    var userEntity = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+                    if (groupEntity.Members.Contains(userEntity) == false)
                     {
-                        targetGroup.Members.Add(user);
-                        user.Groups.Add(targetGroup);
-                        Console.WriteLine($"Added {user.UserName} to {targetGroup.Name}");
+                        groupEntity.Members.Add(userEntity);
+                        userEntity.Groups.Add(groupEntity);
+                        Console.WriteLine($"Added {userEntity.UserName} to {groupEntity.Name}");
                     }
                 }
                 await _context.SaveChangesAsync();
@@ -79,46 +79,45 @@ namespace WebTeam6.Services
 
         public async Task<Group> Delete(int groupId)
         {
-            var targetGroup = await _context.Groups
+            var groupEntity = await _context.Groups
                 .Include(g => g.Members)
                 .FirstOrDefaultAsync(g => g.Id == groupId);
-            foreach (User u in targetGroup.Members) u.Groups.Remove(targetGroup);
-            _context.Remove(targetGroup);
+            foreach (User u in groupEntity.Members) u.Groups.Remove(groupEntity);
+            _context.Remove(groupEntity);
             await _context.SaveChangesAsync();
-            return targetGroup;
+            return groupEntity;
         }
 
         public async Task<bool> RemoveUserFromGroup(string userId, int groupId)
         {
-            var targetGroup = await _context.Groups.FirstOrDefaultAsync(g => g.Id == groupId);
-            var targetUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
-            targetUser.Groups.Remove(targetGroup);
-            targetGroup.Members.Remove(targetUser);
+            var groupEntity = await _context.Groups.FirstOrDefaultAsync(g => g.Id == groupId);
+            var userEntity = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            userEntity.Groups.Remove(groupEntity);
+            groupEntity.Members.Remove(userEntity);
             return (await _context.SaveChangesAsync()) > 0;
         }
 
         public async Task<bool> GiveOwnership(string newOwnerId, int groupId)
         {
-            var newOwner = await _context.Users.FirstOrDefaultAsync(u => u.Id == newOwnerId);
-            var targetGroup = await _context.Groups.FirstOrDefaultAsync(g => g.Id == groupId);
-            targetGroup.Owner = newOwner;
-
+            var newOwnerEntity = await _context.Users.FirstOrDefaultAsync(u => u.Id == newOwnerId);
+            var groupEntity = await _context.Groups.FirstOrDefaultAsync(g => g.Id == groupId);
+            groupEntity.Owner = newOwnerEntity;
             return (await _context.SaveChangesAsync()) > 0;
         }
 
         public async Task<List<Group>> GetGetAuthorizedUserGroups(Task<AuthenticationState> authenticationStateTask)
         {
             var authorizedUser = (await authenticationStateTask).User;
-            var user = await _context.Users
+            var userEntity = await _context.Users
                 .Include(u => u.Groups)
                 .FirstAsync(u => u.UserName == authorizedUser.Identity.Name);
                           
-            return user.Groups.ToList();
+            return userEntity.Groups.ToList();
         }
         public async Task<bool> Update(Group group)
         {
-            var targetGroup = await _context.Groups.FirstOrDefaultAsync(g => g.Id == group.Id);
-            _context.Entry(targetGroup).CurrentValues.SetValues(group);
+            var groupEntity = await _context.Groups.FirstOrDefaultAsync(g => g.Id == group.Id);
+            _context.Entry(groupEntity).CurrentValues.SetValues(group);
             return (await _context.SaveChangesAsync()) > 0;
         }
     }
