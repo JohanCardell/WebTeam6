@@ -36,15 +36,12 @@ Create group and rename it
     Wait Until Page Contains            Welcome to RemoteTool
     Click Element                       id:landingLoginButton
     Wait Until Page Contains            Login
-    Input Text                          id:loginEmail     ${EMAIL}}
+    Input Text                          id:loginEmail     ${EMAIL}
     Input Text                          id:loginPassword     ${PASSWORD}
     Click Element                       id:loginSubmit
-    Wait Until Page Contains			Welcome, ${FIRSTNAME}}
+    Wait Until Page Contains			Welcome, ${FIRSTNAME}
     Click Element                       id:createGroup
     Wait Until Page Contains            Group Name
-    Click Element                       id:groupName
-    Input Text                          id:nameforgroup    A-Team
-    Wait Until Page Contains            A-Team
     Click Element                       id:changeGroupName
     Wait Until Page Contains            Change Group Name
     Input Text                          id:groupNameField    B-Team
@@ -65,13 +62,13 @@ Delete Group
     Input Text                          id:loginPassword     ${PASSWORD}
     Click Element                       id:loginSubmit
     Wait Until Page Contains			Welcome, ${FIRSTNAME}
-    Click Element                       id:groupName B-Team
+    Click Element                       xpath://li[text()="B-Team"]
     Wait Until Page Contains            B-Team
     Click Element                       id:deleteGroup
     Wait Until Page Contains            Delete B-Team Group
     Click Element                       id:comfirmDeleteGroup
     Wait Until Page Contains            Welcome, ${FIRSTNAME}
-    Page Should Not Contain Element     id:groupName B-Team
+    Page Should Not Contain             B-Team
 
 
 
