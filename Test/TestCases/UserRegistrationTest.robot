@@ -6,10 +6,10 @@ Test Teardown  End Test
 
 *** Variables ***
 ${BROWSERS}                             chrome
-${FIRSTNAME}                            Johan
-${LASTNAME}                             Johansson
-${EMAIL}                                johan.johansson@hotmail.com
-${PASSWORD}                             User123!
+${FIRSTNAME}                            Erik
+${LASTNAME}                             Eriksson
+${EMAIL}                                erik.eriksson@hotmail.com
+${PASSWORD}                             User456!
 
 *** Keywords ***
 Begin Test
@@ -35,7 +35,7 @@ Register user with invalid email account
     Wait Until Element Is Visible       id:landingRegisterButton
     Click Element                       id:landingRegisterButton
     Wait Until Page Contains            Register
-    Input Text                         id:registerEmail    johan.johanssonhotmail.com
+    Input Text                         id:registerEmail    erik.erikssonhotmail.com
     Input Text                          id:registerFirstname    ${FIRSTNAME}
     Input Text                          id:registerLastname         ${LASTNAME}
     Input Text                          id:registerPassword    ${PASSWORD}
@@ -102,7 +102,7 @@ Register user with invalid comfirm password
     Input Text                          id:registerFirstname       ${FIRSTNAME}
     Input Text                          id:registerLastname         ${LASTNAME}
     Input Text                          id:registerPassword    ${PASSWORD}
-    Input Text                          id:registercomPassword       User123
+    Input Text                          id:registercomPassword       User456
     Click Element                       id:registerSubmit
     Wait Until Page Contains            error messege, enter the correct password
 
@@ -120,23 +120,20 @@ Register and verify user
     Input Text                          id:registerPassword    ${PASSWORD}
     Input Text                          id:registercomPassword       ${PASSWORD}
     Click Element                       id:registerSubmit
-    Wait Until Page Contains            Welcome, ${FIRSTNAME}
+    Wait Until Page Contains            Registration Completed
 
 *** Test Cases ***
 Delete user
     [Documentation]                     Test for register, verify and delete user account
     [Tags]                              deleteUser_test
     Set Selenium Implicit Wait          10 seconds
-    Wait Until Element Is Visible       id:landingRegisterButton
-    Click Element                       id:landingRegisterButton
-    Wait Until Page Contains            Register
-    Input Text                          id:registerEmail    erik.eriksson@hotmail.com
-    Input Text                          id:registerFirstname    Erik
-    Input Text                          id:registerLastname         Eriksson
-    Input Text                          id:registerPassword    Erik123!
-    Input Text                          id:registercomPassword       Erik123!
-    Click Element                       id:registerSubmit
-    Wait Until Page Contains            Welcome, Erik
+    Wait Until Page Contains            Welcome to RemoteTool
+    Click Element                       id:landingLoginButton
+    Wait Until Page Contains            Login
+    Input Text                          id:loginEmail     ${EMAIL}
+    Input Text                          id:loginPassword     ${PASSWORD}
+    Click Element                       id:loginSubmit
+    Wait Until Page Contains			Welcome, ${FIRSTNAME}
     Click Element                       id:accountSettings
     Wait Until Page Contains            Account settings
     Click Element                       id:deleteAccount
