@@ -3,9 +3,6 @@
 @inject IGroupService groupService
 @inject IUserService userService
 
-<h3>Index</h3>
-<p>Shows all groups in database. You can add and delete users. Edit is not implemented. Crashes if Owner name has no match in database.</p>
-
 <div>
     <input id="add-group-btn" type="button" data-toggle="modal" data-target="#groupModal" class="btn btn-primary" value="Add group" @onclick="(() => InitializeGroupObject())" />
 </div>
@@ -35,7 +32,7 @@ else
                     <td>@groupItem.Name</td>
                     <td>@groupItem.Owner?.UserName</td>
                     <td><a id="group-details-btn" type="button" href="@($"groupdetails/{groupItem.Id}")" role="button" class="btn btn-info">Details</a></td>
-                    <td><input id="group-edit-btn" type="button" class="btn btn-primary" value="Edit" /></td>
+                    <td>@groupItem.Members.Count()</td>
                     <td><input id="group-delete-btn " type="button" class="btn btn-danger" value="Delete" @onclick="(() => DeleteGroup(groupItem))" /></td>
                 </tr>
             }

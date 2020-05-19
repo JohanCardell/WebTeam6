@@ -23,12 +23,11 @@ namespace WebTeam6.Services
         public async Task<Group> Add(Group group)
         {
             await _context.Database.EnsureCreatedAsync();
-            var owner = await _context.Users.FirstAsync(o => o.UserName == group.Owner.UserName);
+            var owner = await _context.Users.FirstOrDefaultAsync(o => o.UserName == group.Owner.UserName);
             Console.WriteLine(owner);
             if (owner != null)
             {
                 Console.WriteLine("was not null");
-                group.Owner = owner;
                 group.Members.Add(owner);
                 await _context.Groups.AddAsync(group);
                 owner.Groups.Add(group);
@@ -112,7 +111,7 @@ namespace WebTeam6.Services
             var authorizedUser = (await authenticationStateTask).User;
             var userEntity = await _context.Users
                 .Include(u => u.Groups)
-                .FirstAsync(u => u.UserName == authorizedUser.Identity.Name);
+                .FirstOrDefaultAsync(u => u.UserName == authorizedUser.Identity.Name);
                           
             return userEntity.Groups.ToList();
         }

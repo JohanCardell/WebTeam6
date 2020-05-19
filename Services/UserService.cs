@@ -47,7 +47,7 @@ namespace WebTeam6.Services
         {
             var user = await _context.Users
                 .Include(u => u.Groups)
-                .FirstAsync(u => u.Id == id);
+                .FirstOrDefaultAsync(u => u.Id == id);
 
             foreach (Group g in user.Groups) g.Members.Remove(user);
             foreach (Event e in _context.Events) if (e.Creator == user) e.Creator = null;
@@ -69,7 +69,7 @@ namespace WebTeam6.Services
         public async Task<User> GetAuthorizedUser(Task<AuthenticationState> authenticationStateTask)
         {
             var authorizedUser = (await authenticationStateTask).User;
-            var user = await _context.Users.FirstAsync(u => u.UserName == authorizedUser.Identity.Name);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == authorizedUser.Identity.Name);
             return user;
         }
 
