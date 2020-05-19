@@ -2,20 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebTeam6.Data;
 
 namespace WebTeam6.Services
 {
-    public interface IUserService
-    {
-        Task<List<User>> Get();
-        Task<User> Get(string id);
-        Task<User> Add(User user);
-        Task<User> Update(User user);
-        Task<User> Delete(string id);
-    }
 
     public class UserService : IUserService
     {
@@ -47,22 +41,21 @@ namespace WebTeam6.Services
             {
                 return default;
             }
-
         }
 
         public async Task<User> Delete(string id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.Users
+                .Include(u => u.Groups)
+                .FirstOrDefaultAsync(u => u.Id == id);
 
-            user.Groups.ToList().ForEach(g => g.Members.Remove(user));
-
-            _context.Groups.Where(g => g.Owner == user).ToList().ForEach(g => g.Owner = null);
-            
+            foreach (Group g in user.Groups) g.Members.Remove(user);
+            foreach (Event e in _context.Events) if (e.Creator == user) e.Creator = null;
             _context.Remove(user);
             await _context.SaveChangesAsync();
             return user;
         }
-           
+
         public async Task<List<User>> Get()
         {
             return await _context.Users.ToListAsync();
@@ -70,18 +63,21 @@ namespace WebTeam6.Services
 
         public async Task<User> Get(string id)
         {
-            return await _context.Users.FindAsync(id);
+            return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public Task<User> Update(User user)
+        public async Task<User> GetAuthorizedUser(Task<AuthenticationState> authenticationStateTask)
         {
-            throw new NotImplementedException();
+            var authorizedUser = (await authenticationStateTask).User;
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == authorizedUser.Identity.Name);
+            return user;
         }
-        //public async Task<User> UpdateUserGroups (User user, Group group)
-        //{
-        //     _context.Update(user);
-        //     await _context.SaveChangesAsync();
-        //     return user;
-        //}
+
+        public async Task<bool> Update(User user)
+        {
+            var targetUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
+            _context.Entry(targetUser).CurrentValues.SetValues(user);
+            return (await _context.SaveChangesAsync()) > 0;
+        }
     }
 }

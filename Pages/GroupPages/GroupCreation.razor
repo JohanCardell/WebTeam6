@@ -1,7 +1,9 @@
 ﻿@using WebTeam6.Data
 @using WebTeam6.Services
-@inject IGroupService service
+@inject IGroupService groupService
+@inject IUserService userService
 @inject IJSRuntime jsRuntime
+
 
 <div class="modal fade" tabindex="-1" role="dialog" id="groupModal">
     <div class="modal-dialog" role="document">
@@ -21,12 +23,6 @@
                         <input type="hidden" @bind-value="@GroupObject.Id" />
                         <InputText id="new-group-name-field" type="text" class="form-control" @bind-Value="@GroupObject.Name" />
                     </div>
-                    <div class="form-group">
-                        <label>Owner</label>
-                        <input type="hidden" @bind-value="@ownerName" />
-                        <InputText id="new-group-name-field" type="text" class="form-control" @bind-Value="@ownerName" />
-                    </div>
-
                     <button id="submit-btn" type="submit" class="btn btn-primary">Submit</button>
                     <button id="cancel-btn" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </EditForm>
@@ -36,14 +32,19 @@
 </div>
 
 @code {
+    [CascadingParameter]
+    Task<AuthenticationState> authenticationStateTask { get; set; }
+
     [Parameter]
-    public Group GroupObject { get; set; }
+    public Group GroupObject { get; set; } = new Group();
 
     [Parameter]
     public Action DataChanged { get; set; }
 
-    [Parameter]
-    public string ownerName { get; set; } = "";
+    protected override void OnInitialized()
+    {
+        GroupObject = new Group();
+    }
 
     private async Task CloseGroupModal()
     {
@@ -52,37 +53,10 @@
 
     private async void HandleValidSubmit()
     {
-        await service.Add(GroupObject, ownerName);
+        GroupObject.Owner = await userService.GetAuthorizedUser(authenticationStateTask);
+        await groupService.Add(GroupObject);
         await CloseGroupModal();
         DataChanged?.Invoke();
     }
+
 }
-
-@*@code {
-    //public Group _groupObject { get; set; } = new Group();
-    //private string _ownerId { get; set; } = "";
-    //public List<Group> groups = new List<Group>();
-
-    //public async void HandleValidSubmit()
-    //{
-    //    await service.Add(_groupObject, Int32.Parse(_ownerId));
-    //}
-
-}*@
-
-
-@*<EditForm id="groupCreationForm" Model="_groupObject" OnValidSubmit="HandleValidSubmit">
-        <div class="inputFieldSpacer">
-            <p>
-                Group name:
-                <InputText class="inputField" id="groupRegInput" type="text" @bind-Value="_groupObject.Name" />
-            </p>
-        </div>
-        <div class="inputFieldSpacer">
-            <p>
-                Owner Id:
-                <InputText class="inputField" id="groupOwnerIdInput" type="number" @bind-Value="_ownerId" />
-            </p>
-        </div>
-        <button class="btn btn-primary" id="regGroupButton" type="submit">Submit</button>
-    </EditForm>*@

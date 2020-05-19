@@ -1,13 +1,10 @@
 ﻿
-@using WebTeam6.Data
-@using WebTeam6.Services
-@inject IUserService UserService
-@inject IGroupService GroupService
-@inject IJSRuntime jsRuntime
-@inject MainContext dbContext
+@inherits GroupPageModalBase
 
-
-<div class="modal fade" tabindex="-1" role="dialog" id="addMemberModal">
+<head>
+    <link rel="stylesheet" href="_content/Radzen.Blazor/css/default-base.css">
+</head>
+<div class="modal" tabindex="-1" role="dialog" id="addMemberModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -17,58 +14,16 @@
                 </button>
             </div>
             <div class="modal-body">
-                @if (Users == null)
-                {
-                    <div class="loader"></div>
-                }
-                else
-                {
+                <link rel="stylesheet" href="_content/Radzen.Blazor/css/default-base.css">
                     <div>
-                        <RadzenListBox AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" @bind-Value="selectedUsers" Multiple="true" Data="@Users" TextProperty="UserName" ValueProperty="Id"
+                        <RadzenListBox AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" @bind-Value="selectedUsers" Multiple="true" Data="@FilteredUsers" TextProperty="UserName" ValueProperty="Id"
                                        Style="margin-bottom: 20px; height:200px;" />
-                        
-                    </div>
-                }
 
-                <button id="submit-btn" type="submit" class="btn btn-primary" @onclick="AddSelectedUsers">Confirm</button>
-                <button id="cancel-btn" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                <button id="confirmAddMembers" type="submit" class="btn btn-primary" @onclick="AddSelectedUsers">Confirm</button>
+                <button id="cancelAddMembers" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
 </div>
-
-@code {
-    [Parameter]
-    public Group ModalGroup { get; set; }
-    [Parameter]
-    public Action DataChanged { get; set; }
-    [Parameter]
-    public List<User> Users { get; set; } = new List<User>();
-
-    IEnumerable<string> selectedUsers = new string[] { "", "" };
-
-    private async Task CloseAddMemberModal()
-    {
-        await jsRuntime.InvokeAsync<object>("CloseModal", "addMemberModal");
-    }
-
-    private async Task AddSelectedUsers()
-    {
-        await GroupService.AddMembers(selectedUsers, ModalGroup);
-        await CloseAddMemberModal();
-        DataChanged?.Invoke();
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        Users = await UserService.Get();
-    }
-   
-    void Change(object value, string name)
-    {
-        var str = value is IEnumerable<object> ? string.Join(", ", (IEnumerable<object>)value) : value;
-        StateHasChanged();
-    }
-}
-
 
