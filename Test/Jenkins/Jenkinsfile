@@ -17,6 +17,11 @@ pipeline {
                     bat 'START /B dotnet run'
             }
         }
+		stage('Create Group Test') {
+			steps {
+				bat 'robot -d results/CreateGroupTest --variable BROWSER:headlesschrome "Test/TestCases/CreateGroupTest.robot"'
+			}
+		}
 		stage('User Registration Test') {
 			steps {
 				sleep 10
@@ -26,11 +31,6 @@ pipeline {
 		stage('Login Test') {
 			steps {
 				bat 'robot -d results/LoginTest --variable BROWSER:headlesschrome "Test/TestCases/LoginTest.robot"'
-			}
-		}
-		stage('Create Group Test') {
-			steps {
-				bat 'robot -d results/CreateGroupTest --variable BROWSER:headlesschrome "Test/TestCases/CreateGroupTest.robot"'
 			}
 		}
 		stage('UserInGroup Test') {
