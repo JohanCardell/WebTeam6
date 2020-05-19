@@ -48,29 +48,25 @@ pipeline {
 				bat 'robot -d results/messageTest --variable BROWSER:headlesschrome "Test/TestCases/MessagingTest.robot"'
 			}
 		}
-		stage('Publibat Robot Framework Tests') {
-			steps {
-				script {
-					step(
-						[
-						   $class              : 'RobotPublisher',
-						   outputPath          : 'results',
-						   outputFileName      : '**/output.xml',
-						   reportFileName      : '**/report.html',
-						   logFileName         : '**/log.html',
-						   disableArchiveOutput: false,
-						   passThreshold       : 50,
-						   unstableThreshold   : 40,
-						   otherFiles          : "**/*.png,**/*.jpg",
-						]
-					)	
-				}
-			}
-		}
 	}
 	post{
 		always{
 			bat 'TASKKILL /F /IM dotnet.exe'
+			script {
+				step(
+					[
+					   $class              : 'RobotPublisher',
+					   outputPath          : 'results',
+					   outputFileName      : '**/output.xml',
+					   reportFileName      : '**/report.html',
+					   logFileName         : '**/log.html',
+					   disableArchiveOutput: false,
+					   passThreshold       : 50,
+					   unstableThreshold   : 40,
+					   otherFiles          : "**/*.png,**/*.jpg",
+					]
+				)	
+			}
 		}
 	}
 }
