@@ -1,0 +1,37 @@
+﻿
+@*@inject IUserService userService
+@inject IGroupService groupService*@
+
+@if (UserGroupList == null)
+{
+    <li>Loading...</li>
+}
+else
+{
+    @foreach (var groupItem in UserGroupList)
+    {
+        <li id="@($"group-#{groupItem.Id}-btn")" class="nav-item px-3">
+            <NavLink class="nav-link" href="@($"groupdetails/{groupItem.Id}")" >
+                <span class="oi oi-people" aria-hidden="true"></span> @groupItem.Name
+            </NavLink>
+        </li>
+    }
+}
+
+@code {
+    //[CascadingParameter]
+    //Task<AuthenticationState> authenticationStateTask { get; set; }
+    [Parameter]
+    public List<Group> UserGroupList { get; set; }
+
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    UserGroupList = await groupService.GetGetAuthorizedUserGroups(authenticationStateTask);
+    //}
+
+    //protected override async Task OnParametersSetAsync()
+    //{
+    //    UserGroupList = await groupService.GetGetAuthorizedUserGroups(authenticationStateTask);
+    //}
+
+}

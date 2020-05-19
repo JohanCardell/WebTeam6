@@ -1,9 +1,13 @@
 ﻿@page  "/groups"
 
-@inject IGroupService service
+@inject IGroupService groupService
+@inject IUserService userService
 
-<h3>Index</h3>
-<p>Shows all groups in database. You can add and delete users. Edit is not implemented. Crashes if Owner name has no match in database.</p>
+<div>
+    <input id="add-group-btn" type="button" data-toggle="modal" data-target="#groupModal" class="btn btn-primary" value="Add group" @onclick="(() => InitializeGroupObject())" />
+</div>
+
+<GroupCreation GroupObject=groupObject DataChanged="DataChanged"></GroupCreation>
 
 @if (groupList == null)
 {
@@ -24,25 +28,26 @@ else
         <tbody>
             @foreach (var groupItem in groupList)
             {
-            <tr>
-                <td>@groupItem.Name</td>
-                <td>@groupItem.Owner?.UserName</td>
-                <td><a id="group-details-btn" type="button" href="@($"groupdetails/{groupItem.Id}")" role="button" class="btn btn-info">Details</a></td>
-                <td><input id="group-edit-btn" type="button" class="btn btn-primary" value="Edit" /></td>
-                <td><input id="group-delete-btn " type="button" class="btn btn-danger" value="Delete" @onclick="(() => DeleteGroup(groupItem))" /></td>
-            </tr>
+                <tr>
+                    <td>@groupItem.Name</td>
+                    <td>@groupItem.Owner?.UserName</td>
+                    <td><a id="group-details-btn" type="button" href="@($"groupdetails/{groupItem.Id}")" role="button" class="btn btn-info">Details</a></td>
+                    <td>@groupItem.Members.Count()</td>
+                    <td><input id="group-delete-btn " type="button" class="btn btn-danger" value="Delete" @onclick="(() => DeleteGroup(groupItem))" /></td>
+                </tr>
             }
         </tbody>
     </table>
 }
 
-<div>
+@*<div>
     <input id="add-group-btn" type="button" data-toggle="modal" data-target="#groupModal" class="btn btn-primary" value="Add group" @onclick="(() => InitializeGroupObject())" />
 </div>
 
-<GroupCreation GroupObject=groupObject DataChanged="@DataChanged"></GroupCreation>
+<GroupCreation GroupObject=groupObject DataChanged="DataChanged"></GroupCreation>*@
 
 @code {
+
 
     List<Group> groupList = new List<Group>();
 
@@ -50,7 +55,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        groupList = await service.Get();
+        groupList = await groupService.Get();
     }
 
 
@@ -61,15 +66,15 @@ else
 
     private async void DataChanged()
     {
-        groupList = await service.Get();
+        groupList = await groupService.Get();
         StateHasChanged();
     }
 
     private async Task DeleteGroup(Group group)
     {
         groupObject = group;
-        var task = await service.Delete(groupObject.Id);
-        groupList = await service.Get();
+        var task = await groupService.Delete(groupObject.Id);
+        groupList = await groupService.Get();
         groupObject = new Group();
     }
 }
