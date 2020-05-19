@@ -24,7 +24,7 @@ Load Page
         Go To                           https://localhost:5001
         Sleep                           5s
 Verify Page Loaded
-        Wait Until Page Contains        RmoteTool
+        Wait Until Page Contains        RemoteTool
 
 End Test
         Close Browser
