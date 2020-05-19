@@ -1,6 +1,6 @@
 *** Settings ***
 
-Documentation  This is a test suite that tests the Webteam6 website
+Documentation  This is a test suite that tests the RemoteTool website (Create group feature)
 Library  SeleniumLibrary
 Test Setup  Begin Test
 Test Teardown  End Test
