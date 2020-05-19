@@ -36,13 +36,10 @@
     Task<AuthenticationState> authenticationStateTask { get; set; }
 
     [Parameter]
-    public Group GroupObject { get; set; }
+    public Group GroupObject { get; set; } = new Group();
 
     [Parameter]
     public Action DataChanged { get; set; }
-
-    [Parameter]
-    public string ownerName { get; set; } = string.Empty;
 
     private async Task CloseGroupModal()
     {

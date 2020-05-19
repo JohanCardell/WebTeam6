@@ -26,10 +26,14 @@
             </NavLink>
         </li>
         <GroupList UserGroupList="UserGroupList"></GroupList>
-        <GroupCreation GroupObject=groupObject DataChanged="DataChanged"></GroupCreation>
         <li id="groupCreatePage" class="nav-item px-3">
+            <NavLink class="nav-link" href="#groupModal" data-toggle="modal" data-target="#groupModal">
+                <span class="oi oi-plus" aria-hidden="true"></span> Add group
+            </NavLink>
+        </li>
+        <li id="allGroupsPage" class="nav-item px-3">
             <NavLink class="nav-link" href="groups">
-                <span class="oi oi-plus" aria-hidden="true"></span> All groups
+                <span class="oi oi-people" aria-hidden="true"></span> All groups
             </NavLink>
         </li>
         <li id="manageAccountPage" class="nav-item px-3">
@@ -47,3 +51,6 @@
         </li>
     </ul>
 </div>
+
+
+@*<WebTeam6.Pages.GroupPages.GroupCreation DataChanged="DataChanged"></WebTeam6.Pages.GroupPages.GroupCreation>*@

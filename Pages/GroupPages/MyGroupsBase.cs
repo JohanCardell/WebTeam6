@@ -15,15 +15,25 @@ namespace WebTeam6.Pages.GroupPages
         [CascadingParameter]
         Task<AuthenticationState> authenticationStateTask { get; set; }
 
-        protected List<Group> UserGroupList { get; set; }
+        protected List<Group> MyGroupsList { get; set; }
         [Inject]
         public IGroupService GroupService { get; set; }
-        //protected int counter;
+
+        protected Group GroupObject { get; set; } = new Group();
 
         protected override async Task OnInitializedAsync()
         {
-            UserGroupList = await GroupService.GetGetAuthorizedUserGroups(authenticationStateTask);
-            //counter = UserGroupList.Count();
+            MyGroupsList = await GroupService.GetGetAuthorizedUserGroups(authenticationStateTask);
+        }
+        protected void InitializeGroupObject()
+        {
+            GroupObject = new Group();
+        }
+
+        protected async void DataChanged()
+        {
+            MyGroupsList = await GroupService.GetGetAuthorizedUserGroups(authenticationStateTask);
+            StateHasChanged();
         }
     }
 }

@@ -2,7 +2,13 @@
 
 @inherits MyGroupsBase
 
-@if (@UserGroupList == null)
+<div>
+    <input id="add-group-btn" type="button" data-toggle="modal" data-target="#groupModal" class="btn btn-primary" value="Add group" @onclick="(() => InitializeGroupObject())" />
+</div>
+
+<GroupCreation GroupObject=GroupObject DataChanged="DataChanged"></GroupCreation>
+
+@if (MyGroupsList == null)
 {
     <li> <div class="loader"></div></li>
 }
@@ -16,13 +22,13 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var groupItem in @UserGroupList)
+            @foreach (var groupItem in MyGroupsList)
             {
-            <tr>
-                <td><a id="@($"group-#{groupItem.Id}-btn")" type="button" href="@($"groupdetails/{groupItem.Id}")" role="button" class="btn btn-info">@groupItem.Name</a></td>
-                <td>@groupItem.Members.Count()</td>
-            </tr>
+                <tr>
+                    <td><a id="@($"group-#{groupItem.Id}-btn")" type="button" href="@($"groupdetails/{groupItem.Id}")" role="button" class="btn btn-info">@groupItem.Name</a></td>
+                    <td>@groupItem.Members.Count()</td>
+                </tr>
             }
         </tbody>
     </table>
-    }
+}

@@ -10,7 +10,7 @@ using WebTeam6.Services;
 
 namespace WebTeam6.Pages.GroupPages
 {
-    public class GroupMembersBase: ComponentBase
+    public class GroupMembersBase : ComponentBase
     {
         [CascadingParameter]
         protected Task<AuthenticationState> authenticationStateTask { get; set; }
@@ -25,6 +25,8 @@ namespace WebTeam6.Pages.GroupPages
         public IGroupService GroupService { get; set; }
         [Inject]
         public IUserService UserService { get; set; }
+        [Inject]
+        NavigationManager NavManager { get; set; }
         [Parameter]
         public Action DataChanged { get; set; }
 
@@ -32,13 +34,16 @@ namespace WebTeam6.Pages.GroupPages
         {
             CurrentUser = await UserService.GetAuthorizedUser(authenticationStateTask);
         }
+        protected override Task OnParametersSetAsync()
+        {
+            return base.OnParametersSetAsync();
+        }
 
-        //protected async void DataChanged()
-        //{
-        //    await GroupService.GetGroupById(GroupObject.Id);
-        //    UserList = GroupObject.Members;
-        //    StateHasChanged();
-        //}
+        protected async Task DeleteGroup(int groupId)
+        {
+            await GroupService.Delete(groupId);
+            NavManager.NavigateTo("/mygroups");
+        }
 
         protected async Task RemoveUserFromGroup(User user)
         {
