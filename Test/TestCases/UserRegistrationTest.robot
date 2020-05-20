@@ -39,7 +39,7 @@ Register user with invalid email account
     Input Text                          id:registerFirstname    ${FIRSTNAME}
     Input Text                          id:registerLastname         ${LASTNAME}
     Input Text                          id:registerPassword    ${PASSWORD}
-    Input Text                          id:registercomPassword       ${PASSWORD}
+    Input Text                          id:registerComPassword       ${PASSWORD}
     Click Element                       id:registerSubmit
     Wait Until Page Contains            error messege, enter the correct email accont
 
@@ -52,7 +52,7 @@ Register user with invalid first name
     Click Element                       id:landingRegisterButton
     Wait Until Page Contains            Register
     Input Text                         id:registerEmail     ${EMAIL}
-    Input Text                          id:registerFirstname
+    Input Text                          id:registerFirstname    ${EMPTY}
     Input Text                          id:registerLastname         ${LASTNAME}
     Input Text                          id:registerPassword    ${PASSWORD}
     Input Text                          id:registercomPassword       ${PASSWORD}
@@ -68,7 +68,7 @@ Register user with invalid last name
     Wait Until Page Contains            Register
     Input Text                         id:registerEmail    ${EMAIL}
     Input Text                          id:registerFirstname    ${FIRSTNAME}
-    Input Text                          id:registerLastname
+    Input Text                          id:registerLastname     ${EMPTY}
     Input Text                          id:registerPassword    ${PASSWORD}
     Input Text                          id:registercomPassword       ${PASSWORD}
     Click Element                       id:registerSubmit
@@ -85,7 +85,7 @@ Register user with invalid password
      Input Text                         id:registerEmail     ${EMAIL}
     Input Text                          id:registerFirstname    ${FIRSTNAME}
     Input Text                          id:registerLastname         ${LASTNAME}
-    Input Text                          id:registerPassword
+    Input Text                          id:registerPassword         ${EMPTY}
     Input Text                          id:registercomPassword       ${PASSWORD}
     Click Element                       id:registerSubmit
     Wait Until Page Contains            error messege, fill in all fields
