@@ -42,8 +42,8 @@ namespace WebTeam6.Pages.GroupPages
                 .Where(x => !GroupMembers
                     .Any(z => x.Id == z.Id))
                 .ToList();
-            GroupMembers.Remove(GroupObject.Owner);
-            FilteredUsers.Remove(GroupObject.Owner);
+            GroupMembers.RemoveAll(u => u.Id == GroupObject.Owner.Id);
+            FilteredUsers.RemoveAll(u => u.Id == GroupObject.Owner.Id);
             StateHasChanged();
         }
         protected override async Task OnParametersSetAsync()
@@ -54,8 +54,8 @@ namespace WebTeam6.Pages.GroupPages
                 .Where(x => !GroupMembers
                     .Any(z => x.Id == z.Id))
                 .ToList();
-            GroupMembers.Remove(GroupObject.Owner);
-            FilteredUsers.Remove(GroupObject.Owner);
+            GroupMembers.RemoveAll(u => u.Id == GroupObject.Owner.Id);
+            FilteredUsers.RemoveAll(u => u.Id == GroupObject.Owner.Id);
         }
     }
 }
