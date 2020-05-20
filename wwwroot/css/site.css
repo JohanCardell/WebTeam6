@@ -205,6 +205,36 @@ app {
     margin: 0.01em 0.4em;
 }
 
+.form-body{
+    margin: 1em;
+}
+
+.row {
+    justify-content: center;
+    align-content: center;
+    padding-top: 2em;
+    margin-top: -2em;
+}
+
+.form-page-body{
+    
+    background: url("../Images/Stockholm.jpg");
+    margin-bottom: 0;
+
+    height: 100vh;
+}
+
+.container {
+    background-color: white;
+
+    height: 100%;
+}
+
+.footer{
+    background-color: white;
+    position: fixed;
+}
+
 @media (max-width: 767.98px) {
     .main .top-row:not(.auth) {
         display: none;
