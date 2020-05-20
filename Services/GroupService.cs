@@ -29,7 +29,6 @@ namespace WebTeam6.Services
             if (owner != null)
             {
                 Console.WriteLine("was not null");
-                group.Members.Add(owner);
                 group.Owner = owner;
                 await _context.Groups.AddAsync(group);
                 owner.Groups.Add(group);
