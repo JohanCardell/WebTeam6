@@ -29,7 +29,7 @@ End Test
 
 *** Test Cases ***
 Register user with invalid email account
-    [Documentation]                     Test for rgister user with invalid email account
+    [Documentation]                     Test for register user with invalid email account
     [Tags]                              Register user with invalid email account_Test
     Set Selenium Implicit Wait          10 seconds
     Wait Until Element Is Visible       id:landingRegisterButton
@@ -40,8 +40,8 @@ Register user with invalid email account
     Input Text                          id:registerLastname         ${LASTNAME}
     Input Text                          id:registerPassword    ${PASSWORD}
     Input Text                          id:registerComPassword       ${PASSWORD}
-    Click Element                       id:registerSubmit
-    Wait Until Page Contains            The Email field is required.
+    Click Button                       id:registerSubmit
+    Wait Until Page Contains            The Email field is not a valid e-mail address.
 
 *** Test Cases ***
 Register user with invalid first name
@@ -56,7 +56,7 @@ Register user with invalid first name
     Input Text                          id:registerLastname         ${LASTNAME}
     Input Text                          id:registerPassword    ${PASSWORD}
     Input Text                          id:registerComPassword       ${PASSWORD}
-    Click Element                       id:registerSubmit
+    Click Button                       id:registerSubmit
     Wait Until Page Contains            The Firstname field is required.
 
 Register user with invalid last name
@@ -71,7 +71,7 @@ Register user with invalid last name
     Input Text                          id:registerLastname     ${EMPTY}
     Input Text                          id:registerPassword    ${PASSWORD}
     Input Text                          id:registerComPassword       ${PASSWORD}
-    Click Element                       id:registerSubmit
+    Click Button                        id:registerSubmit
     Wait Until Page Contains            The Lastname field is required.
 
 *** Test Cases ***
@@ -87,7 +87,7 @@ Register user with invalid password
     Input Text                          id:registerLastname         ${LASTNAME}
     Input Text                          id:registerPassword         ${EMPTY}
     Input Text                          id:registerComPassword       ${PASSWORD}
-    Click Element                       id:registerSubmit
+    Click Button                        id:registerSubmit
     Wait Until Page Contains            The Password field is required.
 
 *** Test Cases ***
@@ -103,7 +103,7 @@ Register user with invalid comfirm password
     Input Text                          id:registerLastname         ${LASTNAME}
     Input Text                          id:registerPassword    ${PASSWORD}
     Input Text                          id:registerComPassword       User456
-    Click Element                       id:registerSubmit
+    Click Button                        id:registerSubmit
     Wait Until Page Contains            The password and confirmation password do not match.
 
 *** Test Cases ***
@@ -119,7 +119,7 @@ Register and verify user
     Input Text                          id:registerLastname         ${LASTNAME}
     Input Text                          id:registerPassword    ${PASSWORD}
     Input Text                          id:registerComPassword       ${PASSWORD}
-    Click Element                       id:registerSubmit
+    Click Button                        id:registerSubmit
     Wait Until Page Contains            Welcome, ${FIRSTNAME}
 
 *** Test Cases ***
