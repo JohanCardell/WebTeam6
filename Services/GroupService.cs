@@ -20,10 +20,11 @@ namespace WebTeam6.Services
         }
 
 
-        public async Task<Group> Add(Group group)
+        public async Task<Group> Add(Group group, Task<AuthenticationState> authenticationStateTask)
         {
             await _context.Database.EnsureCreatedAsync();
-            var owner = await _context.Users.FirstOrDefaultAsync(o => o.UserName == group.Owner.UserName);
+            var authorizedUser = (await authenticationStateTask).User;
+            var owner = await _context.Users.FirstOrDefaultAsync(u => u.UserName == authorizedUser.Identity.Name);
             Console.WriteLine(owner);
             if (owner != null)
             {

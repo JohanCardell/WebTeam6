@@ -53,8 +53,9 @@
 
     private async void HandleValidSubmit()
     {
-        GroupObject.Owner = await userService.GetAuthorizedUser(authenticationStateTask);
-        await groupService.Add(GroupObject);
+        //GroupObject.Owner = await userService.GetAuthorizedUser(authenticationStateTask);
+        //GroupObject.Owner.Groups.Add(GroupObject);
+        await groupService.Add(GroupObject, authenticationStateTask);
         await CloseGroupModal();
         DataChanged?.Invoke();
     }
