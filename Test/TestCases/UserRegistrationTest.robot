@@ -39,9 +39,9 @@ Register user with invalid email account
     Input Text                          id:registerFirstname    ${FIRSTNAME}
     Input Text                          id:registerLastname         ${LASTNAME}
     Input Text                          id:registerPassword    ${PASSWORD}
-    Input Text                          id:registercomPassword       ${PASSWORD}
+    Input Text                          id:registerComPassword       ${PASSWORD}
     Click Element                       id:registerSubmit
-    Wait Until Page Contains            error messege, enter the correct email accont
+    Wait Until Page Contains            The Email field is required.
 
 *** Test Cases ***
 Register user with invalid first name
@@ -52,12 +52,12 @@ Register user with invalid first name
     Click Element                       id:landingRegisterButton
     Wait Until Page Contains            Register
     Input Text                         id:registerEmail     ${EMAIL}
-    Input Text                          id:registerFirstname
+    Input Text                          id:registerFirstname    ${EMPTY}
     Input Text                          id:registerLastname         ${LASTNAME}
     Input Text                          id:registerPassword    ${PASSWORD}
-    Input Text                          id:registercomPassword       ${PASSWORD}
+    Input Text                          id:registerComPassword       ${PASSWORD}
     Click Element                       id:registerSubmit
-    Wait Until Page Contains            error messege, fill in all fields
+    Wait Until Page Contains            The Firstname field is required.
 
 Register user with invalid last name
     [Documentation]                     Test for register user with invalid last name
@@ -68,11 +68,11 @@ Register user with invalid last name
     Wait Until Page Contains            Register
     Input Text                         id:registerEmail    ${EMAIL}
     Input Text                          id:registerFirstname    ${FIRSTNAME}
-    Input Text                          id:registerLastname
+    Input Text                          id:registerLastname     ${EMPTY}
     Input Text                          id:registerPassword    ${PASSWORD}
-    Input Text                          id:registercomPassword       ${PASSWORD}
+    Input Text                          id:registerComPassword       ${PASSWORD}
     Click Element                       id:registerSubmit
-    Wait Until Page Contains            error messege, fill in all fields
+    Wait Until Page Contains            The Lastname field is required.
 
 *** Test Cases ***
 Register user with invalid password
@@ -85,10 +85,10 @@ Register user with invalid password
      Input Text                         id:registerEmail     ${EMAIL}
     Input Text                          id:registerFirstname    ${FIRSTNAME}
     Input Text                          id:registerLastname         ${LASTNAME}
-    Input Text                          id:registerPassword
-    Input Text                          id:registercomPassword       ${PASSWORD}
+    Input Text                          id:registerPassword         ${EMPTY}
+    Input Text                          id:registerComPassword       ${PASSWORD}
     Click Element                       id:registerSubmit
-    Wait Until Page Contains            error messege, fill in all fields
+    Wait Until Page Contains            The Password field is required.
 
 *** Test Cases ***
 Register user with invalid comfirm password
@@ -102,9 +102,9 @@ Register user with invalid comfirm password
     Input Text                          id:registerFirstname       ${FIRSTNAME}
     Input Text                          id:registerLastname         ${LASTNAME}
     Input Text                          id:registerPassword    ${PASSWORD}
-    Input Text                          id:registercomPassword       User456
+    Input Text                          id:registerComPassword       User456
     Click Element                       id:registerSubmit
-    Wait Until Page Contains            error messege, enter the correct password
+    Wait Until Page Contains            The password and confirmation password do not match.
 
 *** Test Cases ***
 Register and verify user
@@ -118,16 +118,16 @@ Register and verify user
     Input Text                          id:registerFirstname    ${FIRSTNAME}
     Input Text                          id:registerLastname         ${LASTNAME}
     Input Text                          id:registerPassword    ${PASSWORD}
-    Input Text                          id:registercomPassword       ${PASSWORD}
+    Input Text                          id:registerComPassword       ${PASSWORD}
     Click Element                       id:registerSubmit
-    Wait Until Page Contains            Registration Completed
+    Wait Until Page Contains            Welcome, ${FIRSTNAME}
 
 *** Test Cases ***
 Delete user
     [Documentation]                     Test for register, verify and delete user account
     [Tags]                              deleteUser_test
     Set Selenium Implicit Wait          10 seconds
-    Wait Until Page Contains            Welcome to RemoteTool
+    Wait Until Element Is Visible       id:landingLoginButton
     Click Element                       id:landingLoginButton
     Wait Until Page Contains            Login
     Input Text                          id:loginEmail     ${EMAIL}
