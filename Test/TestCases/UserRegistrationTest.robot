@@ -55,7 +55,7 @@ Register user with invalid first name
     Input Text                          id:registerFirstname    ${EMPTY}
     Input Text                          id:registerLastname         ${LASTNAME}
     Input Text                          id:registerPassword    ${PASSWORD}
-    Input Text                          id:registercomPassword       ${PASSWORD}
+    Input Text                          id:registerComPassword       ${PASSWORD}
     Click Element                       id:registerSubmit
     Wait Until Page Contains            The Firstname field is required.
 
@@ -70,7 +70,7 @@ Register user with invalid last name
     Input Text                          id:registerFirstname    ${FIRSTNAME}
     Input Text                          id:registerLastname     ${EMPTY}
     Input Text                          id:registerPassword    ${PASSWORD}
-    Input Text                          id:registercomPassword       ${PASSWORD}
+    Input Text                          id:registerComPassword       ${PASSWORD}
     Click Element                       id:registerSubmit
     Wait Until Page Contains            The Lastname field is required.
 
@@ -86,7 +86,7 @@ Register user with invalid password
     Input Text                          id:registerFirstname    ${FIRSTNAME}
     Input Text                          id:registerLastname         ${LASTNAME}
     Input Text                          id:registerPassword         ${EMPTY}
-    Input Text                          id:registercomPassword       ${PASSWORD}
+    Input Text                          id:registerComPassword       ${PASSWORD}
     Click Element                       id:registerSubmit
     Wait Until Page Contains            The Password field is required.
 
@@ -102,7 +102,7 @@ Register user with invalid comfirm password
     Input Text                          id:registerFirstname       ${FIRSTNAME}
     Input Text                          id:registerLastname         ${LASTNAME}
     Input Text                          id:registerPassword    ${PASSWORD}
-    Input Text                          id:registercomPassword       User456
+    Input Text                          id:registerComPassword       User456
     Click Element                       id:registerSubmit
     Wait Until Page Contains            The password and confirmation password do not match.
 
@@ -118,7 +118,7 @@ Register and verify user
     Input Text                          id:registerFirstname    ${FIRSTNAME}
     Input Text                          id:registerLastname         ${LASTNAME}
     Input Text                          id:registerPassword    ${PASSWORD}
-    Input Text                          id:registercomPassword       ${PASSWORD}
+    Input Text                          id:registerComPassword       ${PASSWORD}
     Click Element                       id:registerSubmit
     Wait Until Page Contains            Welcome, ${FIRSTNAME}
 
