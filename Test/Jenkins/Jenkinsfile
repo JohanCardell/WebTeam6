@@ -20,12 +20,17 @@ pipeline {
 		stage('User Registration Test') {
 			steps {
 				sleep 10
-				bat 'robot -d results/UserRegistrationTest --variable BROWSER:headlesschrome "Test/TestCases/UserRegistrationTest.robot"'
+				catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+					bat 'robot -d results/UserRegistrationTest --variable BROWSER:headlesschrome "Test/TestCases/UserRegistrationTest.robot"'
+                }
+				
 			}
 		}
 		stage('Login Test') {
 			steps {
-				bat 'robot -d results/LoginTest --variable BROWSER:headlesschrome "Test/TestCases/LoginTest.robot"'
+				catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+					bat 'robot -d results/LoginTest --variable BROWSER:headlesschrome "Test/TestCases/LoginTest.robot"'
+				}
 			}
 		}
 	}
