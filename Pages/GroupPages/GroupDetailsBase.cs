@@ -42,7 +42,6 @@ namespace WebTeam6.Pages.GroupPages
                 .Where(x => !GroupMembers
                     .Any(z => x.Id == z.Id))
                 .ToList();
-            GroupMembers.RemoveAll(u => u.Id == GroupObject.Owner.Id);
             FilteredUsers.RemoveAll(u => u.Id == GroupObject.Owner.Id);
             StateHasChanged();
         }
@@ -54,7 +53,6 @@ namespace WebTeam6.Pages.GroupPages
                 .Where(x => !GroupMembers
                     .Any(z => x.Id == z.Id))
                 .ToList();
-            GroupMembers.RemoveAll(u => u.Id == GroupObject.Owner.Id);
             FilteredUsers.RemoveAll(u => u.Id == GroupObject.Owner.Id);
         }
     }
