@@ -20,7 +20,7 @@ else
             <tr>
                 <th>Name</th>
                 <th>Owner</th>
-                <td></td>
+                <td>Number of members</td>
                 <td></td>
                 <td></td>
             </tr>
@@ -31,8 +31,8 @@ else
                 <tr>
                     <td>@groupItem.Name</td>
                     <td>@groupItem.Owner?.UserName</td>
-                    <td><a id="group-details-btn" type="button" href="@($"groupdetails/{groupItem.Id}")" role="button" class="btn btn-info">Details</a></td>
                     <td>@groupItem.Members.Count()</td>
+                    <td><a id="group-details-btn" type="button" href="@($"groupdetails/{groupItem.Id}")" role="button" class="btn btn-info">Details</a></td>
                     <td><input id="group-delete-btn " type="button" class="btn btn-danger" value="Delete" @onclick="(() => DeleteGroup(groupItem))" /></td>
                 </tr>
             }
