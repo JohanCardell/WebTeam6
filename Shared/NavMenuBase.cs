@@ -15,9 +15,13 @@ namespace WebTeam6.Shared
     {
         [Inject]
         public IGroupService GroupService { get; set; }
+
+        [Inject]
+        public AppData AppData { get; set; }
+
         [CascadingParameter]
-        Task<AuthenticationState> authenticationStateTask { get; set; }
-        public List<Group> UserGroupList { get; set; }
+        Task<AuthenticationState> AuthenticationStateTask { get; set; }
+
         public Group GroupObject { get; set; } = new Group();
 
         protected bool collapseNavMenu = true;
@@ -31,19 +35,20 @@ namespace WebTeam6.Shared
 
         protected override async Task OnInitializedAsync()
         {
-            UserGroupList = await GroupService.GetGetAuthorizedUserGroups(authenticationStateTask);
+            AppData.Groups = await GroupService.GetAuthorizedUserGroups(AuthenticationStateTask);
         }
 
-        protected async void DataChanged()
-        {
-            UserGroupList = await GroupService.GetGetAuthorizedUserGroups(authenticationStateTask);
-            StateHasChanged();
-        }
+        //protected async void Update()
+        //{
+        //    AppData.Groups = await GroupService.GetAuthorizedUserGroups(authenticationStateTask);
+        //    Console.WriteLine("Updating sidebar");
+        //    UserGroupList.ForEach(g => Console.WriteLine(g.Name));
+        //    StateHasChanged();
+        //}
+
         protected void InitializeGroupObject()
         {
             GroupObject = new Group();
         }
-
-
     }
 }

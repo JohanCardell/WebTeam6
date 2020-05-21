@@ -38,8 +38,11 @@
     [Parameter]
     public Group GroupObject { get; set; }
 
-    [Parameter]
-    public Action DataChanged { get; set; }
+    [Inject]
+    NavigationManager NavManager { get; set; }
+
+    [Inject]
+    public AppData AppData { get; set; }
 
     private async Task CloseGroupModal()
     {
@@ -48,9 +51,8 @@
 
     private async void HandleValidSubmit()
     {
-        await groupService.Add(GroupObject, authenticationStateTask);
+        Group created = await groupService.Add(GroupObject, authenticationStateTask);
         await CloseGroupModal();
-        DataChanged?.Invoke();
+        NavManager.NavigateTo($"/groupdetails/{created.Id}");
     }
-
 }

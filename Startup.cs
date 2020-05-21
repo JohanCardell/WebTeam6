@@ -46,6 +46,7 @@ namespace WebTeam6
             //    .AddDefaultTokenProviders();
 
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<User>>();
+            services.AddScoped<AppData>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IGroupService, GroupService>();
             services.AddTransient<IEventService, EventService>();

@@ -12,10 +12,10 @@
             <InputDate id="edit-event-end-time" class="form-control" @bind-Value="Event.EndTime" />
         </div>
         <div class="col-3">
-            <button type="submit" @onclick="@(e => Editing = !Editing)">
+            <button type="submit" @onclick="(() => Editing = !Editing)">
                 <span class="oi oi-check" />
             </button>
-            <button @onclick="@(e => Editing = !Editing)">
+            <button @onclick="(() => Editing = !Editing)">
                 <span class="oi oi-x" />
             </button>
         </div>
@@ -30,7 +30,7 @@
             <p class="eventDesc">@Event.Description</p>
         </div>
         <div class="col-3">
-            <button id="eventEdit" type="submit" @onclick="@(_ => Delete?.Invoke())">
+            <button id="eventEdit" type="submit" @onclick="(() => Delete())">
                 <span class="oi oi-trash" />
             </button>
         <button id="eventEdit" @onclick="@(e => Editing = !Editing)">

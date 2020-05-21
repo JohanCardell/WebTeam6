@@ -1,6 +1,6 @@
 ﻿@inherits GroupMembersBase
 
-@if (@GroupObject.Owner == null)
+@if (AppData.SelectedGroup.Owner == null)
 {
     <div class="loader"></div>
 }
@@ -16,7 +16,7 @@ else
         </thead>
         <tbody>
             <tr>
-                <td><i class="fas fa-gavel" id="ownerIcon"></i> @GroupObject.Owner.UserName</td>
+                <td><i class="fas fa-gavel" id="ownerIcon"></i> @AppData.SelectedGroup.Owner.UserName</td>
                 <td></td>
 
             </tr>
@@ -26,7 +26,7 @@ else
                 <td class="memberName"><i class="fas fa-user" id="memberIcon"></i> @userItem.UserName</td>
                 <td></td>
                 <td>
-                    @if (GroupObject.Owner.Id == CurrentUser.Id)
+                    @if (AppData.SelectedGroup.Owner.Id == CurrentUser.Id)
                     {
                         <button type="button" class="btn btn-default deleteMember" @onclick="(() => RemoveUserFromGroup(userItem))">
                             <i class="fas fa-trash-alt"></i>
@@ -36,7 +36,7 @@ else
              </tr>
             }
         <tr>
-            @if (GroupObject.Owner.Id == CurrentUser.Id)
+            @if (AppData.SelectedGroup.Owner.Id == CurrentUser.Id)
             {
                 <td>
                     <input id="addMember" type="button" data-toggle="modal" data-target="#addMemberModal" class="btn btn-primary" value="Add member" />
@@ -45,10 +45,10 @@ else
                     <input id="assignOwner" type="button" data-toggle="modal" data-target="#assignOwnerModal" class="btn btn-secondary" value="Assign new owner" />
                 </td>
                 <td>
-                    <input id="deleteGroup" type="button" class="btn btn-outline-danger" @onclick="(() => DeleteGroup(GroupObject.Id))" value="Delete group" />
+                    <input id="deleteGroup" type="button" class="btn btn-outline-danger" @onclick="(() => DeleteGroup(AppData.SelectedGroup.Id))" value="Delete group" />
                 </td>
-                <AddMemberModal GroupObject="GroupObject" FilteredUsers="FilteredUsers" DataChanged="DataChanged"></AddMemberModal>
-                <AssignOwnerModal GroupObject="GroupObject" GroupMembers="GroupMembers" DataChanged="DataChanged"></AssignOwnerModal>
+                <AddMemberModal FilteredUsers="FilteredUsers"></AddMemberModal>
+                <AssignOwnerModal GroupMembers="GroupMembers"></AssignOwnerModal>
             }
             else
             {

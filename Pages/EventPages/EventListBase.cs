@@ -13,43 +13,32 @@ namespace WebTeam6.Pages.EventPages
         [Inject]
         private IEventService Service { get; set; }
 
-        [Parameter]
-        public Group Group { get; set; }
+        [Inject]
+        public AppData AppData { get; set; }
 
-        [Parameter]
-        public IEnumerable<Event> Events { get; set; }
         public Event Event { get; set; } = new Event { StartTime = DateTime.Now, EndTime = DateTime.Now.AddDays(1) };
-
-        protected async void DataChanged()
-        {
-            var res = await Service.Get(Group);
-            if(res != null) Events = res;
-            StateHasChanged();
-        }
 
         protected override async Task OnInitializedAsync()
         {
-            await base.OnInitializedAsync();
-            Events = Group.Events;
+            var res = await Service.Get(AppData.SelectedGroup);
+            if (res != null) AppData.SelectedGroup.Events = res;
+            AppData.OnChange += Update;
         }
+
+        public async void Update()
+        {
+            var res = await Service.Get(AppData.SelectedGroup);
+            if (res != null) AppData.SelectedGroup.Events = res;
+            StateHasChanged();
+        }
+
         public async void Add()
         {
-            Event.Group = Group;
             var res = await Service.Add(Event);
             if(res != null)
             {
                 Event = new Event { StartTime = DateTime.Now, EndTime = DateTime.Now.AddDays(1) };
-                DataChanged();
-                base.StateHasChanged();
-            }
-        }
-        protected async void Delete(Event Event)
-        {
-            if (Event != null)
-            {
-                await Service.Delete(Event.Id);
-                DataChanged();
-                base.StateHasChanged();
+                Update();
             }
         }
     }

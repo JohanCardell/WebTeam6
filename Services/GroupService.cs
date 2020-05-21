@@ -109,7 +109,7 @@ namespace WebTeam6.Services
             return (await _context.SaveChangesAsync()) > 0;
         }
 
-        public async Task<List<Group>> GetGetAuthorizedUserGroups(Task<AuthenticationState> authenticationStateTask)
+        public async Task<List<Group>> GetAuthorizedUserGroups(Task<AuthenticationState> authenticationStateTask)
         {
             var authorizedUser = (await authenticationStateTask).User;
             var userEntity = await _context.Users

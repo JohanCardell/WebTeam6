@@ -12,7 +12,6 @@ namespace WebTeam6.Pages.GroupPages
 {
     public class GroupDetailsBase : ComponentBase
     {
-        protected Group GroupObject = new Group();
         [Inject]
         public IGroupService GroupService { get; set; }
         [Inject]
@@ -20,10 +19,41 @@ namespace WebTeam6.Pages.GroupPages
         public List<User> GroupMembers { get; set; } = new List<User>();
         public List<User> FilteredUsers { get; set; } = new List<User>();
 
+        [Inject]
+        public AppData AppData { get; set; }
+
         [Parameter]
         public string Id { get; set; }
 
-        //protected async override Task OnInitializedAsync()
+        protected async override Task OnInitializedAsync()
+        {
+            AppData.SelectedGroup = await GroupService.GetGroupById(int.Parse(Id));
+            if (AppData.SelectedGroup == null) return;
+            GroupMembers = AppData.SelectedGroup.Members.ToList();
+            FilteredUsers = (await UserService.Get())
+                .Where(x => !GroupMembers
+                .Any(z => x.Id == z.Id))
+                .ToList();
+            FilteredUsers.Remove(AppData.SelectedGroup.Owner);
+            AppData.OnChange += Update;
+        }
+        protected async void Update()
+        {
+            if (AppData.SelectedGroup == null)
+            {
+                AppData.OnChange -= Update;
+                return;
+            }
+            AppData.SelectedGroup = await GroupService.GetGroupById(AppData.SelectedGroup.Id);
+            GroupMembers = AppData.SelectedGroup.Members.ToList();
+            FilteredUsers = (await UserService.Get())
+                .Where(x => !GroupMembers
+                    .Any(z => x.Id == z.Id))
+                .ToList();
+            FilteredUsers.RemoveAll(u => u.Id == AppData.SelectedGroup.Owner.Id);
+            StateHasChanged();
+        }
+        //protected override async Task OnParametersSetAsync()
         //{
         //    GroupObject = await GroupService.GetGroupById(int.Parse(Id));
         //    GroupMembers = GroupObject.Members.ToList();
@@ -31,29 +61,7 @@ namespace WebTeam6.Pages.GroupPages
         //        .Where(x => !GroupMembers
         //            .Any(z => x.Id == z.Id))
         //        .ToList();
-        //    GroupMembers.Remove(GroupObject.Owner);
-        //    FilteredUsers.Remove(GroupObject.Owner);
+        //    FilteredUsers.RemoveAll(u => u.Id == GroupObject.Owner.Id);
         //}
-        protected async void DataChanged()
-        {
-            GroupObject = await GroupService.GetGroupById(GroupObject.Id);
-            GroupMembers = GroupObject.Members.ToList();
-            FilteredUsers = (await UserService.Get())
-                .Where(x => !GroupMembers
-                    .Any(z => x.Id == z.Id))
-                .ToList();
-            FilteredUsers.RemoveAll(u => u.Id == GroupObject.Owner.Id);
-            StateHasChanged();
-        }
-        protected override async Task OnParametersSetAsync()
-        {
-            GroupObject = await GroupService.GetGroupById(int.Parse(Id));
-            GroupMembers = GroupObject.Members.ToList();
-            FilteredUsers = (await UserService.Get())
-                .Where(x => !GroupMembers
-                    .Any(z => x.Id == z.Id))
-                .ToList();
-            FilteredUsers.RemoveAll(u => u.Id == GroupObject.Owner.Id);
-        }
     }
 }

@@ -4,17 +4,17 @@
 <h3>EventList</h3>
 
 <div class="list-group" id="eventTable">
-    @if (Events == null)
+    @if (AppData.SelectedGroup.Events == null)
     {
         <div>Loading...</div>
     }
     else
     {
     <div id="event-list" class="overflow-auto" style="max-height: 50vh;">
-        @foreach (var e in Events)
+        @foreach (var e in AppData.SelectedGroup.Events)
         {
             <div class="list-group-item">
-                <EventDetails Event="e" Delete="@(() => Delete(e))" />
+                <EventDetails Event="e" DataChanged="Update" />
             </div>
         }
     </div>

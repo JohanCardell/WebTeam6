@@ -15,14 +15,16 @@ namespace WebTeam6.Pages.GroupPages
     {
         [Inject]
         public IJSRuntime jSRuntime { get; set; }
+
         [Inject]
         public IGroupService GroupService { get; set; }
-        [Parameter]
-        public Group GroupObject { get; set; }
-        [Parameter]
-        public Action DataChanged { get; set; }
+
+        [Inject]
+        public AppData AppData { get; set; }
+
         [Parameter]
         public List<User> GroupMembers { get; set; } = new List<User>();
+
         [Parameter]
         public List<User> FilteredUsers { get; set; } = new List<User>();
         protected IEnumerable<string> selectedUsers = new string[] { "", "" };
@@ -35,16 +37,16 @@ namespace WebTeam6.Pages.GroupPages
         }
         protected async Task AddSelectedUsers()
         {
-            await GroupService.AddMembers(selectedUsers, GroupObject);
+            await GroupService.AddMembers(selectedUsers, AppData.SelectedGroup);
+            AppData.SelectedGroup = await GroupService.GetGroupById(AppData.SelectedGroup.Id);
             await CloseModal("addMemberModal");
-            DataChanged?.Invoke();
         }
 
         protected async Task AssignNewOwner()
         {
-            await GroupService.GiveOwnership(newOwnerId,GroupObject.Id);
+            await GroupService.GiveOwnership(newOwnerId, AppData.SelectedGroup.Id);
+            AppData.SelectedGroup = await GroupService.GetGroupById(AppData.SelectedGroup.Id);
             await CloseModal("assignOwnerModal");
-            DataChanged?.Invoke();
         }
     }
 }

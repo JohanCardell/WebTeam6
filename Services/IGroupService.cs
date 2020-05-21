@@ -9,7 +9,7 @@ namespace WebTeam6.Services
     {
         Task<List<Group>> Get();
         Task<Group> GetGroupById(int id);
-        Task<List<Group>> GetGetAuthorizedUserGroups(Task<AuthenticationState> authenticationStateTask);
+        Task<List<Group>> GetAuthorizedUserGroups(Task<AuthenticationState> authenticationStateTask);
         Task<Group> Add(Group group, Task<AuthenticationState> authenticationStateTask);
         Task<IEnumerable<string>> AddMembers(IEnumerable<string> newMembers, Group group);
         Task<bool> GiveOwnership(string newOwnerId, int groupId);

@@ -1,7 +1,7 @@
 ﻿@page "/groupdetails/{id}"
 @inherits GroupDetailsBase
 
-<h3>@GroupObject.Name</h3>
+<h3>@AppData.SelectedGroup.Name</h3>
 <div class="container">
     <div class="row">
         <div class="col-lg-2">
@@ -10,11 +10,11 @@
         </div>
         <div class="col-lg-5">
             <p>Events</p>
-            <WebTeam6.Pages.EventPages.EventList Group="GroupObject" Events="GroupObject.Events"/>
+            <WebTeam6.Pages.EventPages.EventList />
             <!-- Content -->
         </div>
         <div class="col-lg-5">
-            <GroupMembersView GroupObject="GroupObject" GroupMembers="GroupMembers" FilteredUsers="FilteredUsers" DataChanged="DataChanged"></GroupMembersView>
+            <GroupMembersView GroupMembers="GroupMembers" FilteredUsers="FilteredUsers"></GroupMembersView>
         </div>
     </div>
 </div>
