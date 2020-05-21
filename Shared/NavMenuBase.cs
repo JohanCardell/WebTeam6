@@ -18,7 +18,7 @@ namespace WebTeam6.Shared
         [CascadingParameter]
         Task<AuthenticationState> authenticationStateTask { get; set; }
         public List<Group> UserGroupList { get; set; }
-        public Group groupObject = new Group();
+        public Group GroupObject { get; set; } = new Group();
 
         protected bool collapseNavMenu = true;
 
@@ -41,7 +41,9 @@ namespace WebTeam6.Shared
         }
         protected void InitializeGroupObject()
         {
-            groupObject = new Group();
+            GroupObject = new Group();
         }
+
+
     }
 }

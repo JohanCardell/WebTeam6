@@ -42,7 +42,7 @@ namespace WebTeam6.Pages.GroupPages
         protected async Task DeleteGroup(int groupId)
         {
             await GroupService.Delete(groupId);
-            NavManager.NavigateTo("/mygroups");
+            NavManager.NavigateTo("/");
         }
 
         protected async Task RemoveUserFromGroup(User user)
