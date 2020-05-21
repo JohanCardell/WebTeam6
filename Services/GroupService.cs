@@ -100,11 +100,13 @@ namespace WebTeam6.Services
             return (await _context.SaveChangesAsync()) > 0;
         }
 
-        public async Task<bool> GiveOwnership(string newOwnerId, int groupId)
+        public async Task<bool> GiveOwnership(string newOwnerId, string previousOwnerId, int groupId)
         {
             var newOwnerEntity = await _context.Users.FirstOrDefaultAsync(u => u.Id == newOwnerId);
             var groupEntity = await _context.Groups.FirstOrDefaultAsync(g => g.Id == groupId);
             groupEntity.Owner = newOwnerEntity;
+            await _context.SaveChangesAsync();
+            (await _context.Users.FirstOrDefaultAsync(u => u.Id == previousOwnerId)).Groups.Add(await _context.Groups.FirstOrDefaultAsync(g => g.Id == groupId));
             return (await _context.SaveChangesAsync()) > 0;
         }
 

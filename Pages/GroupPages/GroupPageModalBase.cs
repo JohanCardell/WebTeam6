@@ -17,6 +17,10 @@ namespace WebTeam6.Pages.GroupPages
         public IJSRuntime jSRuntime { get; set; }
         [Inject]
         public IGroupService GroupService { get; set; }
+
+        [Inject]
+        public NavigationManager NavManager { get; set; }
+
         [Parameter]
         public Group GroupObject { get; set; }
         [Parameter]
@@ -42,9 +46,10 @@ namespace WebTeam6.Pages.GroupPages
 
         protected async Task AssignNewOwner()
         {
-            await GroupService.GiveOwnership(newOwnerId,GroupObject.Id);
+            await GroupService.GiveOwnership(newOwnerId, GroupObject.Owner.Id, GroupObject.Id);
             await CloseModal("assignOwnerModal");
             DataChanged?.Invoke();
+            NavManager.NavigateTo($"/groupdetails/{GroupObject.Id}", true);
         }
     }
 }
