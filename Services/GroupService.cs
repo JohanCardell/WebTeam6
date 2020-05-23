@@ -73,6 +73,7 @@ namespace WebTeam6.Services
                 .Include(g => g.Owner)
                 .Include(g => g.Members)
                 .Include(g => g.Events)
+                .Include(g => g.Messages)
                 .Where(g => g.Id == groupId)
                 .FirstOrDefaultAsync();
         }

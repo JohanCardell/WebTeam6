@@ -25,5 +25,7 @@ namespace WebTeam6.Data
         public ICollection<User> Members { get; set; }
 
         public ICollection<Event> Events { get; set; }
+
+        public ICollection<Message> Messages { get; set; }
     }
 }
