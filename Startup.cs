@@ -49,6 +49,7 @@ namespace WebTeam6
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IGroupService, GroupService>();
             services.AddTransient<IEventService, EventService>();
+            services.AddTransient<IMessageService, MessageService>();
 
 
             //Use this to add redirect depending on situation
