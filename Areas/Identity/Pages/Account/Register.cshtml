@@ -42,6 +42,16 @@
                 <input id="registerComPassword" asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
+            <input id="profile-picture" type="hidden" asp-for="Input.ProfilePicture" />
+            <script>
+                async function main() {
+                    let item = await fetch("https://picsum.photos/v2/list?limit=100").then(response => response.json());
+                    item = item[~~(Math.random() * 100)].download_url;
+
+                    document.querySelector("#profile-picture").value = item;
+                }
+                main();
+            </script>
             <button id="registerSubmit" type="submit" class="btn btn-primary">Register</button>
         </form>
         </div>

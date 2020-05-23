@@ -20,6 +20,8 @@ namespace WebTeam6.Data
 
         public string LastName { get; set; }
 
+        public string ProfilePicture { get; set; }
+
         public ICollection<Group> Groups { get; set; }
     }
 }

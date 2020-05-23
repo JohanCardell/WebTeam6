@@ -1,5 +1,25 @@
 ﻿@page "/"
+@using WebTeam6.Services
+@inject IUserService userService
 
-<h1>Hello, world!</h1>
 
-Welcome to your new app.
+    <h1>Hello, @User?.FirstName @User?.LastName</h1>
+    <p>
+        Welcome to your new app.
+    </p>
+
+
+
+
+
+@code{ 
+    [CascadingParameter]
+    Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    public User User { get; set; }
+    
+    protected async override Task OnInitializedAsync()
+    {
+        User = await userService.GetAuthorizedUser(authenticationStateTask);
+    }
+}
