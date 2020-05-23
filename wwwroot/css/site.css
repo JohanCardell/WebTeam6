@@ -109,6 +109,11 @@ app {
                 color: white;
             }
 
+.scrollbar {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
 .content {
     padding-top: 1.1rem;
 }
@@ -140,6 +145,7 @@ app {
     left: 55%;
     position: absolute;
 }
+
 
 @keyframes spin {
     0% {

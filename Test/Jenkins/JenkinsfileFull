@@ -17,20 +17,35 @@ pipeline {
                     bat 'START /B dotnet run'
             }
         }
+		stage('Create Group Test') {
+			steps {
+				bat 'robot -d results/CreateGroupTest --variable BROWSER:headlesschrome "Test/TestCases/CreateGroupTest.robot"'
+			}
+		}
 		stage('User Registration Test') {
 			steps {
 				sleep 10
-				catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-					bat 'robot -d results/UserRegistrationTest --variable BROWSER:headlesschrome "Test/TestCases/UserRegistrationTest.robot"'
-                }
-				
+				bat 'robot -d results/UserRegistrationTest --variable BROWSER:headlesschrome "Test/TestCases/UserRegistrationTest.robot"'
 			}
 		}
 		stage('Login Test') {
 			steps {
-				catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-					bat 'robot -d results/LoginTest --variable BROWSER:headlesschrome "Test/TestCases/LoginTest.robot"'
-				}
+				bat 'robot -d results/LoginTest --variable BROWSER:headlesschrome "Test/TestCases/LoginTest.robot"'
+			}
+		}
+		stage('UserInGroup Test') {
+			steps {
+				bat 'robot -d results/UserInGroupTest --variable BROWSER:headlesschrome "Test/TestCases/UserInGroupTest.robot"'
+			}
+		}
+		stage('Group Event Test') {
+			steps {
+				bat 'robot -d results/GroupEventTest --variable BROWSER:headlesschrome "Test/TestCases/GroupEvent.robot"'
+			}
+		}
+		stage('Group Messaging Test') {
+			steps {
+				bat 'robot -d results/messageTest --variable BROWSER:headlesschrome "Test/TestCases/MessagingTest.robot"'
 			}
 		}
 	}
@@ -50,7 +65,7 @@ pipeline {
 					   unstableThreshold   : 40,
 					   otherFiles          : "**/*.png,**/*.jpg",
 					]
-				)	
+				)
 			}
 		}
 	}

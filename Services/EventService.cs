@@ -60,7 +60,7 @@ namespace WebTeam6.Services
 
         public async Task<List<Event>> Get(Group g)
         {
-            var group = await (_context.Groups.FirstOrDefaultAsync(gr => gr.Id == g.Id));
+            var group = await (_context.Groups.Include(g => g.Events).FirstOrDefaultAsync(gr => gr.Id == g.Id));
             return group.Events.ToList();
         }
 

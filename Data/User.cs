@@ -16,6 +16,10 @@ namespace WebTeam6.Data
             Groups = new List<Group>();
         }
 
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
         public ICollection<Group> Groups { get; set; }
     }
 }
