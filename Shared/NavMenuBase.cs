@@ -16,7 +16,7 @@ namespace WebTeam6.Shared
         [Inject]
         public IGroupService GroupService { get; set; }
         [CascadingParameter]
-        Task<AuthenticationState> authenticationStateTask { get; set; }
+        public Task<AuthenticationState> authenticationStateTask { get; set; }
         public List<Group> UserGroupList { get; set; }
         public Group GroupObject { get; set; } = new Group();
 
