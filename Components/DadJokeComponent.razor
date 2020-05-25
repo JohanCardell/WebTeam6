@@ -1,24 +1,24 @@
 ﻿@using System.Text.Json
 
-@if (Quote == null)
+@if (GetJoke == null)
 {
     <div class="loader"></div>
 
 }
 else if(GetError)
 {
-    <h3>@Quote.status</h3>
+    <h3>@GetJoke.status</h3>
     
 }
 else
 {
-    <h3>@Quote.joke</h3>
+    <h3>@GetJoke.joke</h3>
 }
 
 
 @code {
 
-    public Quote Quote { get; set; } = new Quote();
+    public DadJoke GetJoke { get; set; } = new DadJoke();
     public bool GetError { get; private set; }
 
     [Inject]
@@ -40,11 +40,18 @@ else
         if (response.IsSuccessStatusCode)
         {
             using var responseStream = await response.Content.ReadAsStreamAsync();
-            Quote = await JsonSerializer.DeserializeAsync<Quote>(responseStream);
+            GetJoke = await JsonSerializer.DeserializeAsync<DadJoke>(responseStream);
         }
         else
         {
             GetError = true;
         }
+    }
+
+    public class DadJoke
+    {
+        public string id { get; set; } = "";
+        public string joke { get; set; } = "";
+        public int status { get; set; }
     }
 }
