@@ -46,11 +46,9 @@ namespace WebTeam6.Services
         public async Task<User> Delete(string id)
         {
             var user = await _context.Users
-                .Include(u => u.Groups)
+                .Include(u => u.GroupsAsMember)
+                .Include(u => u.Events)
                 .FirstOrDefaultAsync(u => u.Id == id);
-
-            foreach (Group g in user.Groups) g.Members.Remove(user);
-            foreach (Event e in _context.Events) if (e.Creator == user) e.Creator = null;
             _context.Remove(user);
             await _context.SaveChangesAsync();
             return user;

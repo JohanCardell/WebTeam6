@@ -47,7 +47,7 @@ namespace WebTeam6.Pages.GroupPages
 
         protected async Task RemoveUserFromGroup(User user)
         {
-            user.Groups.Remove(GroupObject);
+            user.GroupsAsMember.Remove(GroupObject);
             await UserService.Update(user);
             GroupObject.Members.Remove(user);
             await GroupService.Update(GroupObject);

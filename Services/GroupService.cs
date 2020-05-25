@@ -25,20 +25,25 @@ namespace WebTeam6.Services
             await _context.Database.EnsureCreatedAsync();
             var authorizedUser = (await authenticationStateTask).User;
             var owner = await _context.Users.FirstOrDefaultAsync(u => u.UserName == authorizedUser.Identity.Name);
+            var groupEntity = await _context.
+                .Include(g => g.Members)
+                .ThenInclude(gu => gu.User)
+
             Console.WriteLine(owner);
             if (owner != null)
             {
                 Console.WriteLine("was not null");
-                group.Members.Add(owner);
-                group.Owner = owner;
+                groupEntity.Members.Add(owner);
+                groupEntity.Owner = owner;
                 await _context.Groups.AddAsync(group);
-                owner.Groups.Add(group);
+                groupEntity.GroupsAsMember.Add(group);
                 await _context.SaveChangesAsync();
                 return group;
             }
             Console.WriteLine("was null");
             return null;
         }
+
 
         public async Task<IEnumerable<string>> AddMembers(IEnumerable<string> newMembers, Group group)
         {
@@ -52,7 +57,7 @@ namespace WebTeam6.Services
                     if (groupEntity.Members.Contains(userEntity) == false)
                     {
                         groupEntity.Members.Add(userEntity);
-                        userEntity.Groups.Add(groupEntity);
+                        userEntity.GroupsAsMember.Add(groupEntity);
                         Console.WriteLine($"Added {userEntity.UserName} to {groupEntity.Name}");
                     }
                 }
@@ -61,6 +66,14 @@ namespace WebTeam6.Services
                 return newMembers;
             }
             return null;
+        }
+
+        public async Task<List<User>> GetGroupMembers()
+        {
+            return await _context.Groups
+                .Include(g => g.Members)
+                .ThenInclude(gu => gu.User)
+                .SelectMany(u => u.);
         }
 
         public async Task<List<Group>> Get()
@@ -85,7 +98,7 @@ namespace WebTeam6.Services
                 .Include(g => g.Events)
                 .FirstOrDefaultAsync(g => g.Id == groupId);
             foreach (var e in groupEntity.Events) _context.Events.Remove(e);
-            foreach (var u in groupEntity.Members) u.Groups.Remove(groupEntity);
+            foreach (var u in groupEntity.Members) u.GroupsAsMember.Remove(groupEntity);
             _context.Remove(groupEntity);
             await _context.SaveChangesAsync();
             return groupEntity;
@@ -95,7 +108,7 @@ namespace WebTeam6.Services
         {
             var groupEntity = await _context.Groups.FirstOrDefaultAsync(g => g.Id == groupId);
             var userEntity = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
-            userEntity.Groups.Remove(groupEntity);
+            userEntity.GroupsAsMember.Remove(groupEntity);
             groupEntity.Members.Remove(userEntity);
             return (await _context.SaveChangesAsync()) > 0;
         }
@@ -106,7 +119,7 @@ namespace WebTeam6.Services
             var groupEntity = await _context.Groups.FirstOrDefaultAsync(g => g.Id == groupId);
             groupEntity.Owner = newOwnerEntity;
             await _context.SaveChangesAsync();
-            (await _context.Users.FirstOrDefaultAsync(u => u.Id == previousOwnerId)).Groups.Add(await _context.Groups.FirstOrDefaultAsync(g => g.Id == groupId));
+            (await _context.Users.FirstOrDefaultAsync(u => u.Id == previousOwnerId)).GroupsAsMember.Add(await _context.Groups.FirstOrDefaultAsync(g => g.Id == groupId));
             return (await _context.SaveChangesAsync()) > 0;
         }
 
@@ -114,10 +127,10 @@ namespace WebTeam6.Services
         {
             var authorizedUser = (await authenticationStateTask).User;
             var userEntity = await _context.Users
-                .Include(u => u.Groups)
+                .Include(u => u.GroupsAsMember)
                 .FirstOrDefaultAsync(u => u.UserName == authorizedUser.Identity.Name);
                           
-            return userEntity.Groups.ToList();
+            return userEntity.GroupsAsMember.ToList();
         }
         public async Task<bool> Update(Group group)
         {

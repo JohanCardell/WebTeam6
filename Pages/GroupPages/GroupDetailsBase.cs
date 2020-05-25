@@ -37,7 +37,7 @@ namespace WebTeam6.Pages.GroupPages
         protected async void DataChanged()
         {
             GroupObject = await GroupService.GetGroupById(GroupObject.Id);
-            GroupMembers = GroupObject.Members.ToList();
+            GroupMembers = GroupObject.Members. ;
             FilteredUsers = (await UserService.Get())
                 .Where(x => !GroupMembers
                     .Any(z => x.Id == z.Id))

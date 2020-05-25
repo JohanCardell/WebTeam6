@@ -13,9 +13,14 @@ namespace WebTeam6.Data
     {
         public User()
         {
-            Groups = new List<Group>();
+            GroupsAsMember = new List<GroupUser>();
+            GroupsAsOwner = new List<Group>();
+            Events = new List<Event>();
         }
 
-        public ICollection<Group> Groups { get; set; }
+        public ICollection<GroupUser> GroupsAsMember { get; set; }
+
+        public ICollection<Group> GroupsAsOwner { get; set; }
+        public ICollection<Event> Events { get; set; }
     }
 }

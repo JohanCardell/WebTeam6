@@ -20,7 +20,10 @@ namespace WebTeam6.Data
 
 
         public Group Group { get; set; }
+        public int GroupId { get; set; }
 
         public User Creator { get; set; }
+        
+        public string CreatorId { get; set; }
     }
 }
