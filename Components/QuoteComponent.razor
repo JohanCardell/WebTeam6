@@ -1,0 +1,50 @@
+﻿@using System.Text.Json
+
+@if (Quote == null)
+{
+    <div class="loader"></div>
+
+}
+else if(GetError)
+{
+    <h3>@Quote.status</h3>
+    
+}
+else
+{
+    <h3>@Quote.joke</h3>
+}
+
+
+@code {
+
+    public Quote Quote { get; set; } = new Quote();
+    public bool GetError { get; private set; }
+
+    [Inject]
+    public IHttpClientFactory clientFactory { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        var request = new HttpRequestMessage(HttpMethod.Get,
+            "https://icanhazdadjoke.com/");
+        request.Headers.Add("Accept", "application/json");
+        request.Headers.Add("User-Agent", "Webteam6");
+
+        var client = clientFactory.CreateClient();
+
+        var response = await client.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            Quote = await JsonSerializer.DeserializeAsync<Quote>(responseStream);
+        }
+        else
+        {
+            GetError = true;
+        }
+    }
+}

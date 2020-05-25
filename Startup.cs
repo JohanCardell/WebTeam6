@@ -50,6 +50,12 @@ namespace WebTeam6
             services.AddTransient<IGroupService, GroupService>();
             services.AddTransient<IEventService, EventService>();
             services.AddTransient<IMessageService, MessageService>();
+            services.AddHttpClient();
+            //services.AddHttpClient("quotes", c => {
+            //    c.BaseAddress = new Uri ("https://icanhazdadjoke.com/");
+            //    c.DefaultRequestHeaders.Add("Accept", "application/json");
+            //    c.DefaultRequestHeaders.Add("User-Agent", "Webteam6)");
+            //});
 
 
             //Use this to add redirect depending on situation
