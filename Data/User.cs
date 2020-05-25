@@ -17,5 +17,6 @@ namespace WebTeam6.Data
         }
 
         public ICollection<Group> Groups { get; set; }
+        public ICollection<Group> OwnedGroups { get; set; }
     }
 }

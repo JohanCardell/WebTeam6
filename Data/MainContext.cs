@@ -34,7 +34,7 @@ namespace WebTeam6.Data
 
             modelBuilder.Entity<Group>().HasMany(g => g.Members);
             modelBuilder.Entity<Group>().HasMany(g => g.Events);
-            modelBuilder.Entity<Group>().HasOne(g => g.Owner);
+            modelBuilder.Entity<Group>().HasOne(g => g.Owner).WithMany(u => u.OwnedGroups);
 
             modelBuilder.Entity<Event>().HasOne(e => e.Group);
             modelBuilder.Entity<Event>().HasOne(e => e.Creator);
