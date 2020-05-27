@@ -1,5 +1,8 @@
 ﻿@inherits NavMenuBase;
 @using WebTeam6.Pages.MenuComponents;
+@using WebTeam6.Data
+@using WebTeam6.Services
+@inject IUserService userService
 
 <div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">RemoteTool</a>
@@ -47,6 +50,7 @@
                 <a class="nav-link">
                     <span id="logout-button" class="oi oi-account-logout"></span>
                     <input type="submit" class="nav-link btn btn-secondary" value="Log out" />
+                    <img id="profile-picture" src="@User?.ProfilePicture" />
                 </a>
             </form>
         </li>
@@ -55,3 +59,13 @@
 
 
 <WebTeam6.Pages.GroupPages.GroupCreation GroupObject="GroupObject" DataChanged="DataChanged"></WebTeam6.Pages.GroupPages.GroupCreation>
+
+@code{
+
+    public User User { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        User = await userService.GetAuthorizedUser(authenticationStateTask);
+    }
+}

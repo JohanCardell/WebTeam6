@@ -1,7 +1,28 @@
-﻿@using WebTeam6.Components 
+﻿@page "/"
 
-@page "/"
+@using WebTeam6.Components
+@using WebTeam6.Services
+@inject IUserService userService
 
+
+<h1>Hello, @User?.FirstName @User?.LastName</h1>
+<p>
+    Welcome to your RemoteTool.
+</p>
 <DadJokeComponent></DadJokeComponent>
 <Nameday></Nameday>
 
+
+
+
+@code{ 
+    [CascadingParameter]
+    Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    public User User { get; set; }
+    
+    protected async override Task OnInitializedAsync()
+    {
+        User = await userService.GetAuthorizedUser(authenticationStateTask);
+    }
+}
