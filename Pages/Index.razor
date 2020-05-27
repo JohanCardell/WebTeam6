@@ -1,12 +1,15 @@
 ﻿@page "/"
+
+@using WebTeam6.Components
 @using WebTeam6.Services
 @inject IUserService userService
 
 
-    <h1>Hello, @User?.FirstName @User?.LastName</h1>
-    <p>
-        Welcome to your new app.
-    </p>
+<h1>Hello, @User?.FirstName @User?.LastName</h1>
+<p>
+    Welcome to your RemoteTool.
+</p>
+<DadJokeComponent></DadJokeComponent>
 
 
 
