@@ -4,12 +4,12 @@
 
 @if (names != null)
 {
-    <h1>
-    @(names.Count > 1 ? "Today's Name Day names are:" : "Today's Name Day name is:'")
-    </h1>
+    <h3>
+    @(names.Count > 1 ? "Today's names of the day are:" : "Today's name of the day is:'")
+    </h3>
     @foreach(var name in names)
     {
-        <h3>@name</h3>
+        <p>@name</p>
     }
 }
 
