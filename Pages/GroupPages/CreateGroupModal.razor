@@ -36,15 +36,10 @@
     Task<AuthenticationState> authenticationStateTask { get; set; }
 
     [Parameter]
-    public Group GroupObject { get; set; } = new Group();
+    public Group GroupObject { get; set; }
 
     [Parameter]
     public Action DataChanged { get; set; }
-
-    protected override void OnInitialized()
-    {
-        GroupObject = new Group();
-    }
 
     private async Task CloseGroupModal()
     {
@@ -53,8 +48,6 @@
 
     private async void HandleValidSubmit()
     {
-        //GroupObject.Owner = await userService.GetAuthorizedUser(authenticationStateTask);
-        //GroupObject.Owner.Groups.Add(GroupObject);
         await groupService.Add(GroupObject, authenticationStateTask);
         await CloseGroupModal();
         DataChanged?.Invoke();

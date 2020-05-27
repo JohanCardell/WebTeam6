@@ -13,12 +13,12 @@ namespace WebTeam6.Shared
 {
     public class NavMenuBase: ComponentBase
     {
-        [Inject]
-        public IGroupService GroupService { get; set; }
-        [CascadingParameter]
-        Task<AuthenticationState> authenticationStateTask { get; set; }
-        public List<Group> UserGroupList { get; set; }
-        public Group groupObject = new Group();
+        //[Inject]
+        //public IGroupService GroupService { get; set; }
+        //[CascadingParameter]
+        //Task<AuthenticationState> authenticationStateTask { get; set; }
+        //public List<Group> UserGroupList { get; set; }
+        //public Group groupObject = new Group();
 
         protected bool collapseNavMenu = true;
 
@@ -29,19 +29,19 @@ namespace WebTeam6.Shared
             collapseNavMenu = !collapseNavMenu;
         }
 
-        protected override async Task OnInitializedAsync()
-        {
-            UserGroupList = await GroupService.GetGetAuthorizedUserGroups(authenticationStateTask);
-        }
+        //protected override async Task OnInitializedAsync()
+        //{
+        //    UserGroupList = await GroupService.GetGetAuthorizedUserGroups(authenticationStateTask);
+        //}
 
-        protected async void DataChanged()
-        {
-            UserGroupList = await GroupService.GetGetAuthorizedUserGroups(authenticationStateTask);
-            StateHasChanged();
-        }
-        protected void InitializeGroupObject()
-        {
-            groupObject = new Group();
-        }
+        //protected async void DataChanged()
+        //{
+        //    UserGroupList = await GroupService.GetGetAuthorizedUserGroups(authenticationStateTask);
+        //    StateHasChanged();
+        //}
+        //protected void InitializeGroupObject()
+        //{
+        //    groupObject = new Group();
+        //}
     }
 }

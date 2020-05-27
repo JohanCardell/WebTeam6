@@ -15,6 +15,10 @@ namespace WebTeam6.Pages.GroupPages
     {
         [Inject]
         public IJSRuntime jSRuntime { get; set; }
+
+        [Inject]
+        public IUserService UserService { get; set; }
+
         [Inject]
         public IGroupService GroupService { get; set; }
 
@@ -23,33 +27,42 @@ namespace WebTeam6.Pages.GroupPages
 
         [Parameter]
         public Group GroupObject { get; set; }
+
         [Parameter]
         public Action DataChanged { get; set; }
+
         [Parameter]
         public List<User> GroupMembers { get; set; } = new List<User>();
+
         [Parameter]
         public List<User> FilteredUsers { get; set; } = new List<User>();
+
         protected IEnumerable<string> selectedUsers = new string[] { "", "" };
         protected string newOwnerId = string.Empty;
-
-
+       
         protected async Task CloseModal(string modalId)
         {
             await jSRuntime.InvokeAsync<object>("CloseModal", modalId);
         }
         protected async Task AddSelectedUsers()
         {
-            await GroupService.AddMembers(selectedUsers, GroupObject);
-            await CloseModal("addMemberModal");
-            DataChanged?.Invoke();
+            if (selectedUsers != null)
+            {
+                await GroupService.AddMembers(selectedUsers, GroupObject.Id);
+                await CloseModal("addMemberModal");
+                DataChanged?.Invoke();
+            }
         }
 
         protected async Task AssignNewOwner()
         {
-            await GroupService.GiveOwnership(newOwnerId, GroupObject.Owner.Id, GroupObject.Id);
-            await CloseModal("assignOwnerModal");
-            DataChanged?.Invoke();
-            NavManager.NavigateTo($"/groupdetails/{GroupObject.Id}", true);
+            if (newOwnerId != null)
+            {
+                await GroupService.GiveOwnership(newOwnerId, GroupObject.Owner.Id, GroupObject.Id);
+                await CloseModal("assignOwnerModal");
+                DataChanged?.Invoke();
+                //NavManager.NavigateTo($"/groupdetails/{GroupObject.Id}", true);
+            }
         }
     }
 }

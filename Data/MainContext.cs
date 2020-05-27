@@ -21,6 +21,7 @@ namespace WebTeam6.Data
         public new DbSet<User> Users { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<UserGroup> UserGroups { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -31,21 +32,20 @@ namespace WebTeam6.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<GroupUser>()
+            modelBuilder.Entity<UserGroup>()
                 .HasKey(p => new { p.GroupId, p.UserId });
 
-            modelBuilder.Entity<GroupUser>()
-                .HasOne(gu => gu.Group)
-                .WithMany(g => g.Members)
-                .HasForeignKey(gu => gu.GroupId)
-                .OnDelete(DeleteBehavior.SetNull);
+            //modelBuilder.Entity<GroupUser>()
+            //    .HasOne(gu => gu.Group)
+            //    .WithMany(g => g.Members)
+            //    .HasForeignKey(gu => gu.GroupId)
+            //    .OnDelete(DeleteBehavior.SetNull);
 
-            modelBuilder.Entity<GroupUser>()
-               .HasOne(gu => gu.User)
-               .WithMany(u => u.GroupsAsMember)
-               .HasForeignKey(gu => gu.UserId)
-               .OnDelete(DeleteBehavior.SetNull);
-
+            //modelBuilder.Entity<GroupUser>()
+            //   .HasOne(gu => gu.User)
+            //   .WithMany(u => u.GroupsAsMember)
+            //   .HasForeignKey(gu => gu.UserId)
+            //   .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<Group>()
               .HasOne(g => g.Owner)
@@ -53,7 +53,6 @@ namespace WebTeam6.Data
               .HasForeignKey(g => g.OwnerId)
               //.IsRequired()
               .OnDelete(DeleteBehavior.SetNull);
-
 
             modelBuilder.Entity<Event>()
                 .HasOne(e => e.Creator)

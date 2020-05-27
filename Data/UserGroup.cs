@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebTeam6.Data
 {
-    public class GroupUser
+    public class UserGroup
     {
         public int GroupId { get; set; }
         public Group Group { get; set; }
