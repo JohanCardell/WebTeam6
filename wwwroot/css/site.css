@@ -245,6 +245,36 @@ app {
     margin-left: 2em;
 }
 
+#home-page-body {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    display: flex;
+    flex-flow: wrap;
+    align-content: space-between;
+}
+
+#welcome-div{
+    flex: 0 0 100%;
+}
+
+.api-div {
+    padding: 3em;
+    border: solid;
+    border-width: 1px;
+    margin: 1em;
+    max-width: 360px;
+    min-height: 250px;
+    font-style: italic;
+    font-family: serif;
+    font-size: larger;
+}
+    .api-div h3{
+        font-weight: bold;
+    }
+    
+
 
 @media (max-width: 767.98px) {
     .main .top-row:not(.auth) {
