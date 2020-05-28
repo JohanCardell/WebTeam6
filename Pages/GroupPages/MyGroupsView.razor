@@ -14,12 +14,14 @@
 }
 else
 {
-    <table class="table table-striped">
+    <table class="table table-striped table-hover">
         <tbody>
             @foreach (var groupItem in MyGroupsList)
             {
                 <tr>
-                    <td><a id="@($"group-#{groupItem.Id}-btn")" type="button" href="@($"groupdetails/{groupItem.Id}")" role="button" class="btn btn-info">@groupItem.Name</a></td>
+                    <td style="width: 40%">@groupItem.Name</td>
+                    <td style="width: 30%"><a id="@($"group-#{groupItem.Id}-btn")" type="button" href="@($"groupdetails/{groupItem.Id}")" role="button" class="btn btn-info">Details</a></td>
+                    <td style="width: 30%"></td>
                 </tr>
             }
         </tbody>
