@@ -20,7 +20,7 @@ namespace WebTeam6.Pages.GroupPages
 
         //public List<User> GroupMembers { get; set; } = new List<User>();
 
-        public Group GroupObject { get; set; }
+        public Group GroupObject { get; set; } = new Group();
 
         protected async override Task OnInitializedAsync()
         {

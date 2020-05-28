@@ -12,6 +12,7 @@ namespace WebTeam6.Services
         Task<Group> GetGroupById(int id);
         Task<List<User>> GetGroupMembers(int groupId);
         Task<List<Group>> GetGetAuthorizedUserGroups(Task<AuthenticationState> authenticationStateTask);
+        Task<User> AddMember(string userId, int groupId);
         Task<IEnumerable<string>> AddMembers(IEnumerable<string> newMembers, int groupId);
         Task<bool> RemoveMember(string userId, int groupId);
         Task<bool> GiveOwnership(string newOwnerId, string previousOwnerId, int groupId);

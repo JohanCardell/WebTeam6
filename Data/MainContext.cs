@@ -35,17 +35,19 @@ namespace WebTeam6.Data
             modelBuilder.Entity<UserGroup>()
                 .HasKey(p => new { p.GroupId, p.UserId });
 
-            //modelBuilder.Entity<GroupUser>()
-            //    .HasOne(gu => gu.Group)
-            //    .WithMany(g => g.Members)
-            //    .HasForeignKey(gu => gu.GroupId)
-            //    .OnDelete(DeleteBehavior.SetNull);
 
-            //modelBuilder.Entity<GroupUser>()
-            //   .HasOne(gu => gu.User)
-            //   .WithMany(u => u.GroupsAsMember)
-            //   .HasForeignKey(gu => gu.UserId)
-            //   .OnDelete(DeleteBehavior.SetNull);
+            modelBuilder.Entity<UserGroup>()
+                .HasOne(gu => gu.Group)
+                .WithMany(g => g.Members)
+                .HasForeignKey(gu => gu.GroupId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<UserGroup>()
+               .HasOne(gu => gu.User)
+               .WithMany(u => u.GroupsAsMember)
+               .HasForeignKey(gu => gu.UserId)
+               .OnDelete(DeleteBehavior.Cascade);
+
 
             modelBuilder.Entity<Group>()
               .HasOne(g => g.Owner)
@@ -58,14 +60,14 @@ namespace WebTeam6.Data
                 .HasOne(e => e.Creator)
                 .WithMany(u => u.Events)
                 .HasForeignKey(e => e.CreatorId)
-                .IsRequired()
+                //.IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Event>()
                 .HasOne(e => e.Group)
                 .WithMany(g => g.Events)
                 .HasForeignKey(e => e.GroupId)
-                .IsRequired()
+                //.IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

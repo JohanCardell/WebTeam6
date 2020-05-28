@@ -19,8 +19,8 @@ namespace WebTeam6.Pages.GroupPages
         public IGroupService GroupService { get; set; }
 
         protected List<Group> MyGroupsList { get; set; }
-       
-        protected Group GroupObject { get; set; }
+
+        protected Group GroupObject { get; set; } = new Group();
 
         protected override async Task OnInitializedAsync()
         {

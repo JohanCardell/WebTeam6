@@ -61,7 +61,7 @@ namespace WebTeam6.Pages.GroupPages
                 await GroupService.GiveOwnership(newOwnerId, GroupObject.Owner.Id, GroupObject.Id);
                 await CloseModal("assignOwnerModal");
                 DataChanged?.Invoke();
-                //NavManager.NavigateTo($"/groupdetails/{GroupObject.Id}", true);
+                NavManager.NavigateTo($"/groupdetails/{GroupObject.Id}", true);
             }
         }
     }

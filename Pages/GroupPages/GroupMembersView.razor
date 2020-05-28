@@ -22,6 +22,8 @@ else
             </tr>
             @foreach (var userItem in GroupMembers)
             {
+                if (userItem.Id != GroupObject.OwnerId)
+                {
                 <tr>
                     <td class="memberName"><i class="fas fa-user" id="memberIcon"></i> @userItem.UserName</td>
                     <td></td>
@@ -34,9 +36,10 @@ else
                         }
                     </td>
                 </tr>
+                }
             }
         <tr>
-            @if (GroupObject.Owner.Id == CurrentUser.Id)
+            @if (CurrentUser.Id == GroupObject.OwnerId)
             {
                 <td>
                     <input id="addMember" type="button" data-toggle="modal" data-target="#addMemberModal" class="btn btn-primary" @onclick="(() => FilterUsers())" value="Add member" />

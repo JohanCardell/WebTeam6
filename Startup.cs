@@ -16,7 +16,6 @@ using Microsoft.AspNetCore.Identity;
 using WebTeam6.Areas.Identity;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity.UI;
-using AutoMapper;
 
 namespace WebTeam6
 {
@@ -47,7 +46,6 @@ namespace WebTeam6
             //    .AddDefaultTokenProviders();
 
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<User>>();
-            //services.AddAutoMapper(typeof(Startup));
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IGroupService, GroupService>();
             services.AddTransient<IEventService, EventService>();

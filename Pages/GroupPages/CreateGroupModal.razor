@@ -41,6 +41,7 @@
     [Parameter]
     public Action DataChanged { get; set; }
 
+
     private async Task CloseGroupModal()
     {
         await jsRuntime.InvokeAsync<object>("CloseModal", "groupModal");
@@ -48,7 +49,9 @@
 
     private async void HandleValidSubmit()
     {
-        await groupService.Add(GroupObject, authenticationStateTask);
+        await groupService.AddMember(
+            (await userService.GetAuthorizedUser(authenticationStateTask)).Id ,
+            (await groupService.Add(GroupObject, authenticationStateTask)).Id);
         await CloseGroupModal();
         DataChanged?.Invoke();
     }

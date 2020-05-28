@@ -7,7 +7,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using WebTeam6.Data;
-using AutoMapper;
 
 namespace WebTeam6.Services
 {
@@ -15,12 +14,10 @@ namespace WebTeam6.Services
     public class GroupService: IGroupService
     {
         private readonly MainContext _context;
-        private readonly IMapper _mapper;
 
-        public GroupService(MainContext context, IMapper mapper)
+        public GroupService(MainContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
         public async Task<Group> Add(Group newGroup, Task<AuthenticationState> authenticationStateTask)
@@ -30,13 +27,12 @@ namespace WebTeam6.Services
             if (ownerEntity != null)
             {
                 newGroup.Owner = ownerEntity;
-                UserGroup newUserGroupRelation = new UserGroup { //Add user as member
-                    Group = newGroup,
-                    User = ownerEntity
-                };
-                //groupEntity.Members.Add(new UserGroup{Group = groupEntity, User = ownerEntity }); // Kanske även IDn
-                //groupEntity.Owner = ownerEntity;
-                await _context.UserGroups.AddAsync(newUserGroupRelation);
+                //UserGroup newUserGroupRelation = new UserGroup { //Add user as member
+                //    Group = newGroup,
+                //    User = ownerEntity
+                //};
+                ////groupEntity.Members.Add(new UserGroup{Group = groupEntity, User = ownerEntity }); // Kanske även IDn
+                //await _context.UserGroups.AddAsync(newUserGroupRelation);
                 await _context.Groups.AddAsync(newGroup);
                 await _context.SaveChangesAsync();
                 return newGroup;
@@ -72,6 +68,33 @@ namespace WebTeam6.Services
                 await _context.SaveChangesAsync();
                 Console.WriteLine("context saved");
                 return newMembers;
+            }
+            return null;
+        }
+
+        public async Task<User> AddMember(string userId, int groupId)
+        {
+            
+                var groupEntity = await _context.Groups.FirstOrDefaultAsync(g => g.Id == groupId);
+              
+                    IList<UserGroup> existingGroupMemberRelations = await _context.UserGroups
+                        .Where(ug => ug.UserId == userId)
+                        .Where(ug => ug.GroupId == groupId)
+                        .ToListAsync();
+
+                    if (existingGroupMemberRelations.Count() == 0)
+                    {
+                        var userEntity = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                        UserGroup newUserGroupRelation = new UserGroup
+                        {
+                            Group = groupEntity,
+                            User = userEntity
+                        };
+                        _context.UserGroups.Add(newUserGroupRelation);
+                        Console.WriteLine($"Added {userEntity.UserName} to {groupEntity.Name}");
+                await _context.SaveChangesAsync();
+                Console.WriteLine("context saved");
+                return userEntity;
             }
             return null;
         }
@@ -141,9 +164,12 @@ namespace WebTeam6.Services
                     .ThenInclude(ug => ug.Group)
                 .FirstOrDefaultAsync(u => u.UserName == authorizedUser.Identity.Name);
             var userGroups = new List<Group>();
-            foreach (var ug in userEntity.GroupsAsMember)
+            if(userEntity.GroupsAsMember != null)
             {
-                userGroups.Add(ug.Group);
+                foreach (var ug in userEntity.GroupsAsMember)
+                {
+                    userGroups.Add(ug.Group);
+                }
             }
             return userGroups;
         }

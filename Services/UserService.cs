@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -16,12 +15,10 @@ namespace WebTeam6.Services
     {
         private readonly UserManager<User> _manager;
         private readonly MainContext _context;
-        private readonly IMapper _mapper;
-        public UserService(MainContext context, UserManager<User> manager, IMapper mapper)
+        public UserService(MainContext context, UserManager<User> manager)
         {
             _context = context;
             _manager = manager;
-            _mapper = mapper;
         }
 
 

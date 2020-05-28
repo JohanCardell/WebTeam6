@@ -17,7 +17,6 @@ namespace WebTeam6.Data
             GroupsAsOwner = new List<Group>();
             Events = new List<Event>();
         }
-
         
         public ICollection<UserGroup> GroupsAsMember { get; set; }
 

@@ -28,7 +28,7 @@ namespace WebTeam6.Pages.GroupPages
         [Parameter]
         public Group GroupObject { get; set; }
 
-        public User CurrentUser { get; set; }
+        public User CurrentUser { get; set; } = new User();
 
         public List<User> GroupMembers { get; set; } = new List<User>();
         
