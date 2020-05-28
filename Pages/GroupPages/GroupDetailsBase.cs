@@ -12,38 +12,39 @@ namespace WebTeam6.Pages.GroupPages
 {
     public class GroupDetailsBase : ComponentBase
     {
-        [Parameter]
-        public string Id { get; set; }
-
         [Inject]
         public IGroupService GroupService { get; set; }
 
-        //public List<User> GroupMembers { get; set; } = new List<User>();
+        [Inject]
+        public IUserService UserService { get; set; }
+
+        [CascadingParameter]
+        protected Task<AuthenticationState> authenticationStateTask { get; set; }
+
+        [Parameter]
+        public string Id { get; set; }
+
+        public User CurrentUser { get; set; } = new User();
+
+        public List<User> GroupMembers { get; set; } = new List<User>();
 
         public Group GroupObject { get; set; } = new Group();
 
         protected async override Task OnInitializedAsync()
         {
             GroupObject = await GroupService.GetGroupById(int.Parse(Id));
-            //GroupMembers.RemoveAll(u => u.Id == GroupObject.Owner.Id);
-            //FilteredUsers.RemoveAll(u => u.Id == GroupObject.Owner.Id);
+            GroupMembers = await GroupService.GetGroupMembers(GroupObject.Id);
+            GroupMembers.Remove(GroupObject.Owner);
+            CurrentUser = await UserService.GetAuthorizedUser(authenticationStateTask);
+
         }
         protected async void DataChanged()
         {
             GroupObject = await GroupService.GetGroupById(int.Parse(Id));
-            //GroupMembers = await GroupService.GetGroupMembers(GroupObject.Id);
+            GroupMembers = await GroupService.GetGroupMembers(GroupObject.Id);
+            GroupMembers.Remove(GroupObject.Owner);
+            CurrentUser = await UserService.GetAuthorizedUser(authenticationStateTask);
             StateHasChanged();
         }
-        //protected override async Task OnParametersSetAsync()
-        //{
-        //    GroupObject = await GroupService.GetGroupById(int.Parse(Id));
-        //    GroupMembers = GroupObject.Members.ToList();
-        //    FilteredUsers = (await UserService.Get())
-        //        .Where(x => !GroupMembers
-        //            .Any(z => x.Id == z.Id))
-        //        .ToList();
-        //    GroupMembers.RemoveAll(u => u.Id == GroupObject.Owner.Id);
-        //    FilteredUsers.RemoveAll(u => u.Id == GroupObject.Owner.Id);
-        //}
     }
 }

@@ -106,9 +106,12 @@ namespace WebTeam6.Services
                 .ThenInclude(ug => ug.User)
                 .FirstOrDefaultAsync(g => g.Id == groupId);
             var members = new List<User>();
-            foreach (var ug in groupEntity.Members)
+            if (groupEntity != null)
             {
-                members.Add(ug.User);
+                foreach (var ug in groupEntity.Members)
+                {
+                    members.Add(ug.User);
+                }
             }
             return members;
         }
@@ -121,10 +124,11 @@ namespace WebTeam6.Services
 
         public async Task<Group> GetGroupById(int groupId)
         {
-            return await _context.Groups
+            var groupEntity = await _context.Groups
                 .Include(g => g.Owner)
                 .Include(g => g.Events)
                 .FirstOrDefaultAsync(g => g.Id == groupId);
+            return groupEntity;
         }
 
         public async Task<Group> Delete(int groupId)
@@ -148,10 +152,10 @@ namespace WebTeam6.Services
             return (await _context.SaveChangesAsync()) > 0;
         }
 
-        public async Task<bool> GiveOwnership(string newOwnerId, string previousOwnerId, int groupId)
+        public async Task<bool> GiveOwnership(string newOwnerId, int groupId)
         {
             var groupEntity = await _context.Groups.FirstOrDefaultAsync(g => g.Id == groupId);
-            var previousOwnerEntity = await _context.Users.FirstOrDefaultAsync(u => u.Id == groupEntity.Owner.Id);
+            //var previousOwnerEntity = await _context.Users.FirstOrDefaultAsync(u => u.Id == groupEntity.Owner.Id);
             var newOwnerEntity = await _context.Users.FirstOrDefaultAsync(u => u.Id == newOwnerId);
             groupEntity.Owner = newOwnerEntity;
             return (await _context.SaveChangesAsync()) > 0;
