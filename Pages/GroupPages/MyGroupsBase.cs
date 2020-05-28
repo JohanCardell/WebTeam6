@@ -15,9 +15,10 @@ namespace WebTeam6.Pages.GroupPages
         [CascadingParameter]
         Task<AuthenticationState> authenticationStateTask { get; set; }
 
-        protected List<Group> MyGroupsList { get; set; }
         [Inject]
         public IGroupService GroupService { get; set; }
+
+        protected List<Group> MyGroupsList { get; set; }
 
         protected Group GroupObject { get; set; } = new Group();
 
