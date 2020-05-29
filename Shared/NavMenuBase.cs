@@ -15,10 +15,20 @@ namespace WebTeam6.Shared
     {
         [Inject]
         public IGroupService GroupService { get; set; }
+
+        [Inject]
+        public IUserService UserService {get; set;}
+
         [CascadingParameter]
         public Task<AuthenticationState> authenticationStateTask { get; set; }
         public List<Group> UserGroupList { get; set; }
         public Group GroupObject { get; set; } = new Group();
+        //[Inject]
+        //public IGroupService GroupService { get; set; }
+        //[CascadingParameter]
+        //Task<AuthenticationState> authenticationStateTask { get; set; }
+        //public List<Group> UserGroupList { get; set; }
+        //public Group groupObject = new Group();
 
         protected bool collapseNavMenu = true;
 
@@ -29,21 +39,25 @@ namespace WebTeam6.Shared
             collapseNavMenu = !collapseNavMenu;
         }
 
-        protected override async Task OnInitializedAsync()
-        {
-            UserGroupList = await GroupService.GetGetAuthorizedUserGroups(authenticationStateTask);
-        }
+  public User User { get; set; }
 
-        protected async void DataChanged()
-        {
-            UserGroupList = await GroupService.GetGetAuthorizedUserGroups(authenticationStateTask);
-            StateHasChanged();
-        }
-        protected void InitializeGroupObject()
-        {
-            GroupObject = new Group();
-        }
+    protected async override Task OnInitializedAsync()
+    {
+        User = await UserService.GetAuthorizedUser(authenticationStateTask);
+    }
+        //protected override async Task OnInitializedAsync()
+        //{
+        //    UserGroupList = await GroupService.GetGetAuthorizedUserGroups(authenticationStateTask);
+        //}
 
-
+        //protected async void DataChanged()
+        //{
+        //    UserGroupList = await GroupService.GetGetAuthorizedUserGroups(authenticationStateTask);
+        //    StateHasChanged();
+        //}
+        //protected void InitializeGroupObject()
+        //{
+        //    groupObject = new Group();
+        //}
     }
 }

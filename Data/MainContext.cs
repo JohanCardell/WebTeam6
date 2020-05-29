@@ -22,6 +22,7 @@ namespace WebTeam6.Data
         public DbSet<Group> Groups { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<UserGroup> UserGroups { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -31,15 +32,44 @@ namespace WebTeam6.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<User>().HasMany(u => u.Groups);
 
-            modelBuilder.Entity<Group>().HasMany(g => g.Members);
-            modelBuilder.Entity<Group>().HasMany(g => g.Events);
-            modelBuilder.Entity<Group>().HasMany(g => g.Messages);
-            modelBuilder.Entity<Group>().HasOne(g => g.Owner);
+            modelBuilder.Entity<UserGroup>()
+                .HasKey(p => new { p.GroupId, p.UserId });
 
-            modelBuilder.Entity<Event>().HasOne(e => e.Group);
-            modelBuilder.Entity<Event>().HasOne(e => e.Creator);
+
+            modelBuilder.Entity<UserGroup>()
+                .HasOne(gu => gu.Group)
+                .WithMany(g => g.Members)
+                .HasForeignKey(gu => gu.GroupId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<UserGroup>()
+               .HasOne(gu => gu.User)
+               .WithMany(u => u.GroupsAsMember)
+               .HasForeignKey(gu => gu.UserId)
+               .OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<Group>()
+              .HasOne(g => g.Owner)
+              .WithMany(u => u.GroupsAsOwner)
+              .HasForeignKey(g => g.OwnerId)
+              //.IsRequired()
+              .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Event>()
+                .HasOne(e => e.Creator)
+                .WithMany(u => u.Events)
+                .HasForeignKey(e => e.CreatorId)
+                //.IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Event>()
+                .HasOne(e => e.Group)
+                .WithMany(g => g.Events)
+                .HasForeignKey(e => e.GroupId)
+                //.IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Message>().HasOne(e => e.Group);
             modelBuilder.Entity<Message>().HasOne(e => e.Creator);

@@ -1,4 +1,5 @@
 ﻿@inherits NavMenuBase;
+@using WebTeam6.Shared
 @using WebTeam6.Pages.MenuComponents;
 @using WebTeam6.Data
 @using WebTeam6.Services
@@ -24,22 +25,11 @@
                 <span class="oi oi-people" aria-hidden="true"></span> My groups
             </NavLink>
         </li>
-        <GroupList UserGroupList="UserGroupList"></GroupList>
-        <li id="createGroup" class="nav-item px-3">
-            <NavLink class="nav-link" href="/creategroup" data-toggle="modal" data-target="#groupModal" @onclick="(() => InitializeGroupObject())">
-                <span class="oi oi-plus" aria-hidden="true"></span> Create group
-            </NavLink>
-        </li>
-        <li id="allGroupsPage" class="nav-item px-3">
+        @*<li id="allGroupsPage" class="nav-item px-3">
             <NavLink class="nav-link" href="groups">
                 <span class="oi oi-people" aria-hidden="true"></span> All groups
             </NavLink>
-        </li>
-        <li id="userIndexPage" class="nav-item px-3">
-            <NavLink class="nav-link" href="users">
-                <span class="oi oi-people" aria-hidden="true"></span> User Index
-            </NavLink>
-        </li>
+        </li>*@
         <li id="manageAccountPage" class="nav-item px-3">
             <a id="accountSettings" class="nav-link" href="/Identity/Account/Manage">
                 <span class="oi oi-cog"></span> Manage account
@@ -56,16 +46,3 @@
         </li>
     </ul>
 </div>
-
-
-<WebTeam6.Pages.GroupPages.GroupCreation GroupObject="GroupObject" DataChanged="DataChanged"></WebTeam6.Pages.GroupPages.GroupCreation>
-
-@code{
-
-    public User User { get; set; }
-
-    protected async override Task OnInitializedAsync()
-    {
-        User = await userService.GetAuthorizedUser(authenticationStateTask);
-    }
-}

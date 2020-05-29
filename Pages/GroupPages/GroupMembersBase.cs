@@ -12,47 +12,73 @@ namespace WebTeam6.Pages.GroupPages
 {
     public class GroupMembersBase : ComponentBase
     {
-        [CascadingParameter]
-        protected Task<AuthenticationState> authenticationStateTask { get; set; }
-        [Parameter]
-        public Group GroupObject { get; set; } = new Group();
-        public User CurrentUser { get; set; } = new User();
-        [Parameter]
-        public List<User> GroupMembers { get; set; } = new List<User>();
-        [Parameter]
-        public List<User> FilteredUsers { get; set; } = new List<User>();
+
         [Inject]
         public IGroupService GroupService { get; set; }
+
         [Inject]
         public IUserService UserService { get; set; }
+
         [Inject]
         NavigationManager NavManager { get; set; }
+
+        [CascadingParameter]
+        protected Task<AuthenticationState> authenticationStateTask { get; set; }
+
+        [Parameter]
+        public Group GroupObject { get; set; }
+
+        [Parameter]
+        public User CurrentUser { get; set; } = new User();
+
+        [Parameter]
+        public List<User> GroupMembers { get; set; } = new List<User>();
+        
         [Parameter]
         public Action DataChanged { get; set; }
 
-        protected override async Task OnInitializedAsync()
-        {
-            CurrentUser = await UserService.GetAuthorizedUser(authenticationStateTask);
-        }
-        protected override Task OnParametersSetAsync()
-        {
-            return base.OnParametersSetAsync();
-        }
+        public List<User> FilteredUsers { get; set; } = new List<User>();
+
+        //protected override void OnParametersSet()
+        //{
+        //    DataChanged?.Invoke();
+        //    base.OnParametersSet();
+        //}
 
         protected async Task DeleteGroup(int groupId)
         {
             await GroupService.Delete(groupId);
-            NavManager.NavigateTo("/");
+            NavManager.NavigateTo("/mygroups", true);
         }
 
-        protected async Task RemoveUserFromGroup(User user)
+        protected async Task LeaveGroup(string userId)
         {
-            user.Groups.Remove(GroupObject);
-            await UserService.Update(user);
-            GroupObject.Members.Remove(user);
-            await GroupService.Update(GroupObject);
-            user = new User();
-            DataChanged?.Invoke();
+            await GroupService.RemoveMember(userId, GroupObject.Id);
+            NavManager.NavigateTo("/mygroups", true);
+        }
+
+        protected async Task FilterUsers()
+        {
+            FilteredUsers = (await UserService.Get())
+               .Where(x => !GroupMembers
+                   .Any(z => x.Id == z.Id))
+               .Where(x => x.Id != GroupObject.OwnerId)
+               .ToList();
+        }
+
+        protected async void RefreshMembersList()
+        {
+            GroupObject = await GroupService.GetGroupById(GroupObject.Id);
+            GroupMembers = await GroupService.GetGroupMembers(GroupObject.Id);
+            GroupMembers.Remove(GroupObject.Owner);
+            CurrentUser = await UserService.GetAuthorizedUser(authenticationStateTask);
+            StateHasChanged();
+        }
+
+        protected async Task RemoveUserFromGroup(string userId)
+        {
+            await GroupService.RemoveMember(userId, GroupObject.Id);
+            RefreshMembersList();
         }
     }
 }
