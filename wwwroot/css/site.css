@@ -274,7 +274,11 @@ app {
     .api-div h3{
         font-weight: bold;
     }
-    
+
+#home-page-picture {
+    width: 300px;
+    border-radius: 150%;
+}
 
 
 @media (max-width: 767.98px) {
