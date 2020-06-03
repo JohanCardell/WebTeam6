@@ -1,14 +1,10 @@
 ﻿@page "/Messages"
 @inherits MessageListBase
 
-<h3>EventList</h3>
+<h3>Messages</h3>
 
 <div class="list-group" id="eventTable">
-    @if (Messages == null)
-    {
-        <div>Loading...</div>
-    }
-    else
+    @if (Messages != null)
     {
         <div id="Message-list" class="overflow-auto" style="max-height: 50vh;">
             @foreach (var message in Messages)

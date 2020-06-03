@@ -136,9 +136,11 @@ namespace WebTeam6.Services
             var groupEntity = await _context.Groups
                 .Include(g => g.Members)
                 .Include(g => g.Events)
+                .Include(g => g.Messages)
                 .FirstOrDefaultAsync(g => g.Id == groupId);
             foreach (var e in groupEntity.Events) _context.Events.Remove(e);
             foreach (var ug in groupEntity.Members) _context.UserGroups.Remove(ug);
+            foreach (var m in groupEntity.Messages) _context.Messages.Remove(m);
             _context.Groups.Remove(groupEntity);
             await _context.SaveChangesAsync();
             return groupEntity;
@@ -169,7 +171,7 @@ namespace WebTeam6.Services
                     .ThenInclude(ug => ug.Group)
                 .FirstOrDefaultAsync(u => u.UserName == authorizedUser.Identity.Name);
             var userGroups = new List<Group>();
-            if(userEntity.GroupsAsMember != null)
+            if(userEntity?.GroupsAsMember != null)
             {
                 foreach (var ug in userEntity.GroupsAsMember)
                 {

@@ -7,7 +7,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebTeam6.Data;
 using WebTeam6.Services;
-using WebTeam6.Pages.MenuComponents;
 
 namespace WebTeam6.Shared
 {

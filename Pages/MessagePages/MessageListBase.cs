@@ -31,7 +31,7 @@ namespace WebTeam6.Pages.MessagePages
         protected async void DataChanged()
         {
             var res = await Service.Get(Group);
-            if (res != null) Messages = res;
+            if (res != null) Messages = res.OrderBy(m => m.Time).Take(10);
             StateHasChanged();
         }
 
