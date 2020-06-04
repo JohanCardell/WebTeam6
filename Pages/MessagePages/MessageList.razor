@@ -1,0 +1,33 @@
+﻿@page "/Messages"
+@inherits MessageListBase
+
+<h3>Messages</h3>
+
+<div class="list-group" id="eventTable">
+    @if (Messages != null)
+    {
+        <div id="Message-list" class="overflow-auto" style="max-height: 50vh;">
+            @foreach (var message in Messages)
+            {
+                <div class="list-group-item">
+                    <p>@message.Creator?.UserName</p>
+                    <p>@message.Body</p>
+                </div>
+            }
+        </div>
+    }
+    <div class="list-group-item">
+        <EditForm id="edit-Message" OnValidSubmit="Add" Model="@Message">
+            <div class="form-group row">
+                <div class="input-group">
+                    <InputText required id="messageNameField" placeholder="Message" class="form-control" @bind-Value="Message.Body"></InputText>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="input-group">
+                    <input id="eventAdd" type="submit" class="btn btn-primary" value="Send" />
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>

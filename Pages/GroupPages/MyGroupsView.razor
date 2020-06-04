@@ -1,0 +1,29 @@
+﻿@page "/mygroups"
+
+@inherits MyGroupsBase
+
+<div>
+    <input id="add-group-btn" type="button" data-toggle="modal" data-target="#groupModal" class="btn btn-primary mb-3" value="Add group" @onclick="(() => InitializeGroupObject())" />
+</div>
+
+<CreateGroupModal GroupObject=GroupObject DataChanged="DataChanged"></CreateGroupModal>
+
+@if (MyGroupsList == null)
+{
+    <li> <div class="loader"></div></li>
+}
+else
+{
+    <table class="table table-striped table-hover">
+        <tbody>
+            @foreach (var groupItem in MyGroupsList)
+            {
+                <tr>
+                    <td style="width: 40%">@groupItem.Name</td>
+                    <td style="width: 30%"><a id="@($"group-#{groupItem.Id}-btn")" type="button" href="@($"groupdetails/{groupItem.Id}")" role="button" class="btn btn-info">Details</a></td>
+                    <td style="width: 30%"></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

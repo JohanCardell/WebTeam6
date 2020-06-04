@@ -149,6 +149,39 @@ namespace WebTeam6.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("WebTeam6.Data.Event", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.HasIndex("GroupId");
+
+                    b.ToTable("Events");
+                });
+
             modelBuilder.Entity("WebTeam6.Data.Group", b =>
                 {
                     b.Property<int>("Id")
@@ -162,16 +195,38 @@ namespace WebTeam6.Migrations
                     b.Property<string>("OwnerId")
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
                     b.HasKey("Id");
 
                     b.HasIndex("OwnerId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Groups");
+                });
+
+            modelBuilder.Entity("WebTeam6.Data.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Body")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<int?>("GroupId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.HasIndex("GroupId");
+
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("WebTeam6.Data.User", b =>
@@ -193,8 +248,11 @@ namespace WebTeam6.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int?>("GroupId")
-                        .HasColumnType("int");
+                    b.Property<string>("FirstName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("tinyint(1)");
@@ -219,6 +277,9 @@ namespace WebTeam6.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<string>("ProfilePicture")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
@@ -231,8 +292,6 @@ namespace WebTeam6.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GroupId");
-
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
 
@@ -241,6 +300,21 @@ namespace WebTeam6.Migrations
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("WebTeam6.Data.UserGroup", b =>
+                {
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.HasKey("GroupId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserGroups");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -294,22 +368,52 @@ namespace WebTeam6.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WebTeam6.Data.Event", b =>
+                {
+                    b.HasOne("WebTeam6.Data.User", "Creator")
+                        .WithMany("Events")
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WebTeam6.Data.Group", "Group")
+                        .WithMany("Events")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("WebTeam6.Data.Group", b =>
                 {
                     b.HasOne("WebTeam6.Data.User", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId");
-
-                    b.HasOne("WebTeam6.Data.User", null)
-                        .WithMany("Groups")
-                        .HasForeignKey("UserId");
+                        .WithMany("GroupsAsOwner")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
-            modelBuilder.Entity("WebTeam6.Data.User", b =>
+            modelBuilder.Entity("WebTeam6.Data.Message", b =>
                 {
-                    b.HasOne("WebTeam6.Data.Group", null)
-                        .WithMany("Members")
+                    b.HasOne("WebTeam6.Data.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId");
+
+                    b.HasOne("WebTeam6.Data.Group", "Group")
+                        .WithMany("Messages")
                         .HasForeignKey("GroupId");
+                });
+
+            modelBuilder.Entity("WebTeam6.Data.UserGroup", b =>
+                {
+                    b.HasOne("WebTeam6.Data.Group", "Group")
+                        .WithMany("Members")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebTeam6.Data.User", "User")
+                        .WithMany("GroupsAsMember")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

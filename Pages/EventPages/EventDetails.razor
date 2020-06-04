@@ -1,0 +1,45 @@
+﻿@inherits EventDetailsBase
+
+<div>
+    @if (Editing)
+    {
+    <EditForm id="edit-event" OnValidSubmit="Update" Model="Event">
+        <div class="col">
+            <h3><span class="oi oi-calendar" /> Edit Event </h3>
+            <InputText id="edit-event-name" class="form-control" @bind-Value="Event.Name" />
+            <InputTextArea id="edit-event-description" class="form-control" @bind-Value="Event.Description" />
+            <InputDate id="edit-event-start-time" class="form-control" @bind-Value="Event.StartTime" />
+            <InputDate id="edit-event-end-time" class="form-control" @bind-Value="Event.EndTime" />
+        </div>
+        <div class="col-3">
+            <button type="submit" @onclick="@(e => Editing = !Editing)">
+                <span class="oi oi-check" />
+            </button>
+            <button @onclick="@(e => Editing = !Editing)">
+                <span class="oi oi-x" />
+            </button>
+        </div>
+    </EditForm>
+    }
+    else
+    {
+        <div class="row">
+        <div class="col">
+        <h3 class="eventName">@Event.Name</h3>
+            <p class="eventDate">@Event.StartTime - @Event.EndTime</p>
+            <p class="eventDesc">@Event.Description</p>
+        </div>
+        <div class="col-3">
+            <button id="eventEdit" type="submit" @onclick="@(_ => Delete?.Invoke())">
+                <span class="oi oi-trash" />
+            </button>
+        <button id="eventEdit" @onclick="@(e => Editing = !Editing)">
+            @if (Editing)
+            {<span class="oi oi-check" /> }
+            else
+            { <span class="oi oi-pencil" />}
+        </button>
+        </div>
+    </div>
+    }
+</div>

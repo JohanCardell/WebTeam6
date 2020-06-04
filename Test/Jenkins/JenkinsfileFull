@@ -1,0 +1,72 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps{
+                git branch: 'develop', url: 'https://github.com/ahmadgbg/WebTeam6.git'
+
+            }
+        }
+        stage('Build') {
+            steps{
+                bat 'dotnet build'
+            }
+        }
+        stage('Run Website'){
+            steps{
+                    bat 'START /B dotnet run'
+            }
+        }
+		stage('Create Group Test') {
+			steps {
+				bat 'robot -d results/CreateGroupTest --variable BROWSER:headlesschrome "Test/TestCases/CreateGroupTest.robot"'
+			}
+		}
+		stage('User Registration Test') {
+			steps {
+				sleep 10
+				bat 'robot -d results/UserRegistrationTest --variable BROWSER:headlesschrome "Test/TestCases/UserRegistrationTest.robot"'
+			}
+		}
+		stage('Login Test') {
+			steps {
+				bat 'robot -d results/LoginTest --variable BROWSER:headlesschrome "Test/TestCases/LoginTest.robot"'
+			}
+		}
+		stage('UserInGroup Test') {
+			steps {
+				bat 'robot -d results/UserInGroupTest --variable BROWSER:headlesschrome "Test/TestCases/UserInGroupTest.robot"'
+			}
+		}
+		stage('Group Event Test') {
+			steps {
+				bat 'robot -d results/GroupEventTest --variable BROWSER:headlesschrome "Test/TestCases/GroupEvent.robot"'
+			}
+		}
+		stage('Group Messaging Test') {
+			steps {
+				bat 'robot -d results/messageTest --variable BROWSER:headlesschrome "Test/TestCases/MessagingTest.robot"'
+			}
+		}
+	}
+	post{
+		always{
+			bat 'TASKKILL /F /IM dotnet.exe'
+			script {
+				step(
+					[
+					   $class              : 'RobotPublisher',
+					   outputPath          : 'results',
+					   outputFileName      : '**/output.xml',
+					   reportFileName      : '**/report.html',
+					   logFileName         : '**/log.html',
+					   disableArchiveOutput: false,
+					   passThreshold       : 50,
+					   unstableThreshold   : 40,
+					   otherFiles          : "**/*.png,**/*.jpg",
+					]
+				)
+			}
+		}
+	}
+}

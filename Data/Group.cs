@@ -11,7 +11,7 @@ namespace WebTeam6.Data
     {
         public Group()
         {
-            Members = new List<User>();
+            Members = new List<UserGroup>();
         }
 
         [Key]
@@ -20,8 +20,13 @@ namespace WebTeam6.Data
         [Required]
         public string Name { get; set; }
 
-        public virtual User Owner { get; set; }
+        public User Owner { get; set; }
+        public string OwnerId { get; set; }
 
-        public ICollection<User> Members { get; set; }
+        public ICollection<UserGroup> Members { get; set; }
+
+        public ICollection<Event> Events { get; set; }
+
+        public ICollection<Message> Messages { get; set; }
     }
 }

@@ -27,6 +27,8 @@ app {
     position: relative;
     display: flex;
     flex-direction: column;
+    height: 100%;
+    width: 100%;
 }
 
 .top-row {
@@ -37,6 +39,7 @@ app {
 
 .main {
     flex: 1;
+   
 }
 
     .main .top-row {
@@ -56,7 +59,8 @@ app {
 }
 
 .sidebar {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    background-image: url("../Images/navbarbackground.jpg");
+    background-size: cover;
 }
 
     .sidebar .top-row {
@@ -106,6 +110,11 @@ app {
                 color: white;
             }
 
+.scrollbar {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
 .content {
     padding-top: 1.1rem;
 }
@@ -126,6 +135,29 @@ app {
     color: red;
 }
 
+.loader {
+    border: 16px solid silver;
+    border-top: 16px solid blue;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: spin 700ms linear infinite;
+    top: 40%;
+    left: 55%;
+    position: absolute;
+}
+
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg) 
+    }
+
+    100% {
+        transform: rotate(360deg)
+    }
+}
+
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;
@@ -144,6 +176,106 @@ app {
     right: 0.75rem;
     top: 0.5rem;
 }
+
+#landing-page-body {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#landing-page {
+    background-image: url("../Images/Stockholm.jpg");
+    background-size: cover;
+    background-position-x: center;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#landing-page-content {
+    flex: 1;
+    text-align: center;
+}
+
+.landing-page-button {
+    text-align: center;
+    min-height: 2.5em;
+    width: 5em;
+    margin: 0.01em 0.4em;
+}
+
+.form-body{
+    margin: 1em;
+}
+
+.row {
+    justify-content: center;
+    align-content: center;
+    padding-top: 2em;
+    margin-top: -2em;
+}
+
+.form-page-body{
+    
+    background: url("../Images/Stockholm.jpg");
+    margin-bottom: 0;
+
+    height: 100vh;
+}
+
+.container {
+    background-color: white;
+
+    height: 100%;
+}
+
+.footer{
+    background-color: white;
+    position: fixed;
+}
+
+#profile-picture {
+    height: 3em;
+    width: 3em;
+    border-radius: 100%;
+    float: right;
+    margin-left: 2em;
+}
+
+#home-page-body {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    display: flex;
+    flex-flow: wrap;
+    align-content: space-between;
+}
+
+#welcome-div{
+    flex: 0 0 100%;
+}
+
+.api-div {
+    padding: 3em;
+    border: solid;
+    border-width: 1px;
+    margin: 1em;
+    max-width: 360px;
+    min-height: 250px;
+    font-style: italic;
+    font-family: serif;
+    font-size: larger;
+}
+    .api-div h3{
+        font-weight: bold;
+    }
+    
+
 
 @media (max-width: 767.98px) {
     .main .top-row:not(.auth) {
@@ -188,5 +320,10 @@ app {
     .sidebar .collapse {
         /* Never collapse the sidebar for wide screens */
         display: block;
+    }
+
+    #logout-link {
+        position: absolute;
+        bottom: 0;
     }
 }

@@ -13,9 +13,23 @@ namespace WebTeam6.Data
     {
         public User()
         {
-            Groups = new List<Group>();
+            GroupsAsMember = new List<UserGroup>();
+            GroupsAsOwner = new List<Group>();
+            Events = new List<Event>();
         }
+        
+        public ICollection<UserGroup> GroupsAsMember { get; set; }
 
-        public ICollection<Group> Groups { get; set; }
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public string ProfilePicture { get; set; }
+
+        [InverseProperty("Owner")]
+        public ICollection<Group> GroupsAsOwner { get; set; }
+
+        public ICollection<Event> Events { get; set; }
+
     }
 }

@@ -1,0 +1,52 @@
+﻿@using System.Text.Json
+@inject IJSRuntime JSRuntime;
+@inject IHttpClientFactory clientFactory;
+
+@if (names != null)
+{
+    <h3>
+    @(names.Count > 1 ? "Today's names of the day are:" : "Today's name of the day is:'")
+    </h3>
+    @foreach(var name in names)
+    {
+        <p>@name</p>
+    }
+}
+
+
+@code {
+    private List<string> names;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var Day = DateTime.Today.Day;
+        var Month = DateTime.Today.Month;
+        var Year = DateTime.Today.Year;
+        var request = new HttpRequestMessage(HttpMethod.Get,
+            $"https://api.dryg.net/dagar/v2.1/{Year}/{Month}/{Day}");
+        
+        request.Headers.Add("Accept", "application/json");
+        request.Headers.Add("User-Agent", "Webteam6");
+
+        var client = clientFactory.CreateClient();
+
+        var response = await client.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            var res = await JsonSerializer.DeserializeAsync<Response>(responseStream);
+            names = res.dagar[0].namnsdag;
+        }
+    }
+
+    class NameDay
+    {
+        public List<string> namnsdag { get; set; }
+    }
+
+    class Response
+    {
+        public List<NameDay> dagar { get; set; }
+    }
+}

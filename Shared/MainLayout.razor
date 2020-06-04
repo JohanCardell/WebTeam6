@@ -1,16 +1,35 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="sidebar">
-    <NavMenu />
-</div>
+<AuthorizeView>
+    <Authorized>
+        <div class="sidebar">
+            <NavMenu />
+        </div>
 
-<div class="main">
-    <div class="top-row px-4 auth">
-        <LoginDisplay />
-        <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-    </div>
-
-    <div class="content px-4">
-        @Body
-    </div>
-</div>
+        <div class="main">
+            <div class="content px-4">
+                @Body
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <body id="landing-page-body">
+            <div id="landing-page">
+                <div id="landing-page-content">
+                    <h1>RemoteTool</h1>
+                    <p>
+                        Welcome to RemoteTool!
+                    </p>
+                    <span id="landing-page-buttons">
+                        <a href="Identity/Account/Login">
+                            <input id="landingLoginButton" class="btn btn-primary landing-page-button" type="button" value="Log in" />
+                        </a>
+                        <a href="Identity/Account/Register">
+                            <input id="landingRegisterButton" class="btn btn-primary landing-page-button" type="button" value="Sign up" />
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </body>
+    </NotAuthorized>
+</AuthorizeView>
