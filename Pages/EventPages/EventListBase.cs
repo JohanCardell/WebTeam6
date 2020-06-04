@@ -23,7 +23,7 @@ namespace WebTeam6.Pages.EventPages
         protected async void DataChanged()
         {
             var res = await Service.Get(Group);
-            if(res != null) Events = res;
+            if (res != null) Events = res.OrderBy(e => e.StartTime).Take(10);
             StateHasChanged();
         }
 

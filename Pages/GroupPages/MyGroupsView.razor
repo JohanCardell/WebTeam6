@@ -3,7 +3,7 @@
 @inherits MyGroupsBase
 
 <div>
-    <input id="add-group-btn" type="button" data-toggle="modal" data-target="#groupModal" class="btn btn-primary" value="Add group" @onclick="(() => InitializeGroupObject())" />
+    <input id="add-group-btn" type="button" data-toggle="modal" data-target="#groupModal" class="btn btn-primary mb-3" value="Add group" @onclick="(() => InitializeGroupObject())" />
 </div>
 
 <CreateGroupModal GroupObject=GroupObject DataChanged="DataChanged"></CreateGroupModal>
