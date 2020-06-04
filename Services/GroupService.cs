@@ -127,6 +127,7 @@ namespace WebTeam6.Services
             var groupEntity = await _context.Groups
                 .Include(g => g.Owner)
                 .Include(g => g.Events)
+                .Include(g => g.Messages)
                 .FirstOrDefaultAsync(g => g.Id == groupId);
             return groupEntity;
         }
