@@ -54,21 +54,18 @@ namespace WebTeam6.Data
               .HasOne(g => g.Owner)
               .WithMany(u => u.GroupsAsOwner)
               .HasForeignKey(g => g.OwnerId)
-              //.IsRequired()
               .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<Event>()
                 .HasOne(e => e.Creator)
                 .WithMany(u => u.Events)
                 .HasForeignKey(e => e.CreatorId)
-                //.IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Event>()
                 .HasOne(e => e.Group)
                 .WithMany(g => g.Events)
                 .HasForeignKey(e => e.GroupId)
-                //.IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Message>().HasOne(e => e.Group);

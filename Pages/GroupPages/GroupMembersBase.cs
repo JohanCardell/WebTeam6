@@ -39,12 +39,6 @@ namespace WebTeam6.Pages.GroupPages
 
         public List<User> FilteredUsers { get; set; } = new List<User>();
 
-        //protected override void OnParametersSet()
-        //{
-        //    DataChanged?.Invoke();
-        //    base.OnParametersSet();
-        //}
-
         protected async Task DeleteGroup(int groupId)
         {
             await GroupService.Delete(groupId);

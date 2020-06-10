@@ -27,12 +27,6 @@ namespace WebTeam6.Services
             if (ownerEntity != null)
             {
                 newGroup.Owner = ownerEntity;
-                //UserGroup newUserGroupRelation = new UserGroup { //Add user as member
-                //    Group = newGroup,
-                //    User = ownerEntity
-                //};
-                ////groupEntity.Members.Add(new UserGroup{Group = groupEntity, User = ownerEntity }); // Kanske även IDn
-                //await _context.UserGroups.AddAsync(newUserGroupRelation);
                 await _context.Groups.AddAsync(newGroup);
                 await _context.SaveChangesAsync();
                 return newGroup;
@@ -118,7 +112,6 @@ namespace WebTeam6.Services
 
         public async Task<List<Group>> Get()
         {
-            //return await _context.Groups.Include(g => g.Owner).ToListAsync();
             return await _context.Groups.ToListAsync();
         }
 
@@ -158,7 +151,6 @@ namespace WebTeam6.Services
         public async Task<bool> GiveOwnership(string newOwnerId, int groupId)
         {
             var groupEntity = await _context.Groups.FirstOrDefaultAsync(g => g.Id == groupId);
-            //var previousOwnerEntity = await _context.Users.FirstOrDefaultAsync(u => u.Id == groupEntity.Owner.Id);
             var newOwnerEntity = await _context.Users.FirstOrDefaultAsync(u => u.Id == newOwnerId);
             groupEntity.Owner = newOwnerEntity;
             return (await _context.SaveChangesAsync()) > 0;
